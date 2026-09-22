@@ -1,0 +1,7 @@
+.DS_Store
+
+studio-pisom/node_modules
+studio-pisom/.sanity
+studio-pisom/.env
+studio-pisom/.env.local
+studio-pisom/.vercel
