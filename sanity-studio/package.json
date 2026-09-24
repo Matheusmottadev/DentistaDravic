@@ -9,6 +9,7 @@
     "seed": "node scripts/seedContent.mjs",
     "migrate:carousels": "node scripts/migrateCarouselItems.mjs",
     "migrate:privacy": "node scripts/migratePrivacyPolicy.mjs",
+    "migrate:remove-seo-image": "node scripts/removeSeoOgImage.mjs",
     "deploy": "sanity deploy"
   },
   "keywords": [],
