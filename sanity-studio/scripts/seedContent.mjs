@@ -77,6 +77,17 @@ const instagramCta = (label = 'Ver Instagram') => ({
   href: 'https://www.instagram.com/dra.vitoriapassosv/',
 })
 
+function legalSection(title, texts) {
+  const paragraphs = Array.isArray(texts) ? texts : [texts]
+
+  return {
+    _type: 'legalSection',
+    _key: key(title),
+    title,
+    body: paragraphs.map(block),
+  }
+}
+
 const navigation = [
   {label: 'Lentes em Resina', href: '/paginas/lentes-em-resina.html'},
   {label: 'Lentes Premium', href: '/paginas/lentes-em-porcelana.html'},
@@ -449,14 +460,25 @@ async function buildDocs() {
     updatedAtLabel: 'Última atualização: 20 de setembro de 2026.',
     intro: 'Esta política explica como a Pisom Odontologia trata dados pessoais em seus canais digitais e de atendimento.',
     sections: [
-      ['Quem somos', 'A Pisom Odontologia Dra Vitória Passos - Odontologia Estética, inscrita no CNPJ 61.201.382/0001-06, atua como controladora dos dados pessoais tratados para atendimento, relacionamento e agendamento.'],
-      ['Dados que podemos tratar', 'Podemos tratar dados informados voluntariamente pelo titular, como nome, telefone, e-mail, mensagens enviadas, preferências de atendimento e interesse em tratamentos.'],
-      ['Para que usamos os dados', 'Os dados podem ser usados para responder contatos, realizar agendamentos, prestar atendimento, cumprir obrigações legais e melhorar a experiência no site.'],
-      ['WhatsApp, e-mail e redes sociais', 'Ao clicar em botões de WhatsApp, e-mail, Instagram ou outras redes, o visitante passa a interagir também com plataformas de terceiros.'],
-      ['Cookies, Meta e Google', 'O site pode utilizar cookies e tecnologias semelhantes para funcionamento, medição de acessos, segurança, melhoria de experiência e campanhas de marketing.'],
-      ['Direitos do titular', 'O titular pode solicitar confirmação de tratamento, acesso, correção, eliminação, anonimização, bloqueio, portabilidade e revisão de consentimentos.'],
-      ['Contato sobre privacidade', 'Para exercer direitos ou tirar dúvidas sobre esta política, entre em contato pelo e-mail vitoriavieira_vic@hotmail.com.'],
-    ].map(([title, text]) => ({_type: 'legalSection', _key: key(title), title, body: [block(text)]})),
+      legalSection('1. Quem somos', 'A Pisom Odontologia Dra Vitória Passos - Odontologia Estética, inscrita no CNPJ 61.201.382/0001-06, localizada na Rua Alm Brasil 685 Conj 107, Mooca, São Paulo SP, atua como controladora dos dados pessoais tratados para atendimento, relacionamento e agendamento.'),
+      legalSection('2. Dados que podemos tratar', [
+        'Podemos tratar dados informados voluntariamente pelo titular, como nome, telefone, e-mail, mensagens enviadas, preferências de atendimento, interesse em tratamentos e informações necessárias para agendamento ou continuidade do contato.',
+        'Em contexto de atendimento odontológico ou estético, também podem existir dados relacionados à saúde, imagens e histórico de procedimentos. Esses dados recebem cuidado adicional e são usados apenas quando necessários para atendimento, avaliação, execução de serviços, obrigações profissionais ou autorização específica.',
+      ]),
+      legalSection('3. Para que usamos os dados', 'Os dados podem ser usados para responder contatos, realizar agendamentos, prestar atendimento, enviar orientações relacionadas a procedimentos, cumprir obrigações legais e regulatórias, melhorar a experiência no site e divulgar serviços da clínica.'),
+      legalSection('4. WhatsApp, e-mail e redes sociais', 'Ao clicar em botões de WhatsApp, e-mail, Instagram ou outras redes, o visitante passa a interagir também com plataformas de terceiros. Essas plataformas podem tratar dados conforme suas próprias políticas de privacidade.'),
+      legalSection('5. Cookies, Meta e Google', [
+        'O site pode utilizar cookies e tecnologias semelhantes para funcionamento, medição de acessos, segurança, melhoria de experiência e campanhas de marketing.',
+        'Futuramente, poderemos utilizar ferramentas como Google Analytics, Google Ads, Google Tag Manager, Meta Pixel, Facebook Ads e Instagram Ads. Essas tecnologias podem coletar identificadores online, informações do navegador, páginas acessadas, origem da visita, eventos de conversão e interações com botões de contato.',
+        'Quando forem utilizados cookies de medição, publicidade ou remarketing, o visitante poderá gerenciar sua preferência pelo aviso de cookies exibido no site.',
+      ]),
+      legalSection('6. Compartilhamento', 'Dados podem ser compartilhados com fornecedores necessários para operação do site, hospedagem, atendimento, ferramentas de marketing, plataformas de comunicação, sistemas de agenda, contabilidade, assessoria jurídica ou autoridades públicas, quando aplicável.'),
+      legalSection('7. Base legal', 'O tratamento pode ocorrer com fundamento em consentimento, execução de contrato ou procedimentos preliminares, cumprimento de obrigação legal ou regulatória, tutela da saúde, legítimo interesse e exercício regular de direitos, conforme a Lei Geral de Proteção de Dados Pessoais.'),
+      legalSection('8. Direitos do titular', 'O titular pode solicitar confirmação de tratamento, acesso, correção, eliminação, anonimização, bloqueio, portabilidade, informações sobre compartilhamento, revisão de consentimentos e oposição a tratamentos realizados em desacordo com a LGPD.'),
+      legalSection('9. Segurança e conservação', 'Adotamos medidas razoáveis para proteger dados pessoais contra acesso não autorizado, perda, alteração ou uso indevido. Os dados são mantidos pelo tempo necessário para cumprir as finalidades descritas, obrigações legais, regulatórias e defesa de direitos.'),
+      legalSection('10. Uso de imagem', 'Imagens de pacientes, resultados de tratamentos e conteúdos de antes e depois somente devem ser utilizados mediante autorização adequada, respeitando a privacidade, a imagem e as normas profissionais aplicáveis.'),
+      legalSection('11. Contato sobre privacidade', 'Para exercer direitos ou tirar dúvidas sobre esta política, entre em contato pelo e-mail vitoriavieira_vic@hotmail.com.'),
+    ],
   })
 
   for (const service of serviceSeeds) {

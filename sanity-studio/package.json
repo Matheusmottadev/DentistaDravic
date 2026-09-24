@@ -8,6 +8,7 @@
     "build": "sanity build",
     "seed": "node scripts/seedContent.mjs",
     "migrate:carousels": "node scripts/migrateCarouselItems.mjs",
+    "migrate:privacy": "node scripts/migratePrivacyPolicy.mjs",
     "deploy": "sanity deploy"
   },
   "keywords": [],
