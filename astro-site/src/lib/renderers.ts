@@ -201,17 +201,17 @@ function upsertMeta(head: string, pattern: RegExp, tag: string) {
   return pattern.test(head) ? head.replace(pattern, tag) : head.replace('</title>', `</title>\n    ${tag}`);
 }
 
-export function renderHead(head: string, seo: any, settings: any) {
+export function renderHead(head: string, seo: any, settings: any, fallbackOgImage?: any) {
   const mergedSettings = settingsWithFallback(settings);
-  const pageSeo = seo || mergedSettings.defaultSeo || {};
+  const pageSeo = {...(mergedSettings.defaultSeo || {}), ...(seo || {})};
   let next = head;
   const title = pageSeo.title || next.match(/<title>([\s\S]*?)<\/title>/)?.[1];
   const description = pageSeo.description || next.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/>/)?.[1];
   const canonicalPath = pageSeo.canonicalPath;
   const ogImage =
-    sanityImageUrl(pageSeo.ogImage, {width: 1200, quality: 86}) ||
+    imageSrc(fallbackOgImage, '', 1200) ||
     next.match(/<meta\s+property="og:image"\s+content="([^"]*)"\s*\/>/)?.[1] ||
-    '/assets/images/hero-vitoria.jpg';
+    '';
 
   if (title) {
     next = next.replace(/<title>[\s\S]*?<\/title>/, `<title>${html(title)}</title>`);

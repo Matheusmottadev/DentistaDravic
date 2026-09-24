@@ -328,7 +328,6 @@ async function buildDocs() {
       title: 'Dra. Vitória Passos | Odontologia Estética e Harmonização',
       description: 'Odontologia estética e harmonização facial com foco em resultado elegante, natural e personalizado.',
       canonicalPath: '/index.html',
-      ogImage: heroImage,
     },
   })
 
@@ -358,7 +357,6 @@ async function buildDocs() {
       title: 'Dra. Vitória Passos | Odontologia Estética e Harmonização',
       description: 'Dra. Vitória Passos em São Paulo: odontologia estética, lentes, botox, harmonização facial e gengivoplastia.',
       canonicalPath: '/index.html',
-      ogImage: heroImage,
     },
     hero: {
       title: 'Encontre a transformação ideal para o seu sorriso e para a sua harmonia facial.',
@@ -446,7 +444,6 @@ async function buildDocs() {
       title: 'Política de Privacidade | Pisom Odontologia',
       description: 'Política de Privacidade e LGPD da Pisom Odontologia Dra Vitória Passos.',
       canonicalPath: '/politica-de-privacidade.html',
-      ogImage: heroImage,
     },
     title: 'Política de Privacidade',
     updatedAtLabel: 'Última atualização: 20 de setembro de 2026.',
@@ -481,7 +478,6 @@ async function buildDocs() {
         title: service.seoTitle,
         description: service.seoDescription,
         canonicalPath: `/paginas/${service.slug}.html`,
-        ogImage: heroImage,
       },
       hero: {
         eyebrow: service.eyebrow,

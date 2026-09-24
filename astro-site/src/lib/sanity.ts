@@ -55,8 +55,7 @@ const imageFields = `
 `;
 
 const seoFields = `
-  ...,
-  ogImage {${imageFields}}
+  ...
 `;
 
 const caseFields = `

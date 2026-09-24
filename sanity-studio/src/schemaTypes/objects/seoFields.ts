@@ -24,10 +24,5 @@ export const seoFields = defineType({
       type: 'string',
       description: 'Exemplo: /paginas/botox.html',
     }),
-    defineField({
-      name: 'ogImage',
-      title: 'Imagem social',
-      type: 'imageWithAlt',
-    }),
   ],
 })
