@@ -2,7 +2,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const homePage = defineType({
   name: 'homePage',
-  title: 'Pagina inicial',
+  title: 'HomePage',
   type: 'document',
   fields: [
     defineField({
@@ -130,7 +130,7 @@ export const homePage = defineType({
   ],
   preview: {
     prepare() {
-      return {title: 'Pagina inicial'}
+      return {title: 'HomePage'}
     },
   },
 })

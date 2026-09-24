@@ -11,7 +11,7 @@ export const structure: StructureResolver = (S) =>
         .schemaType('siteSettings')
         .child(S.document().schemaType('siteSettings').documentId('siteSettings.main')),
       S.listItem()
-        .title('Pagina inicial')
+        .title('HomePage')
         .schemaType('homePage')
         .child(S.document().schemaType('homePage').documentId('homePage.main')),
       S.listItem()
