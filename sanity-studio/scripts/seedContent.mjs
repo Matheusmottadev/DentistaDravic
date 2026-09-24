@@ -116,6 +116,7 @@ const cases = [
   ['case.gengivoplastia-hero', 'Antes e depois de gengivoplastia', 'gengivoplastia', 'assets/images/real/gengivoplastia-hero-antes-depois.png', 'Antes e depois de gengivoplastia.', '/paginas/gengivoplastia.html', true],
   ['case.lentes-detalhe', 'Detalhes de lentes dentárias', 'apoio-visual', 'assets/images/real/lentes-o-que-muda.png', 'Detalhes de transformação com lentes dentárias.', '/paginas/lentes-em-resina.html', true],
   ['case.lips-smile', 'Sorriso e lábios harmonizados', 'apoio-visual', 'assets/images/real/lips-smile.jpg', 'Detalhe de sorriso e lábios harmonizados.', '/paginas/preenchimento-labial.html', true],
+  ['case.retrato-feminino', 'Retrato feminino em destaque', 'apoio-visual', 'assets/images/real/moca_direita_1000x1280.svg', 'Retrato feminino em destaque.', '/index.html', true],
 ]
 
 async function carouselItemsFromCases(items) {

@@ -549,7 +549,7 @@ function renderStickyGallery(page: any, cases: any[], settings: any) {
   const gallery = page?.stickyGallery || {};
   const items = asArray(gallery.cases, asArray(cases, defaultCases));
   const normalized = [...items];
-  while (normalized.length < 8) normalized.push(defaultCases[normalized.length % defaultCases.length]);
+  while (normalized.length < 11) normalized.push(defaultCases[normalized.length % defaultCases.length]);
   const ctaBlock = gallery.ctaBlock || {};
   const cta = ctaBlock.cta || {label: 'Quero ser a próxima', kind: 'whatsapp'};
   const figure = (item: any) => {
