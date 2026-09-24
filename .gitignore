@@ -2,6 +2,7 @@
 
 astro-site/node_modules
 astro-site/dist
+astro-site/.astro
 astro-site/.vercel
 
 sanity-studio/node_modules

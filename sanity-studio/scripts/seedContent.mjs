@@ -107,6 +107,18 @@ const cases = [
   ['case.lips-smile', 'Sorriso e lábios harmonizados', 'apoio-visual', 'assets/images/real/lips-smile.jpg', 'Detalhe de sorriso e lábios harmonizados.', '/paginas/preenchimento-labial.html', true],
 ]
 
+async function carouselItemsFromCases(items) {
+  return Promise.all(items.map(async ([id, title, _treatment, path, caption, targetPage]) => ({
+    _type: 'carouselItem',
+    _key: key(id),
+    title,
+    caption,
+    targetPage,
+    hint: 'Clique e saiba mais',
+    image: await image(path, `${title} - resultado de tratamento`),
+  })))
+}
+
 const serviceSeeds = [
   {
     id: 'service.botox',
@@ -371,6 +383,7 @@ async function buildDocs() {
       eyebrow: 'Tratamentos',
       title: 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.',
       text: 'Conheça os procedimentos da Dra. Vitória Passos e veja como cada detalhe pode valorizar o seu sorriso com naturalidade.',
+      items: await carouselItemsFromCases(cases.slice(0, 7)),
     },
     about: {
       eyebrow: 'Sobre a Dra. Vitória',
@@ -485,6 +498,7 @@ async function buildDocs() {
         eyebrow: 'Tratamentos',
         title: 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.',
         text: 'Conheça os procedimentos da Dra. Vitória Passos e veja como cada detalhe pode valorizar o seu sorriso com naturalidade.',
+        items: await carouselItemsFromCases(cases.slice(0, 7)),
         cases: cases.slice(0, 7).map(([id]) => ref(id)),
       },
       infoCards: service.infoCards.map(([iconLabel, title, text]) => ({_type: 'infoCard', _key: key(title), iconLabel, title, text})),

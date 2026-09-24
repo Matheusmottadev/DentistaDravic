@@ -1,4 +1,5 @@
 import {areaCard} from './objects/areaCard'
+import {carouselItem} from './objects/carouselItem'
 import {cta} from './objects/cta'
 import {externalImage} from './objects/externalImage'
 import {faqItem} from './objects/faqItem'
@@ -26,6 +27,7 @@ export const schemaTypes = [
   caseStudy,
   imageWithAlt,
   externalImage,
+  carouselItem,
   seoFields,
   cta,
   navigationItem,

@@ -51,6 +51,13 @@ export const homePage = defineType({
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
         defineField({name: 'title', title: 'Titulo', type: 'string'}),
         defineField({name: 'text', title: 'Texto', type: 'text', rows: 3}),
+        defineField({
+          name: 'items',
+          title: 'Itens do carrossel',
+          type: 'array',
+          description: 'Lista independente da home. Altere aqui as imagens, textos e links exibidos no carrossel de tratamentos da pagina inicial.',
+          of: [defineArrayMember({type: 'carouselItem'})],
+        }),
       ],
     }),
     defineField({

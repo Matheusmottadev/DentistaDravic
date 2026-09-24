@@ -331,6 +331,7 @@ function renderTransformationCards(cases: any[]) {
     const src = imageSrc(item.image, fallbackImage, 800);
     const alt = item.hidden ? '' : imageAlt(item.image, item.image?.alt || item.title);
     const href = item.targetPage || '#';
+    const hint = item.hint || 'Clique e saiba mais';
 
     return `<a class="transformation-card transformation-card--single" href="${html(href)}"${item.hidden ? ' aria-hidden="true"' : ''}>
                 <div class="transformation-card__images transformation-card__images--single">
@@ -339,7 +340,7 @@ function renderTransformationCards(cases: any[]) {
                 <div class="transformation-card__caption">
                   <strong${String(item.title || '').length > 24 ? ' class="transformation-card__title--long"' : ''}>${html(item.title)}</strong>
                   <span>${html(item.caption)}</span>
-                  <em class="transformation-card__hint">Clique e saiba mais</em>
+                  <em class="transformation-card__hint">${html(hint)}</em>
                 </div>
               </a>`;
   }).join('\n\n              ');
@@ -402,6 +403,7 @@ function renderHomeMobileHighlights(page: any) {
 
 function renderHomeTreatments(page: any, cases: any[]) {
   const section = page?.treatmentsSection || {};
+  const cards = asArray(section.items, cases);
 
   return `<section class="section">
           <div class="section-heading">
@@ -412,7 +414,7 @@ function renderHomeTreatments(page: any, cases: any[]) {
 
           <div class="transformations-marquee" aria-label="Galeria de transformações">
             <div class="transformations-marquee__track">
-              ${renderTransformationCards(cases)}
+              ${renderTransformationCards(cards)}
             </div>
           </div>
         </section>`;
@@ -776,7 +778,7 @@ function renderFinalCta(section: any, settings: any) {
 
 function renderServiceTransformations(section: any, cases: any[]) {
   if (section?.enabled === false) return '';
-  const cards = asArray(section?.cases, cases);
+  const cards = asArray(section?.items, asArray(section?.cases, cases));
   if (!cards?.length) return '';
 
   return `<section id="tratamentos-botox" class="section treatments-showcase treatments-showcase--botox" data-treatment-carousel="botox">

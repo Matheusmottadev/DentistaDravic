@@ -67,6 +67,14 @@ const caseFields = `
   image {${imageFields}}
 `;
 
+const carouselItemFields = `
+  title,
+  caption,
+  targetPage,
+  hint,
+  image {${imageFields}}
+`;
+
 const testimonialFields = `
   patientName,
   quote,
@@ -88,6 +96,10 @@ export async function getHomeData() {
         ...,
         seo {${seoFields}},
         hero {..., image {${imageFields}}},
+        treatmentsSection {
+          ...,
+          items[] {${carouselItemFields}}
+        },
         about {..., portrait {${imageFields}}, signature {${imageFields}}},
         reviews {
           ...,
@@ -128,6 +140,7 @@ export async function getServiceData(slug: string) {
         hero {..., image {${imageFields}}},
         transformationsSection {
           ...,
+          items[] {${carouselItemFields}},
           cases[]->{${caseFields}}
         },
         areasSection {

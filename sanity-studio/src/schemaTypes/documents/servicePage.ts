@@ -72,7 +72,21 @@ export const servicePage = defineType({
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
         defineField({name: 'title', title: 'Titulo', type: 'string'}),
         defineField({name: 'text', title: 'Texto', type: 'text', rows: 3}),
-        defineField({name: 'cases', title: 'Casos', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'caseStudy'}]})]}),
+        defineField({
+          name: 'items',
+          title: 'Itens do carrossel',
+          type: 'array',
+          description: 'Lista independente desta pagina/aba. Altere aqui as imagens, textos e links exibidos neste carrossel.',
+          of: [defineArrayMember({type: 'carouselItem'})],
+        }),
+        defineField({
+          name: 'cases',
+          title: 'Casos antigos',
+          type: 'array',
+          description: 'Campo legado usado apenas como fallback tecnico. Prefira editar "Itens do carrossel".',
+          hidden: true,
+          of: [defineArrayMember({type: 'reference', to: [{type: 'caseStudy'}]})],
+        }),
       ],
     }),
     defineField({
