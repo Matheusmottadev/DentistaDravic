@@ -300,7 +300,7 @@ const serviceSeeds = [
 ]
 
 async function buildDocs() {
-  const heroImage = await image('assets/images/hero-vitoria.jpg', 'Dra. Vitória Passos realizando atendimento odontológico')
+  const heroImage = await image('assets/images/homepage.webp', 'Dra. Vitória Passos realizando atendimento odontológico')
   const headerLogo = await image('assets/images/logo-pisom-transparent-test.png', 'Logo Pisom Odontologia')
   const footerLogo = await image('assets/images/logo-pisom-transparent-test.png', 'Logo Pisom Odontologia')
   const portrait = await image('assets/images/experiencia-vitoria.jpg', 'Dra. Vitória Passos em foto de apresentação pessoal')

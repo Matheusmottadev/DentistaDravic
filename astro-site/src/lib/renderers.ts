@@ -358,7 +358,7 @@ function renderHomeHero(page: any, settings: any) {
     'Avaliação cuidadosa para indicar o tratamento ideal',
     'Mais segurança para escolher o procedimento certo para você',
   ]);
-  const image = imageSrc(hero.image, '/assets/images/hero-vitoria.jpg', 1200);
+  const image = imageSrc(hero.image, '/assets/images/homepage.webp', 1200);
   const alt = imageAlt(hero.image, 'Dra. Vitória Passos realizando atendimento odontológico');
 
   return `<section class="hero section home-hero">
