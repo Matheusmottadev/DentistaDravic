@@ -114,7 +114,7 @@ export const homePage = defineType({
           title: 'Bloco CTA da galeria',
           type: 'object',
           fields: [
-            defineField({name: 'title', title: 'Titulo', type: 'string'}),
+            defineField({name: 'title', title: 'Titulo', type: 'text', rows: 3}),
             defineField({name: 'text', title: 'Texto', type: 'text', rows: 2}),
             defineField({name: 'cta', title: 'Botao', type: 'cta'}),
           ],
