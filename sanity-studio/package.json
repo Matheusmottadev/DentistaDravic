@@ -1,0 +1,22 @@
+{
+  "name": "sanity-studio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "sanity dev --host 0.0.0.0",
+    "build": "sanity build",
+    "seed": "node scripts/seedContent.mjs",
+    "deploy": "sanity deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@sanity/client": "^8.7.0",
+    "@sanity/vision": "^6.16.0",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.5.3"
+  }
+}

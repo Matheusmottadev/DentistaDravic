@@ -1,5 +1,15 @@
 .DS_Store
 
+astro-site/node_modules
+astro-site/dist
+astro-site/.vercel
+
+sanity-studio/node_modules
+sanity-studio/dist
+sanity-studio/.sanity
+.env
+.env.local
+
 studio-pisom/node_modules
 studio-pisom/.sanity
 studio-pisom/.env

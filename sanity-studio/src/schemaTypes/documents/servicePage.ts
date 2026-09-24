@@ -1,0 +1,151 @@
+import {defineArrayMember, defineField, defineType} from 'sanity'
+
+export const servicePage = defineType({
+  name: 'servicePage',
+  title: 'Pagina de servico',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Nome interno',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug / URL',
+      type: 'slug',
+      options: {source: 'title'},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'serviceKey',
+      title: 'Tratamento',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Botox', value: 'botox'},
+          {title: 'Gengivoplastia', value: 'gengivoplastia'},
+          {title: 'Harmonizacao Facial', value: 'harmonizacao-facial'},
+          {title: 'Lentes Premium', value: 'lentes-premium'},
+          {title: 'Lentes em Resina', value: 'lentes-em-resina'},
+          {title: 'Preenchimento Labial', value: 'preenchimento-labial'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoFields',
+    }),
+    defineField({
+      name: 'hero',
+      title: 'Hero',
+      type: 'object',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'text', rows: 2, validation: (Rule) => Rule.required()}),
+        defineField({name: 'emphasis', title: 'Trecho em destaque/italico', type: 'string'}),
+        defineField({name: 'description', title: 'Descricao', type: 'text', rows: 3}),
+        defineField({name: 'cta', title: 'CTA', type: 'cta'}),
+        defineField({name: 'image', title: 'Imagem no Sanity', type: 'imageWithAlt'}),
+        defineField({name: 'externalImage', title: 'Imagem externa atual', type: 'externalImage'}),
+        defineField({name: 'tags', title: 'Tags do hero', type: 'array', of: [defineArrayMember({type: 'string'})]}),
+        defineField({
+          name: 'badge',
+          title: 'Selo sobre a imagem',
+          type: 'object',
+          fields: [
+            defineField({name: 'number', title: 'Numero', type: 'string'}),
+            defineField({name: 'label', title: 'Texto', type: 'string'}),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      name: 'transformationsSection',
+      title: 'Carrossel de transformacoes',
+      type: 'object',
+      fields: [
+        defineField({name: 'enabled', title: 'Exibir carrossel', type: 'boolean', initialValue: true}),
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'text', title: 'Texto', type: 'text', rows: 3}),
+        defineField({name: 'cases', title: 'Casos', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'caseStudy'}]})]}),
+      ],
+    }),
+    defineField({
+      name: 'infoCards',
+      title: 'Cards de informacao / beneficios',
+      type: 'array',
+      of: [defineArrayMember({type: 'infoCard'})],
+    }),
+    defineField({
+      name: 'areasSection',
+      title: 'Areas, indicacoes ou opcoes',
+      type: 'object',
+      fields: [
+        defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: true}),
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'cards', title: 'Cards', type: 'array', of: [defineArrayMember({type: 'areaCard'})]}),
+      ],
+    }),
+    defineField({
+      name: 'quiz',
+      title: 'Quiz especifico de lentes em resina',
+      type: 'quizSection',
+      hidden: ({document}) => document?.serviceKey !== 'lentes-em-resina',
+    }),
+    defineField({
+      name: 'mythsSection',
+      title: 'Mitos e verdades',
+      type: 'object',
+      fields: [
+        defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: true}),
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'items', title: 'Itens', type: 'array', of: [defineArrayMember({type: 'mythItem'})]}),
+      ],
+    }),
+    defineField({
+      name: 'processSection',
+      title: 'Processo / Como funciona',
+      type: 'object',
+      description: 'Usado hoje em harmonizacao facial. Botox e gengivoplastia tiveram esse bloco removido.',
+      fields: [
+        defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: false}),
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'steps', title: 'Etapas', type: 'array', of: [defineArrayMember({type: 'processStep'})]}),
+      ],
+    }),
+    defineField({
+      name: 'faq',
+      title: 'FAQ',
+      type: 'array',
+      of: [defineArrayMember({type: 'faqItem'})],
+    }),
+    defineField({
+      name: 'finalCta',
+      title: 'CTA final',
+      type: 'object',
+      fields: [
+        defineField({name: 'enabled', title: 'Exibir CTA final', type: 'boolean', initialValue: true}),
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'text', title: 'Texto', type: 'text', rows: 3}),
+        defineField({name: 'primaryCta', title: 'CTA WhatsApp', type: 'cta'}),
+        defineField({name: 'secondaryCta', title: 'CTA Instagram', type: 'cta'}),
+      ],
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'slug.current',
+      media: 'hero.image',
+    },
+  },
+})
