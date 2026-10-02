@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspace astro-site",
-    "start": "serve astro-site/dist --single --listen tcp://0.0.0.0:${PORT:-3000}"
+    "start": "serve astro-site/dist --listen tcp://0.0.0.0:${PORT:-3000}"
   },
   "dependencies": {
     "serve": "^14.2.5"
