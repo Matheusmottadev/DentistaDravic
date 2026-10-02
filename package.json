@@ -1,0 +1,12 @@
+{
+  "name": "dentista-pisom-deploy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm ci --prefix astro-site && npm run build --prefix astro-site",
+    "start": "serve astro-site/dist --single --listen tcp://0.0.0.0:${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "^14.2.5"
+  }
+}
