@@ -28,11 +28,6 @@ export const quizSection = defineType({
       rows: 3,
     }),
     defineField({
-      name: 'image',
-      title: 'Imagem lateral',
-      type: 'imageWithAlt',
-    }),
-    defineField({
       name: 'steps',
       title: 'Etapas de perguntas',
       type: 'array',

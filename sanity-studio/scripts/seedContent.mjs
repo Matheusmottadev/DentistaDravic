@@ -89,9 +89,8 @@ function legalSection(title, texts) {
 }
 
 const navigation = [
-  {label: 'Lentes em Resina', href: '/paginas/lentes-em-resina.html'},
+  {label: 'Lentes Tradicionais', href: '/paginas/lentes-em-resina.html'},
   {label: 'Lentes Premium', href: '/paginas/lentes-em-porcelana.html'},
-  {label: 'Botox', href: '/paginas/botox.html'},
   {label: 'Preenchimento Labial', href: '/paginas/preenchimento-labial.html'},
   {label: 'Gengivoplastia', href: '/paginas/gengivoplastia.html'},
 ].map((item) => ({_type: 'navigationItem', _key: key(item.label), ...item}))
@@ -106,17 +105,57 @@ const testimonials = [
 ]
 
 const cases = [
-  ['case.preenchimento-labial', 'Preenchimento Labial', 'preenchimento-labial', 'assets/images/real/preenchimento-labial-caso.jpg', 'Antes e depois com contorno, equilíbrio e acabamento natural.', '/paginas/preenchimento-labial.html', true],
-  ['case.botox-1', 'Botox', 'botox', 'assets/images/real/botox-caso-1.png', 'Suavização das linhas com resultado leve e expressão preservada.', '/paginas/botox.html', true],
-  ['case.lentes-resina-1', 'Lentes em Resina', 'lentes-em-resina', 'assets/images/real/lentes-caso-1.jpg', 'Transformação do sorriso com brilho, forma e naturalidade.', '/paginas/lentes-em-resina.html', true],
-  ['case.lentes-resina-gengivoplastia', 'Lentes em Resina + Gengivoplastia', 'lentes-em-resina', 'assets/images/real/lentes-caso-2.jpg', 'Lentes em resina e gengivoplastia para mais simetria e um sorriso sofisticado.', '/paginas/lentes-em-resina.html', true],
-  ['case.lentes-premium', 'Lentes Premium', 'lentes-premium', 'assets/images/real/lentes-premium.jpg', 'Transformação premium do sorriso com estética clara, brilho e acabamento natural.', '/paginas/lentes-em-porcelana.html', true],
-  ['case.gengivoplastia', 'Gengivoplastia', 'gengivoplastia', 'assets/images/real/gengivoplastia-caso.jpg', 'Contorno gengival mais harmônico para destacar o sorriso.', '/paginas/gengivoplastia.html', true],
-  ['case.botox-2', 'Botox', 'botox', 'assets/images/real/botox-caso-2.png', 'Mais leveza na testa e leitura facial mais descansada.', '/paginas/botox.html', true],
-  ['case.gengivoplastia-hero', 'Antes e depois de gengivoplastia', 'gengivoplastia', 'assets/images/real/gengivoplastia-hero-antes-depois.png', 'Antes e depois de gengivoplastia.', '/paginas/gengivoplastia.html', true],
-  ['case.lentes-detalhe', 'Detalhes de lentes dentárias', 'apoio-visual', 'assets/images/real/lentes-o-que-muda.png', 'Detalhes de transformação com lentes dentárias.', '/paginas/lentes-em-resina.html', true],
-  ['case.lips-smile', 'Sorriso e lábios harmonizados', 'apoio-visual', 'assets/images/real/lips-smile.jpg', 'Detalhe de sorriso e lábios harmonizados.', '/paginas/preenchimento-labial.html', true],
+  ['case.preenchimento-labial', 'Preenchimento Labial', 'preenchimento-labial', 'assets/images/real/preenchimento-labial-carrossel.webp', 'Antes e depois com contorno, equilíbrio e acabamento natural.', '/paginas/preenchimento-labial.html', false],
+  ['case.lentes-resina-1', 'Lentes em Resina', 'lentes-em-resina', 'assets/images/real/lentes-caso-1.jpg', 'Transformação do sorriso com brilho, forma e naturalidade.', '/paginas/lentes-em-resina.html', false],
+  ['case.lentes-resina-gengivoplastia', 'Lentes em Resina + Gengivoplastia', 'lentes-em-resina', 'assets/images/real/lentes-caso-2.jpg', 'Lentes em resina e gengivoplastia para mais simetria e um sorriso sofisticado.', '/paginas/lentes-em-resina.html', false],
+  ['case.lentes-premium', 'Lentes Premium', 'lentes-premium', 'assets/images/real/lentes-premium.jpg', 'Transformação premium do sorriso com estética clara, brilho e acabamento natural.', '/paginas/lentes-em-porcelana.html', false],
+  ['case.gengivoplastia', 'Gengivoplastia', 'gengivoplastia', 'assets/images/real/gengivoplastia-caso.jpg', 'Contorno gengival mais harmônico para destacar o sorriso.', '/paginas/gengivoplastia.html', false],
+  ['case.gengivoplastia-hero', 'Antes e depois de gengivoplastia', 'gengivoplastia', 'assets/images/real/gengivoplastia-hero-antes-depois.png', 'Antes e depois de gengivoplastia.', '/paginas/gengivoplastia.html', false],
+  ['case.lentes-detalhe', 'Detalhes de lentes dentárias', 'apoio-visual', 'assets/images/real/lentes-o-que-muda.png', 'Detalhes de transformação com lentes dentárias.', '/paginas/lentes-em-resina.html', false],
+  ['case.lips-smile', 'Sorriso e lábios harmonizados', 'apoio-visual', 'assets/images/real/lips-smile.jpg', 'Detalhe de sorriso e lábios harmonizados.', '/paginas/preenchimento-labial.html', false],
   ['case.retrato-feminino', 'Retrato feminino em destaque', 'apoio-visual', 'assets/images/real/moca_direita_1000x1280.svg', 'Retrato feminino em destaque.', '/index.html', true],
+]
+
+const stickyCases = Array.from({length: 10}, (_, index) => {
+  const number = String(index + 1).padStart(2, '0')
+  return [
+    `case.sticky-paciente-${number}`,
+    `Paciente ${number}`,
+    'apoio-visual',
+    `assets/images/real/sticky/paciente-${number}.webp`,
+    'Paciente sorrindo em retrato para a galeria da home.',
+    '/index.html',
+    true,
+  ]
+})
+
+const premiumCarouselCases = [
+  ['premium-carrossel-02', 'Antes e depois de Lentes Premium', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-02.webp', 'Antes e depois com transformação de cor, forma e alinhamento visual.'],
+  ['premium-carrossel-03', 'Sorriso premium mais harmônico', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-03.webp', 'Antes e depois com sorriso mais claro, harmônico e sofisticado.'],
+  ['premium-carrossel-04', 'Detalhe de facetas premium', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-04.webp', 'Detalhe de facetas com mudança de brilho, proporção e acabamento.'],
+  ['premium-carrossel-05', 'Transformação premium com brilho', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-05.webp', 'Transformação premium com sorriso mais branco e lábios em destaque.'],
+  ['premium-carrossel-06', 'Resultado claro e uniforme', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-06.webp', 'Antes e depois com resultado claro, uniforme e natural.'],
+  ['premium-carrossel-07', 'Sorriso renovado com Lentes Premium', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-07.webp', 'Sorriso renovado com proporção equilibrada e acabamento delicado.'],
+  ['premium-carrossel-08', 'Evolução completa do sorriso', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-08.webp', 'Evolução completa do sorriso com planejamento estético integrado.'],
+  ['premium-carrossel-09', 'Resultado premium em ângulo lateral', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-09.webp', 'Resultado premium em ângulo lateral com brilho e naturalidade.'],
+  ['premium-carrossel-10', 'Antes e depois lateral', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-10.webp', 'Antes e depois em detalhe lateral com dentes mais claros e harmônicos.'],
+  ['premium-carrossel-11', 'Transformação lateral com facetas', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-11.webp', 'Transformação lateral com facetas claras e leitura natural do sorriso.'],
+  ['premium-carrossel-12', 'Antes e depois masculino', 'assets/images/real/lentes-premium/carrossel/premium-carrossel-12.webp', 'Antes e depois masculino com sorriso mais alinhado e luminoso.'],
+]
+
+const traditionalCarouselCases = [
+  ['tradicionais-carrossel-01', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-01.webp', 'Antes e depois de Lentes Tradicionais com sorriso mais claro e harmônico.'],
+  ['tradicionais-carrossel-02', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-02.webp', 'Transformação masculina com Lentes Tradicionais e acabamento natural.'],
+  ['tradicionais-carrossel-03', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-03.webp', 'Antes e depois com resina para valorizar cor, forma e proporção.'],
+  ['tradicionais-carrossel-04', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-04.webp', 'Caso real de Lentes Tradicionais com resultado claro e equilibrado.'],
+  ['tradicionais-carrossel-05', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-05.webp', 'Transformação feminina com Lentes Tradicionais e leitura natural.'],
+  ['tradicionais-carrossel-06', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-06.webp', 'Sorriso renovado com Lentes Tradicionais e acabamento delicado.'],
+  ['tradicionais-carrossel-07', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-07.webp', 'Resultado de Lentes Tradicionais com brilho, forma e naturalidade.'],
+  ['tradicionais-carrossel-08', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-08.webp', 'Caso de Lentes Tradicionais com sorriso mais iluminado e uniforme.'],
+  ['tradicionais-carrossel-09', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-09-macro.webp', 'Sorriso em detalhe com Lentes Tradicionais e proporção equilibrada.'],
+  ['tradicionais-carrossel-10', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-10.webp', 'Resultado masculino com Lentes Tradicionais e sorriso mais harmônico.'],
+  ['tradicionais-carrossel-11', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-11.webp', 'Transformação com Lentes Tradicionais para renovar o sorriso.'],
+  ['tradicionais-carrossel-12', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-12.webp', 'Sorriso masculino com Lentes Tradicionais e acabamento leve.'],
 ]
 
 async function carouselItemsFromCases(items) {
@@ -131,49 +170,31 @@ async function carouselItemsFromCases(items) {
   })))
 }
 
+async function carouselItemsFromTraditionalCases(items) {
+  return Promise.all(items.map(async ([id, path, caption]) => ({
+    _type: 'carouselItem',
+    _key: key(id),
+    title: 'Lentes Tradicionais',
+    caption,
+    targetPage: '/paginas/lentes-em-resina.html',
+    hint: 'Clique e saiba mais',
+    image: await image(path, 'Lentes Tradicionais'),
+  })))
+}
+
+async function carouselItemsFromPremiumCases(items) {
+  return Promise.all(items.map(async ([id, title, path, caption]) => ({
+    _type: 'carouselItem',
+    _key: key(id),
+    title: 'Lentes Premium',
+    caption,
+    targetPage: '/paginas/lentes-em-porcelana.html',
+    hint: 'Clique e saiba mais',
+    image: await image(path, title),
+  })))
+}
+
 const serviceSeeds = [
-  {
-    id: 'service.botox',
-    title: 'Botox',
-    slug: 'botox',
-    serviceKey: 'botox',
-    seoTitle: 'Botox | Dra. Vitória Passos',
-    seoDescription: 'Botox com Dra. Vitória Passos em São Paulo para suavizar linhas de expressão, preservar a naturalidade do rosto e valorizar a harmonia facial.',
-    eyebrow: 'BOTOX FACIAL',
-    heroTitle: 'Expressão natural.',
-    emphasis: 'Resultado elegante.',
-    description: 'Botox aplicado com precisão técnica e sensibilidade estética para suavizar marcas de expressão sem perder a naturalidade do seu rosto.',
-    imageUrl: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=700&q=80',
-    tags: ['Sem cirurgia', 'Resultado em até 15 dias', 'Procedimento rápido'],
-    badge: {number: '500+', label: 'procedimentos realizados'},
-    infoCards: [
-      ['Tempo', '30 minutos', 'Duração média do procedimento, sem necessidade de internação ou recuperação longa.'],
-      ['Resultado', 'Resultado em 15 dias', 'O efeito completo aparece gradualmente, de forma natural e progressiva.'],
-      ['Duração', 'Dura de 4 a 6 meses', 'A manutenção é simples e, com o tempo, os resultados tendem a durar mais.'],
-      ['Segurança', 'Procedimento seguro', 'Aprovado pela ANVISA, aplicado por profissional habilitada com CRO ativo.'],
-    ],
-    areas: {
-      eyebrow: 'ÁREAS TRATADAS',
-      title: 'Onde o Botox pode\ntransformar seu resultado.',
-      cards: [
-        ['Testa', 'Linhas frontais', 'Suaviza as rugas horizontais da testa causadas por expressões repetitivas.', 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=500&q=80'],
-        ['Olhos', 'Pés de galinha', 'Trata as linhas ao redor dos olhos que aparecem ao sorrir ou franzir.', 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&q=80'],
-        ['Glabela', 'Linhas entre as sobrancelhas', 'Elimina a aparência de carrancudo, trazendo leveza ao olhar.', 'https://images.unsplash.com/photo-1552693673-1bf958298935?w=500&q=80'],
-        ['Pescoço', 'Pescoço e mandíbula', 'Relaxa o músculo masseter e suaviza bandas no pescoço.', 'https://images.unsplash.com/photo-1574480658-ca30f7bded6c?w=500&q=80'],
-      ],
-    },
-    myths: [
-      ['mito', 'Botox deixa o rosto parado e sem expressão', 'Quando aplicado corretamente e na dose ideal, o Botox preserva os movimentos naturais do rosto.'],
-      ['verdade', 'Botox pode prevenir novas rugas', 'Ao relaxar os músculos que causam as linhas de expressão, o Botox ajuda a prevenir que novas rugas se aprofundem.'],
-      ['mito', 'Botox é só para quem já tem muitas rugas', 'O Botox preventivo pode ser indicado antes de rugas profundas, sempre após avaliação individual.'],
-      ['verdade', 'O procedimento é rápido e sem internação', 'A aplicação é feita em consultório, dura em média 30 minutos e não exige repouso prolongado.'],
-    ],
-    faq: [
-      ['O Botox dói?', 'O desconforto é mínimo, com agulhas finas e aplicação rápida.'],
-      ['Quando verei o resultado?', 'Os primeiros efeitos aparecem entre 3 e 5 dias, com resultado completo em aproximadamente 15 dias.'],
-      ['Com que frequência devo repetir?', 'A manutenção costuma ser indicada a cada 4 a 6 meses.'],
-    ],
-  },
   {
     id: 'service.gengivoplastia',
     title: 'Gengivoplastia',
@@ -214,12 +235,12 @@ const serviceSeeds = [
     tags: ['Planejamento facial', 'Resultado natural', 'Procedimentos combinados'],
     infoCards: [
       ['Avaliação', 'Plano personalizado', 'A indicação considera proporção facial, sorriso, pele e objetivos.'],
-      ['Combinação', 'Tratamentos integrados', 'Pode envolver botox, preenchimento e outros recursos estéticos.'],
+      ['Combinação', 'Tratamentos integrados', 'Pode envolver preenchimento e outros recursos estéticos.'],
       ['Naturalidade', 'Resultado elegante', 'O foco é harmonizar sem descaracterizar seu rosto.'],
     ],
     processEnabled: true,
     faq: [
-      ['O que entra na harmonização facial?', 'Depende da avaliação. Pode envolver botox, preenchimentos e outros procedimentos estéticos.'],
+      ['O que entra na harmonização facial?', 'Depende da avaliação. Pode envolver preenchimentos e outros procedimentos estéticos.'],
       ['O resultado fica artificial?', 'O planejamento é feito para preservar naturalidade e expressão.'],
       ['Dá para fazer tudo no mesmo dia?', 'Alguns procedimentos podem ser combinados, mas isso depende da avaliação clínica.'],
     ],
@@ -235,7 +256,7 @@ const serviceSeeds = [
     heroTitle: 'Um sorriso mais claro, alinhado e sofisticado.',
     emphasis: 'Planejamento premium.',
     description: 'As Lentes Premium transformam cor, forma e tamanho dos dentes com acabamento sofisticado, alta durabilidade e resultado natural.',
-    imagePath: 'assets/images/real/lentes-premium.jpg',
+    imagePath: 'assets/images/real/lentes-premium-hero.webp',
     tags: ['Alta durabilidade', 'Planejamento digital', 'Resultado sofisticado'],
     infoCards: [
       ['Estética', 'Transformação completa', 'Indicada para mudanças de cor, formato, tamanho e harmonia do sorriso.'],
@@ -259,7 +280,7 @@ const serviceSeeds = [
     heroTitle: 'Transforme seu sorriso com leveza.',
     emphasis: 'Resultado natural.',
     description: 'As lentes em resina são indicadas para melhorar formato, cor e proporção dos dentes com planejamento personalizado.',
-    imagePath: 'assets/images/real/lentes-caso-1.jpg',
+    imagePath: 'assets/images/real/lentes-tradicionais-hero.webp',
     tags: ['Transformação rápida', 'Planejamento personalizado', 'Sorriso natural'],
     infoCards: [
       ['Forma', 'Mais harmonia', 'Ajusta formato, tamanho e proporção dos dentes.'],
@@ -284,7 +305,7 @@ const serviceSeeds = [
     heroTitle: 'Lábios com contorno e equilíbrio.',
     emphasis: 'Sem exageros.',
     description: 'O preenchimento labial valoriza formato, contorno e volume dos lábios respeitando sua harmonia facial.',
-    imagePath: 'assets/images/real/preenchimento-labial-caso.jpg',
+    imagePath: 'assets/images/real/preenchimento-labial-hero.webp',
     tags: ['Contorno', 'Volume natural', 'Harmonização labial'],
     infoCards: [
       ['Contorno', 'Mais definição', 'Realça o desenho dos lábios com sutileza.'],
@@ -361,13 +382,27 @@ async function buildDocs() {
     })
   }
 
+  for (const [id, title, treatment, path, caption, targetPage, showInHomeGallery] of stickyCases) {
+    docs.push({
+      _id: id,
+      _type: 'caseStudy',
+      title,
+      treatment,
+      image: await image(path, title),
+      caption,
+      targetPage,
+      showInTransformations: false,
+      showInHomeGallery,
+    })
+  }
+
   docs.push({
     _id: 'homePage.main',
     _type: 'homePage',
     seo: {
       _type: 'seoFields',
       title: 'Dra. Vitória Passos | Odontologia Estética e Harmonização',
-      description: 'Dra. Vitória Passos em São Paulo: odontologia estética, lentes, botox, harmonização facial e gengivoplastia.',
+      description: 'Dra. Vitória Passos em São Paulo: odontologia estética, lentes, harmonização facial e gengivoplastia.',
       canonicalPath: '/index.html',
     },
     hero: {
@@ -431,7 +466,7 @@ async function buildDocs() {
       closingText: 'O objetivo é que você saia da consulta entendendo com clareza o que faz sentido para o seu sorriso, para a sua autoestima e para a imagem que você deseja ver no espelho.',
     },
     stickyGallery: {
-      cases: cases.map(([id]) => ref(id)),
+      cases: [...stickyCases.map(([id]) => ref(id)), ref('case.retrato-feminino')],
       ctaBlock: {
         title: 'A próxima\ntransformação\npode ser a sua.',
         text: 'Agende sua avaliação e descubra o melhor caminho para valorizar sua autoestima.',
@@ -514,11 +549,31 @@ async function buildDocs() {
       },
       transformationsSection: {
         enabled: true,
-        eyebrow: 'Tratamentos',
-        title: 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.',
-        text: 'Conheça os procedimentos da Dra. Vitória Passos e veja como cada detalhe pode valorizar o seu sorriso com naturalidade.',
-        items: await carouselItemsFromCases(cases.slice(0, 7)),
-        cases: cases.slice(0, 7).map(([id]) => ref(id)),
+        eyebrow: service.serviceKey === 'lentes-premium'
+          ? 'Lentes Premium'
+          : service.serviceKey === 'lentes-em-resina'
+            ? 'Lentes Tradicionais'
+            : 'Tratamentos',
+        title: service.serviceKey === 'lentes-premium'
+          ? 'Transformações reais com acabamento premium, brilho e naturalidade.'
+          : service.serviceKey === 'lentes-em-resina'
+            ? 'Casos reais de Lentes Tradicionais com resultado leve, claro e natural.'
+            : 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.',
+        text: service.serviceKey === 'lentes-premium'
+          ? 'Veja diferentes casos de lentes premium em closes e antes e depois, com foco em proporção, cor e harmonia do sorriso.'
+          : service.serviceKey === 'lentes-em-resina'
+            ? 'Veja transformações em resina com foco em proporção, cor, acabamento delicado e harmonia do sorriso.'
+            : 'Conheça os procedimentos da Dra. Vitória Passos e veja como cada detalhe pode valorizar o seu sorriso com naturalidade.',
+        items: service.serviceKey === 'lentes-premium'
+          ? await carouselItemsFromPremiumCases(premiumCarouselCases)
+          : service.serviceKey === 'lentes-em-resina'
+            ? await carouselItemsFromTraditionalCases(traditionalCarouselCases)
+            : await carouselItemsFromCases(cases.slice(0, 7)),
+        cases: service.serviceKey === 'lentes-premium'
+          ? []
+          : service.serviceKey === 'lentes-em-resina'
+            ? []
+            : cases.slice(0, 7).map(([id]) => ref(id)),
       },
       infoCards: service.infoCards.map(([iconLabel, title, text]) => ({_type: 'infoCard', _key: key(title), iconLabel, title, text})),
       ...(service.areas ? {

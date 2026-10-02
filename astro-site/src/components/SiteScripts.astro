@@ -7,7 +7,6 @@ const COOKIE_CONSENT_KEY = "pisomCookieConsent";
 const SITE_NAV_ITEMS = [
   { href: "/paginas/lentes-em-resina.html", label: "Lentes em Resina" },
   { href: "/paginas/lentes-em-porcelana.html", label: "Lentes Premium" },
-  { href: "/paginas/botox.html", label: "Botox" },
   { href: "/paginas/preenchimento-labial.html", label: "Preenchimento Labial" },
   { href: "/paginas/gengivoplastia.html", label: "Gengivoplastia" },
 ];
@@ -230,6 +229,9 @@ const setMarqueePaused = (marquee, paused) => {
   marquee.style.setProperty("--marquee-play-state", paused ? "paused" : "running");
 };
 
+let marqueePointerFrame = 0;
+let lastMarqueePointerEvent = null;
+
 const updateMarqueeFromMousePosition = (event) => {
   if (event.pointerType && event.pointerType !== "mouse") {
     return;
@@ -270,9 +272,22 @@ if ("IntersectionObserver" in window) {
   marquees.forEach((marquee) => visibleMarquees.add(marquee));
 }
 
+const scheduleMarqueePointerUpdate = (event) => {
+  lastMarqueePointerEvent = event;
+
+  if (marqueePointerFrame) {
+    return;
+  }
+
+  marqueePointerFrame = window.requestAnimationFrame(() => {
+    marqueePointerFrame = 0;
+    updateMarqueeFromMousePosition(lastMarqueePointerEvent);
+  });
+};
+
 // Pause only after an actual mouse movement over the carousel. Scrolling alone
 // must not change its state when the stationary pointer passes over it.
-document.addEventListener("pointermove", updateMarqueeFromMousePosition, { passive: true });
+document.addEventListener("pointermove", scheduleMarqueePointerUpdate, { passive: true });
 window.addEventListener("blur", () => {
   marquees.forEach((marquee) => setMarqueePaused(marquee, !visibleMarquees.has(marquee)));
 });
@@ -637,30 +652,37 @@ updateScrolledState();
 
 let lastScrollY = window.scrollY;
 let scrollingDownTimeout;
+let scrollStateFrame = 0;
 
-window.addEventListener(
-  "scroll",
-  () => {
-    const currentScrollY = window.scrollY;
-    const isScrollingDown = currentScrollY > lastScrollY && currentScrollY > 18;
+const syncScrollState = () => {
+  scrollStateFrame = 0;
 
-    updateScrolledState();
+  const currentScrollY = window.scrollY;
+  const isScrollingDown = currentScrollY > lastScrollY && currentScrollY > 18;
 
-    if (isScrollingDown) {
-      document.body.classList.add("is-scrolling-down");
-      window.clearTimeout(scrollingDownTimeout);
-      scrollingDownTimeout = window.setTimeout(() => {
-        document.body.classList.remove("is-scrolling-down");
-      }, 140);
-    } else if (currentScrollY <= lastScrollY) {
+  updateScrolledState();
+
+  if (isScrollingDown) {
+    document.body.classList.add("is-scrolling-down");
+    window.clearTimeout(scrollingDownTimeout);
+    scrollingDownTimeout = window.setTimeout(() => {
       document.body.classList.remove("is-scrolling-down");
-      window.clearTimeout(scrollingDownTimeout);
-    }
+    }, 140);
+  } else if (currentScrollY <= lastScrollY) {
+    document.body.classList.remove("is-scrolling-down");
+    window.clearTimeout(scrollingDownTimeout);
+  }
 
-    lastScrollY = currentScrollY;
-  },
-  { passive: true }
-);
+  lastScrollY = currentScrollY;
+};
+
+window.addEventListener("scroll", () => {
+  if (scrollStateFrame) {
+    return;
+  }
+
+  scrollStateFrame = window.requestAnimationFrame(syncScrollState);
+}, { passive: true });
 
 (() => {
   if ("scrollRestoration" in history) {
@@ -1185,8 +1207,25 @@ window.addEventListener(
       return;
     }
 
+    const answer = item.querySelector(".faq-answer");
     const isOpen = item.classList.contains("open");
-    item.classList.toggle("open", !isOpen);
+
+    if (!answer) {
+      item.classList.toggle("open", !isOpen);
+      return;
+    }
+
+    if (isOpen) {
+      answer.style.maxHeight = `${answer.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        item.classList.remove("open");
+        answer.style.maxHeight = "0px";
+      });
+      return;
+    }
+
+    item.classList.add("open");
+    answer.style.maxHeight = `${answer.scrollHeight}px`;
   };
 
   window.toggleTestimonial = (button) => {
@@ -1238,17 +1277,274 @@ window.addEventListener(
 
   const heroImg = document.querySelector(".hero__img");
   if (heroImg && window.innerWidth > 768) {
+    let heroScrollFrame = 0;
+
+    const updateHeroTransform = () => {
+      heroScrollFrame = 0;
+      const scrollY = window.scrollY;
+      if (scrollY < window.innerHeight) {
+        heroImg.style.transform = `scale(1.06) translateY(${scrollY * 0.05}px)`;
+      }
+    };
+
     window.addEventListener(
       "scroll",
       () => {
-        const scrollY = window.scrollY;
-        if (scrollY < window.innerHeight) {
-          heroImg.style.transform = `scale(1.06) translateY(${scrollY * 0.05}px)`;
+        if (heroScrollFrame) {
+          return;
         }
+
+        heroScrollFrame = window.requestAnimationFrame(updateHeroTransform);
       },
       { passive: true }
     );
   }
+
+  function initHaloReel(reel) {
+    const stage = reel.querySelector("[data-halo-stage]");
+    const cards = [...reel.querySelectorAll("[data-halo-card]")];
+    const imagePreview = reel.querySelector("[data-halo-image-preview]");
+
+    if (!stage || cards.length === 0) {
+      return;
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const initialRotation = 0;
+    const fullTurn = Math.PI * 2;
+    const state = {
+      rotation: initialRotation,
+      target: initialRotation,
+      dragging: false,
+      lastY: 0,
+      lastStep: 0,
+      moved: false,
+      pressedCard: null,
+      activeImage: "",
+      visiblePreview: imagePreview,
+      previewTimer: 0,
+      visible: true,
+      animationFrame: 0,
+    };
+
+    const updatePreviewImage = (card) => {
+      if (!imagePreview) {
+        return;
+      }
+
+      const nextImage = card?.dataset.haloImage;
+      if (!nextImage || nextImage === state.activeImage) {
+        return;
+      }
+
+      state.activeImage = nextImage;
+      window.clearTimeout(state.previewTimer);
+
+      const currentPreview = state.visiblePreview || imagePreview;
+      const nextPreview = currentPreview.cloneNode(false);
+      nextPreview.removeAttribute("data-halo-image-preview");
+      nextPreview.src = nextImage;
+      nextPreview.alt = "";
+      nextPreview.style.opacity = "0";
+      nextPreview.style.transform = "scale(1.025)";
+
+      currentPreview.parentElement?.appendChild(nextPreview);
+
+      requestAnimationFrame(() => {
+        currentPreview.style.opacity = "0";
+        currentPreview.style.transform = "scale(0.985)";
+        nextPreview.style.opacity = "1";
+        nextPreview.style.transform = "scale(1)";
+      });
+
+      state.previewTimer = window.setTimeout(() => {
+        currentPreview.remove();
+        state.visiblePreview = nextPreview;
+      }, 420);
+    };
+
+    const layout = () => {
+      const rect = stage.getBoundingClientRect();
+      if (rect.width < 40 || rect.height < 40) {
+        return;
+      }
+
+      const isNarrow = window.innerWidth <= 900;
+      const cardWidth = cards[0].offsetWidth || 160;
+      const cardHeight = cards[0].offsetHeight || 220;
+      const centerX = rect.width * (isNarrow ? 0.32 : 0.26);
+      const centerY = rect.height * (isNarrow ? 0.47 : 0.47);
+      const radiusX = rect.width * (isNarrow ? 0.3 : 0.18);
+      const radiusY = Math.max(isNarrow ? 180 : 230, rect.height * (isNarrow ? 0.36 : 0.31));
+      const step = (Math.PI * 2) / cards.length;
+      let frontCard = cards[0];
+      let frontDepth = -1;
+
+      cards.forEach((card, index) => {
+        const angle = state.rotation + index * step;
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const depth = (cos + 1) / 2;
+        const scale = 0.52 + depth * 0.52;
+        const x = centerX + cos * radiusX - cardWidth / 2;
+        const y = centerY + sin * radiusY - cardHeight / 2;
+        const opacity = 0.32 + depth * 0.68;
+
+        card.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+        card.style.zIndex = String(Math.round(depth * 30) + 1);
+        card.style.opacity = opacity.toFixed(3);
+
+        if (depth > frontDepth) {
+          frontDepth = depth;
+          frontCard = card;
+        }
+      });
+
+      updatePreviewImage(frontCard);
+    };
+
+    const animateReel = (time) => {
+      state.animationFrame = 0;
+
+      if (!state.visible) {
+        return;
+      }
+
+      if (!state.lastStep) {
+        state.lastStep = time;
+      }
+
+      if (!reduceMotion && !state.dragging && time - state.lastStep > 2300) {
+        state.target -= (Math.PI * 2) / cards.length;
+        state.lastStep = time;
+      }
+
+      state.rotation += (state.target - state.rotation) * 0.08;
+      layout();
+      state.animationFrame = requestAnimationFrame(animateReel);
+    };
+
+    const startAnimation = () => {
+      if (state.animationFrame) {
+        return;
+      }
+
+      state.animationFrame = requestAnimationFrame(animateReel);
+    };
+
+    const dragScale = 0.008;
+
+    stage.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+      }
+
+      event.preventDefault();
+      state.dragging = true;
+      state.moved = false;
+      state.pressedCard = event.target.closest("[data-halo-card]");
+      state.lastY = event.clientY;
+      stage.setPointerCapture(event.pointerId);
+    });
+
+    stage.addEventListener("pointermove", (event) => {
+      if (!state.dragging) {
+        return;
+      }
+
+      const delta = event.clientY - state.lastY;
+      state.lastY = event.clientY;
+      if (Math.abs(delta) > 2) {
+        state.moved = true;
+      }
+      state.target += delta * dragScale;
+    });
+
+    const finishDrag = (event) => {
+      if (!state.dragging) {
+        return;
+      }
+
+      state.dragging = false;
+      const step = (Math.PI * 2) / cards.length;
+      if (!state.moved && state.pressedCard) {
+        const index = cards.indexOf(state.pressedCard);
+        if (index >= 0) {
+          const baseTarget = -index * step;
+          state.target =
+            baseTarget + Math.round((state.target - baseTarget) / fullTurn) * fullTurn;
+          state.lastStep = performance.now();
+        }
+        state.pressedCard = null;
+
+        if (stage.hasPointerCapture(event.pointerId)) {
+          stage.releasePointerCapture(event.pointerId);
+        }
+        return;
+      }
+
+      state.target = Math.round(state.target / step) * step;
+      state.pressedCard = null;
+
+      if (stage.hasPointerCapture(event.pointerId)) {
+        stage.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    stage.addEventListener("pointerup", finishDrag);
+    stage.addEventListener("pointercancel", finishDrag);
+    stage.addEventListener("click", (event) => {
+      const card = event.target.closest("[data-halo-card]");
+      if (!card || state.moved) {
+        return;
+      }
+
+      const index = cards.indexOf(card);
+      if (index < 0) {
+        return;
+      }
+
+      const step = fullTurn / cards.length;
+      const baseTarget = -index * step;
+      state.target = baseTarget + Math.round((state.target - baseTarget) / fullTurn) * fullTurn;
+      state.lastStep = performance.now();
+    });
+    window.addEventListener("resize", () => {
+      layout();
+      startAnimation();
+    });
+
+    layout();
+
+    if ("IntersectionObserver" in window) {
+      const reelObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            state.visible = entry.isIntersecting && !document.hidden;
+
+            if (state.visible) {
+              layout();
+              startAnimation();
+            }
+          });
+        },
+        { rootMargin: "180px 0px", threshold: 0.01 }
+      );
+
+      reelObserver.observe(reel);
+    } else {
+      startAnimation();
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      state.visible = !document.hidden;
+      if (state.visible) {
+        startAnimation();
+      }
+    });
+  }
+
+  document.querySelectorAll("[data-halo-reel]").forEach(initHaloReel);
 
   function animateCounter(element, target, duration = 1500) {
     let start = 0;

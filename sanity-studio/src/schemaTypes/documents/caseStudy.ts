@@ -19,7 +19,6 @@ export const caseStudy = defineType({
       options: {
         list: [
           {title: 'Preenchimento Labial', value: 'preenchimento-labial'},
-          {title: 'Botox', value: 'botox'},
           {title: 'Lentes em Resina', value: 'lentes-em-resina'},
           {title: 'Lentes Premium', value: 'lentes-premium'},
           {title: 'Gengivoplastia', value: 'gengivoplastia'},
@@ -44,7 +43,7 @@ export const caseStudy = defineType({
       name: 'targetPage',
       title: 'Pagina de destino',
       type: 'string',
-      description: 'Exemplo: /paginas/botox.html',
+      description: 'Exemplo: /paginas/lentes-em-resina.html',
     }),
     defineField({
       name: 'showInTransformations',

@@ -149,7 +149,16 @@ export async function getServiceData(slug: string) {
             image {${imageFields}}
           }
         },
-        quiz {..., image {${imageFields}}},
+        quiz {
+          enabled,
+          eyebrow,
+          title,
+          description,
+          steps,
+          initialResultTitle,
+          initialResultText,
+          cta
+        },
         finalCta {...}
       },
       "transformationCases": *[_type == "caseStudy" && showInTransformations == true] | order(_createdAt asc) {

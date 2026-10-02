@@ -22,7 +22,7 @@ export const seoFields = defineType({
       name: 'canonicalPath',
       title: 'Canonical',
       type: 'string',
-      description: 'Exemplo: /paginas/botox.html',
+      description: 'Exemplo: /paginas/lentes-em-resina.html',
     }),
   ],
 })

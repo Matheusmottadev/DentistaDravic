@@ -25,7 +25,6 @@ export const servicePage = defineType({
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          {title: 'Botox', value: 'botox'},
           {title: 'Gengivoplastia', value: 'gengivoplastia'},
           {title: 'Harmonizacao Facial', value: 'harmonizacao-facial'},
           {title: 'Lentes Premium', value: 'lentes-premium'},
@@ -127,7 +126,7 @@ export const servicePage = defineType({
       name: 'processSection',
       title: 'Processo / Como funciona',
       type: 'object',
-      description: 'Usado hoje em harmonizacao facial. Botox e gengivoplastia tiveram esse bloco removido.',
+      description: 'Usado hoje em harmonizacao facial. Algumas paginas tiveram esse bloco removido.',
       fields: [
         defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: false}),
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),

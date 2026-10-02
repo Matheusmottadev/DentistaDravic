@@ -1,9 +1,8 @@
 import {sanityImageUrl} from './sanity';
 
 const defaultNav = [
-  {label: 'Lentes em Resina', href: '/paginas/lentes-em-resina.html'},
+  {label: 'Lentes Tradicionais', href: '/paginas/lentes-em-resina.html'},
   {label: 'Lentes Premium', href: '/paginas/lentes-em-porcelana.html'},
-  {label: 'Botox', href: '/paginas/botox.html'},
   {label: 'Preenchimento Labial', href: '/paginas/preenchimento-labial.html'},
   {label: 'Gengivoplastia', href: '/paginas/gengivoplastia.html'},
 ];
@@ -28,13 +27,7 @@ const defaultCases = [
     title: 'Preenchimento Labial',
     caption: 'Antes e depois com contorno, equilíbrio e acabamento natural.',
     targetPage: '/paginas/preenchimento-labial.html',
-    image: {fallbackSrc: '/assets/images/real/preenchimento-labial-caso.jpg', alt: 'Caso de preenchimento labial com antes e depois na mesma imagem'},
-  },
-  {
-    title: 'Botox',
-    caption: 'Suavização das linhas com resultado leve e expressão preservada.',
-    targetPage: '/paginas/botox.html',
-    image: {fallbackSrc: '/assets/images/real/botox-caso-1.png', alt: 'Caso de botox com antes e depois na mesma imagem'},
+    image: {fallbackSrc: '/assets/images/real/preenchimento-labial-carrossel.webp', alt: 'Caso de preenchimento labial com antes e depois na mesma imagem'},
   },
   {
     title: 'Lentes em Resina',
@@ -60,13 +53,24 @@ const defaultCases = [
     targetPage: '/paginas/gengivoplastia.html',
     image: {fallbackSrc: '/assets/images/real/gengivoplastia-caso.jpg', alt: 'Caso de gengivoplastia com antes, procedimento e resultado'},
   },
-  {
-    title: 'Botox',
-    caption: 'Mais leveza na testa e leitura facial mais descansada.',
-    targetPage: '/paginas/botox.html',
-    image: {fallbackSrc: '/assets/images/real/botox-caso-2.png', alt: 'Outro caso de botox com antes e depois na mesma imagem'},
-  },
 ];
+
+const defaultGalleryCases = Array.from({length: 10}, (_, index) => {
+  const number = String(index + 1).padStart(2, '0');
+  return {
+    title: `Paciente ${number}`,
+    image: {
+      fallbackSrc: `/assets/images/real/sticky/paciente-${number}.webp`,
+      alt: 'Paciente sorrindo em retrato para a galeria da home',
+    },
+  };
+}).concat({
+  title: 'Retrato feminino em destaque',
+  image: {
+    fallbackSrc: '/assets/images/real/moca_direita_1000x1280.svg',
+    alt: 'Retrato feminino em destaque',
+  },
+});
 
 const defaultTestimonials = [
   {
@@ -110,7 +114,7 @@ const defaultTestimonials = [
 const defaultHomeFaq = [
   {
     question: 'Como saber qual tratamento é ideal para mim?',
-    answer: 'Isso depende do seu objetivo. Lentes em resina costumam fazer mais sentido para transformar forma e estética do sorriso, botox para suavizar linhas de expressão, preenchimento para dar contorno e volume aos lábios, e gengivoplastia para harmonizar o excesso de gengiva. A avaliação é o que define a melhor indicação para o seu caso.',
+    answer: 'Isso depende do seu objetivo. Lentes em resina costumam fazer mais sentido para transformar forma e estética do sorriso, preenchimento para dar contorno e volume aos lábios, e gengivoplastia para harmonizar o excesso de gengiva. A avaliação é o que define a melhor indicação para o seu caso.',
   },
   {
     question: 'Os resultados ficam naturais?',
@@ -278,7 +282,7 @@ export function renderFooter(settings: any) {
         <div class="site-footer__surface">
           <div class="site-footer__top">
             <div class="site-footer__intro">
-              <img class="site-footer__logo" src="${html(footerLogo)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
+              <img class="site-footer__logo" loading="lazy" decoding="async" src="${html(footerLogo)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
               <p>${html(mergedSettings.footerText)}</p>
             </div>
 
@@ -335,7 +339,7 @@ function renderTransformationCards(cases: any[]) {
 
     return `<a class="transformation-card transformation-card--single" href="${html(href)}"${item.hidden ? ' aria-hidden="true"' : ''}>
                 <div class="transformation-card__images transformation-card__images--single">
-                  <img src="${html(src)}" alt="${html(alt)}" />
+                  <img loading="lazy" decoding="async" src="${html(src)}" alt="${html(alt)}" />
                 </div>
                 <div class="transformation-card__caption">
                   <strong${String(item.title || '').length > 24 ? ' class="transformation-card__title--long"' : ''}>${html(item.title)}</strong>
@@ -378,7 +382,7 @@ function renderHomeHero(page: any, settings: any) {
 
           <div class="hero__visual">
             <div class="hero-card">
-              <img src="${html(image)}" alt="${html(alt)}" width="1080" height="1364" />
+              <img fetchpriority="high" decoding="async" src="${html(image)}" alt="${html(alt)}" width="1080" height="1364" />
             </div>
           </div>
         </section>`;
@@ -446,7 +450,7 @@ function renderAbout(page: any) {
             <div class="about-copy">
               <p>${html(paragraphs[0])}</p>
               <div class="about-portrait about-portrait--mobile">
-                <img src="${html(portrait)}" alt="${html(portraitAlt)}" width="520" height="640" />
+                <img loading="lazy" decoding="async" src="${html(portrait)}" alt="${html(portraitAlt)}" width="520" height="640" />
               </div>
               ${paragraphs.slice(1).map((text: string) => `<p>${html(text)}</p>`).join('\n              ')}
               <div class="about-credentials">
@@ -454,14 +458,37 @@ function renderAbout(page: any) {
                   ${credentials.map((item: string) => `<li>${html(item)}</li>`).join('\n                  ')}
                 </ul>
                 <div class="about-signature" aria-hidden="true">
-                  <img src="${html(signature)}" alt="" width="420" height="140" />
+                  <img loading="lazy" decoding="async" src="${html(signature)}" alt="" width="420" height="140" />
                 </div>
               </div>
             </div>
 
             <div class="about-portrait about-portrait--desktop">
-              <img src="${html(portrait)}" alt="${html(portraitAlt)}" width="520" height="640" />
+              <img loading="lazy" decoding="async" src="${html(portrait)}" alt="${html(portraitAlt)}" width="520" height="640" />
             </div>
+          </div>
+        </section>`;
+}
+
+function renderOffice(page: any) {
+  const office = page?.consultorio || {};
+  const video = office.videoUrl || '/assets/videos/consultorio.mp4';
+  const poster = imageSrc(office.image, '/assets/images/real/reviews-building.png', 900);
+
+  return `<section class="section consultorio-section" id="consultorio">
+          <div class="consultorio-section__media">
+            <video autoplay muted loop playsinline preload="metadata" poster="${html(poster)}">
+              <source src="${html(video)}" type="video/mp4" />
+              Seu navegador não suporta vídeo.
+            </video>
+          </div>
+
+          <div class="consultorio-section__content">
+            <p class="eyebrow">${html(office.eyebrow || 'Consultório')}</p>
+            <h2>${html(office.title || 'Conforto em cada detalhe.')}</h2>
+            <p>${html(office.text || 'Nosso consultório foi preparado para que sua experiência comece bem antes do atendimento: cadeira de massagem, snacks na recepção, estacionamento seguro no prédio, ambiente acolhedor, atendimento tranquilo e uma estrutura pensada para você se sentir à vontade enquanto cuida do seu sorriso.')}</p>
+            <p>${html(office.secondaryText || 'A ideia é que cada visita seja leve, confortável e sem pressa, com pequenos cuidados que ajudam você a relaxar desde a chegada até o fim da consulta. Tudo foi pensado para unir estética, acolhimento e praticidade em um só lugar.')}</p>
+            <p>${html(office.tertiaryText || 'Assim, o momento de cuidar da estética também se torna uma experiência agradável: você chega com facilidade, espera com mais conforto e recebe um atendimento pensado para transmitir confiança em cada etapa.')}</p>
           </div>
         </section>`;
 }
@@ -478,7 +505,7 @@ function renderReviews(page: any, testimonials: any[], settings: any) {
   return `<section class="section">
           <div class="reviews-showcase">
             <div class="reviews-showcase__visual reviews-showcase__visual--desktop">
-              <img src="${html(image)}" alt="${html(alt)}" width="366" height="526" />
+              <img loading="lazy" decoding="async" src="${html(image)}" alt="${html(alt)}" width="366" height="526" />
               <div class="reviews-showcase__badge reviews-showcase__badge--top">
                 <p>${html(reviews.badgeText || 'O melhor atendimento com 5 estrelas.')}</p>
                 <span aria-hidden="true">★★★★★</span>
@@ -492,7 +519,7 @@ function renderReviews(page: any, testimonials: any[], settings: any) {
               </div>
 
               <div class="reviews-showcase__visual reviews-showcase__visual--mobile">
-                <img src="${html(image)}" alt="${html(alt)}" width="366" height="526" />
+                <img loading="lazy" decoding="async" src="${html(image)}" alt="${html(alt)}" width="366" height="526" />
                 <div class="reviews-showcase__badge reviews-showcase__badge--top">
                   <p>${html(reviews.badgeText || 'O melhor atendimento com 5 estrelas.')}</p>
                   <span aria-hidden="true">★★★★★</span>
@@ -547,14 +574,14 @@ function renderJourney(page: any) {
 function renderStickyGallery(page: any, cases: any[], settings: any) {
   const mergedSettings = settingsWithFallback(settings);
   const gallery = page?.stickyGallery || {};
-  const items = asArray(gallery.cases, asArray(cases, defaultCases));
+  const items = asArray(gallery.cases, asArray(cases, defaultGalleryCases));
   const normalized = [...items];
-  while (normalized.length < 11) normalized.push(defaultCases[normalized.length % defaultCases.length]);
+  while (normalized.length < 11) normalized.push(defaultGalleryCases[normalized.length % defaultGalleryCases.length]);
   const ctaBlock = gallery.ctaBlock || {};
   const cta = ctaBlock.cta || {label: 'Quero ser a próxima', kind: 'whatsapp'};
   const figure = (item: any) => {
     const fallback = item.image?.fallbackSrc || '/assets/images/hero-vitoria.jpg';
-    return `<figure><img src="${html(imageSrc(item.image, fallback, 900))}" alt="${html(imageAlt(item.image, item.title))}" loading="lazy" /></figure>`;
+    return `<figure><img loading="lazy" decoding="async" src="${html(imageSrc(item.image, fallback, 900))}" alt="${html(imageAlt(item.image, item.title))}" /></figure>`;
   };
 
   return `<section class="sticky-gallery" aria-label="Portfólio de transformações">
@@ -613,6 +640,10 @@ export function renderHomeContent(fallbackContent: string, data: any) {
   content = replaceExactClassSection(content, 'hero-highlights-mobile', renderHomeMobileHighlights(page));
   content = replaceBlock(content, /<section class="section">\s*<div class="section-heading">\s*<p class="eyebrow">Tratamentos<\/p>[\s\S]*?<\/section>/, renderHomeTreatments(page, data?.transformationCases));
   content = replaceExactClassSection(content, 'section section--split', renderAbout(page));
+  const officeSection = renderOffice(page);
+  content = content.includes('consultorio-section')
+    ? replaceExactClassSection(content, 'section consultorio-section', officeSection)
+    : content.replace(/(<section class="section section--split"[\s\S]*?<\/section>)/, `$1\n\n        ${officeSection}`);
   content = replaceBlock(content, /<section class="section">\s*<div class="reviews-showcase">[\s\S]*?<\/section>/, renderReviews(page, data?.testimonials, settings));
   content = replaceExactClassSection(content, 'section journey-section', renderJourney(page));
   content = replaceExactClassSection(content, 'sticky-gallery', renderStickyGallery(page, data?.galleryCases, settings));
@@ -641,7 +672,7 @@ function renderServiceHero(page: any, settings: any) {
     </div>
     <div class="hero__visual reveal reveal--right">
       <div class="hero__image-wrap">
-        <img src="${html(image)}" alt="${html(alt)}" class="hero__img" />
+        <img fetchpriority="high" decoding="async" src="${html(image)}" alt="${html(alt)}" class="hero__img" />
         ${hero.badge?.number || hero.badge?.label ? `<div class="hero__badge">
           <span class="badge__number">${html(hero.badge?.number || '')}</span>
           <span class="badge__label">${html(hero.badge?.label || '')}</span>
@@ -656,6 +687,10 @@ function renderInfoCards(cards: any[]) {
 
   return `<section class="what-is section what-is--cards-only">
     <div class="container">
+      <div class="section-heading section-heading--center">
+        <p class="eyebrow">Benefícios</p>
+        <h2 class="section-heading__title--wide">O que esse tratamento pode melhorar na sua rotina.</h2>
+      </div>
       <div class="what-is__grid">
         <div class="what-is__cards reveal reveal--right">
           ${cards.map((card: any) => `<div class="info-card">
@@ -686,7 +721,7 @@ function renderAreas(section: any) {
           const alt = imageAlt(card.image || card.externalImage, card.externalImage?.alt || card.title);
           return `<div class="area-card reveal${index ? ` reveal--delay${Math.min(index, 3)}` : ''}">
           <div class="area-card__img-wrap">
-            <img src="${html(image)}" alt="${html(alt)}" />
+            <img loading="lazy" decoding="async" src="${html(image)}" alt="${html(alt)}" />
             <span class="area-card__label">${html(card.label)}</span>
           </div>
           <div class="area-card__body">
@@ -781,14 +816,14 @@ function renderServiceTransformations(section: any, cases: any[]) {
   const cards = asArray(section?.items, asArray(section?.cases, cases));
   if (!cards?.length) return '';
 
-  return `<section id="tratamentos-botox" class="section treatments-showcase treatments-showcase--botox" data-treatment-carousel="botox">
+  return `<section id="tratamentos-servico" class="section treatments-showcase treatments-showcase--service" data-treatment-carousel="service">
           <div class="section-heading">
             <p class="eyebrow">${html(section?.eyebrow || 'Tratamentos')}</p>
             <h2 class="section-heading__title--wide">${html(section?.title || 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.')}</h2>
             ${section?.text ? `<p>${html(section.text)}</p>` : ''}
           </div>
 
-          <div class="transformations-marquee transformations-marquee--botox" aria-label="Galeria de transformações">
+          <div class="transformations-marquee transformations-marquee--service" aria-label="Galeria de transformações">
             <div class="transformations-marquee__track">
               ${renderTransformationCards(cards)}
             </div>
@@ -811,10 +846,10 @@ export function renderServiceContent(fallbackContent: string, data: any) {
   }
 
   if (page.transformationsSection || data?.transformationCases?.length) {
-    content = replaceBlock(content, /<section id="tratamentos-botox"[\s\S]*?<\/section>/, renderServiceTransformations(page.transformationsSection, data?.transformationCases));
+    content = replaceBlock(content, /<section id="tratamentos-servico"[\s\S]*?<\/section>/, renderServiceTransformations(page.transformationsSection, data?.transformationCases));
   }
 
-  if (page.infoCards?.length) {
+  if (page.infoCards?.length && page.serviceKey !== 'lentes-em-resina') {
     content = replaceBlock(content, /<section class="what-is section[\s\S]*?<\/section>/, renderInfoCards(page.infoCards));
   }
 

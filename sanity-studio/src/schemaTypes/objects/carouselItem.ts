@@ -27,7 +27,7 @@ export const carouselItem = defineType({
       name: 'targetPage',
       title: 'Link ao clicar',
       type: 'string',
-      description: 'Exemplo: /paginas/botox.html. Deixe vazio se o card nao precisar abrir outra pagina.',
+      description: 'Exemplo: /paginas/lentes-em-resina.html. Deixe vazio se o card nao precisar abrir outra pagina.',
     }),
     defineField({
       name: 'hint',
