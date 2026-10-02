@@ -2,6 +2,9 @@
   "name": "dentista-pisom-deploy",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "workspaces": [
     "astro-site"
   ],
