@@ -329,12 +329,12 @@ body.service-page .site-header__cta {
 }
 
 body.service-page .treatments-showcase {
-  width: min(1320px, calc(100vw - 24px)) !important;
-  max-width: calc(100vw - 24px) !important;
+  width: min(1200px, calc(100vw - 48px)) !important;
+  max-width: calc(100vw - 48px) !important;
   margin-right: auto !important;
   margin-left: auto !important;
   padding: 54px 0 !important;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
 
 body.service-page .treatments-showcase .section-heading {
@@ -345,11 +345,40 @@ body.service-page .treatments-showcase .transformations-marquee {
   overflow: hidden !important;
   margin-right: 0 !important;
   margin-left: 0 !important;
+  width: 100% !important;
 }
 
 body.service-page .treatments-showcase .transformations-marquee__track {
   animation: marquee-scroll 14s linear infinite;
   padding-inline: 12px !important;
+}
+
+body.service-page
+  .treatments-showcase--preenchimento-labial
+  .transformations-marquee {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none;
+}
+
+body.service-page
+  .treatments-showcase--preenchimento-labial
+  .transformations-marquee::-webkit-scrollbar {
+  display: none;
+}
+
+body.service-page
+  .treatments-showcase--preenchimento-labial
+  .transformations-marquee__track {
+  animation: none !important;
+  padding-inline: 0 !important;
+  transform: none !important;
+}
+
+body.service-page
+  .treatments-showcase--preenchimento-labial
+  .transformation-card[aria-hidden="true"] {
+  display: none !important;
 }
 
 body.service-page .what-is--cards-only .what-is__grid {
