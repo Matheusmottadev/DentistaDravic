@@ -6,11 +6,6 @@ export const privacyPolicy = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seoFields',
-    }),
-    defineField({
       name: 'title',
       title: 'Titulo',
       type: 'string',

@@ -200,8 +200,6 @@ const serviceSeeds = [
     title: 'Gengivoplastia',
     slug: 'gengivoplastia',
     serviceKey: 'gengivoplastia',
-    seoTitle: 'Gengivoplastia | Dra. Vitória Passos',
-    seoDescription: 'Gengivoplastia com Dra. Vitória Passos para harmonizar o contorno gengival e valorizar o sorriso com precisão.',
     eyebrow: 'GENGIVOPLASTIA',
     heroTitle: 'Mais harmonia para o sorriso.',
     emphasis: 'Contorno preciso.',
@@ -225,8 +223,6 @@ const serviceSeeds = [
     title: 'Harmonização Facial',
     slug: 'harmonizacao-facial',
     serviceKey: 'harmonizacao-facial',
-    seoTitle: 'Harmonização Facial | Dra. Vitória Passos',
-    seoDescription: 'Harmonização facial com Dra. Vitória Passos para equilibrar traços, suavizar sinais e valorizar a beleza natural.',
     eyebrow: 'HARMONIZAÇÃO FACIAL',
     heroTitle: 'Equilíbrio facial com naturalidade.',
     emphasis: 'Sem exageros.',
@@ -250,8 +246,6 @@ const serviceSeeds = [
     title: 'Lentes Premium',
     slug: 'lentes-em-porcelana',
     serviceKey: 'lentes-premium',
-    seoTitle: 'Lentes Premium | Dra. Vitória Passos',
-    seoDescription: 'Lentes Premium com Dra. Vitória Passos em São Paulo para transformar o sorriso com planejamento estético, naturalidade e sofisticação.',
     eyebrow: 'LENTES PREMIUM',
     heroTitle: 'Um sorriso mais claro, alinhado e sofisticado.',
     emphasis: 'Planejamento premium.',
@@ -274,8 +268,6 @@ const serviceSeeds = [
     title: 'Lentes em Resina',
     slug: 'lentes-em-resina',
     serviceKey: 'lentes-em-resina',
-    seoTitle: 'Lentes em Resina | Dra. Vitória Passos',
-    seoDescription: 'Lentes em resina com Dra. Vitória Passos para transformar formato, brilho e harmonia do sorriso com resultado natural.',
     eyebrow: 'LENTES EM RESINA',
     heroTitle: 'Transforme seu sorriso com leveza.',
     emphasis: 'Resultado natural.',
@@ -299,8 +291,6 @@ const serviceSeeds = [
     title: 'Preenchimento Labial',
     slug: 'preenchimento-labial',
     serviceKey: 'preenchimento-labial',
-    seoTitle: 'Preenchimento Labial | Dra. Vitória Passos',
-    seoDescription: 'Preenchimento labial com Dra. Vitória Passos para contorno, hidratação e volume com resultado natural.',
     eyebrow: 'PREENCHIMENTO LABIAL',
     heroTitle: 'Lábios com contorno e equilíbrio.',
     emphasis: 'Sem exageros.',
@@ -356,12 +346,6 @@ async function buildDocs() {
       acceptLabel: 'Aceitar',
       rejectLabel: 'Recusar',
     },
-    defaultSeo: {
-      _type: 'seoFields',
-      title: 'Dra. Vitória Passos | Odontologia Estética e Harmonização',
-      description: 'Odontologia estética e harmonização facial com foco em resultado elegante, natural e personalizado.',
-      canonicalPath: '/index.html',
-    },
   })
 
   for (const [id, patientName, quote] of testimonials) {
@@ -399,12 +383,6 @@ async function buildDocs() {
   docs.push({
     _id: 'homePage.main',
     _type: 'homePage',
-    seo: {
-      _type: 'seoFields',
-      title: 'Dra. Vitória Passos | Odontologia Estética e Harmonização',
-      description: 'Dra. Vitória Passos em São Paulo: odontologia estética, lentes, harmonização facial e gengivoplastia.',
-      canonicalPath: '/index.html',
-    },
     hero: {
       title: 'Encontre a transformação ideal para o seu sorriso e para a sua harmonia facial.',
       lead: 'Conheça os principais tratamentos da Dra. Vitória Passos e descubra qual faz mais sentido para o seu objetivo estético.',
@@ -417,11 +395,6 @@ async function buildDocs() {
         'Procedimentos que valorizam sorriso, lábios e harmonia facial',
         'Avaliação cuidadosa para indicar o tratamento ideal',
         'Mais segurança para escolher o procedimento certo para você',
-      ],
-      mobileHighlights: [
-        {_key: 'resultado-natural', title: 'Resultado natural', text: 'Atendimento com foco em elegância e leveza no resultado final.'},
-        {_key: 'plano-personalizado', title: 'Plano personalizado', text: 'Cada indicação considera seu sorriso, seu rosto e seu objetivo estético.'},
-        {_key: 'seguranca', title: 'Escolha com segurança', text: 'A avaliação ajuda a entender qual tratamento realmente faz sentido para você.'},
       ],
     },
     treatmentsSection: {
@@ -486,12 +459,6 @@ async function buildDocs() {
   docs.push({
     _id: 'privacyPolicy.main',
     _type: 'privacyPolicy',
-    seo: {
-      _type: 'seoFields',
-      title: 'Política de Privacidade | Pisom Odontologia',
-      description: 'Política de Privacidade e LGPD da Pisom Odontologia Dra Vitória Passos.',
-      canonicalPath: '/politica-de-privacidade.html',
-    },
     title: 'Política de Privacidade',
     updatedAtLabel: 'Última atualização: 20 de setembro de 2026.',
     intro: 'Esta política explica como a Pisom Odontologia trata dados pessoais em seus canais digitais e de atendimento.',
@@ -531,12 +498,6 @@ async function buildDocs() {
       title: service.title,
       slug: {_type: 'slug', current: service.slug},
       serviceKey: service.serviceKey,
-      seo: {
-        _type: 'seoFields',
-        title: service.seoTitle,
-        description: service.seoDescription,
-        canonicalPath: `/paginas/${service.slug}.html`,
-      },
       hero: {
         eyebrow: service.eyebrow,
         title: service.heroTitle,

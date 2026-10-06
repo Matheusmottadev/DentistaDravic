@@ -10,7 +10,6 @@ import {mythItem} from './objects/mythItem'
 import {navigationItem} from './objects/navigationItem'
 import {processStep} from './objects/processStep'
 import {quizSection} from './objects/quizSection'
-import {seoFields} from './objects/seoFields'
 import {caseStudy} from './documents/caseStudy'
 import {homePage} from './documents/homePage'
 import {privacyPolicy} from './documents/privacyPolicy'
@@ -28,7 +27,6 @@ export const schemaTypes = [
   imageWithAlt,
   externalImage,
   carouselItem,
-  seoFields,
   cta,
   navigationItem,
   faqItem,

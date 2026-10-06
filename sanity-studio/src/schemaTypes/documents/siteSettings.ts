@@ -71,11 +71,6 @@ export const siteSettings = defineType({
         defineField({name: 'rejectLabel', title: 'Botao recusar', type: 'string'}),
       ],
     }),
-    defineField({
-      name: 'defaultSeo',
-      title: 'SEO padrao',
-      type: 'seoFields',
-    }),
   ],
   preview: {
     select: {

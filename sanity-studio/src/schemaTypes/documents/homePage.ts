@@ -6,11 +6,6 @@ export const homePage = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seoFields',
-    }),
-    defineField({
       name: 'hero',
       title: 'Hero',
       type: 'object',
@@ -22,24 +17,9 @@ export const homePage = defineType({
         defineField({name: 'image', title: 'Imagem', type: 'imageWithAlt'}),
         defineField({
           name: 'highlights',
-          title: 'Diferenciais desktop',
+          title: 'Diferenciais',
           type: 'array',
           of: [defineArrayMember({type: 'string'})],
-        }),
-        defineField({
-          name: 'mobileHighlights',
-          title: 'Destaques mobile',
-          type: 'array',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              fields: [
-                defineField({name: 'title', title: 'Titulo', type: 'string'}),
-                defineField({name: 'text', title: 'Texto', type: 'text', rows: 2}),
-              ],
-              preview: {select: {title: 'title', subtitle: 'text'}},
-            }),
-          ],
         }),
       ],
     }),
@@ -71,6 +51,20 @@ export const homePage = defineType({
         defineField({name: 'portrait', title: 'Foto', type: 'imageWithAlt'}),
         defineField({name: 'signature', title: 'Assinatura', type: 'imageWithAlt'}),
         defineField({name: 'credentials', title: 'Credenciais', type: 'array', of: [defineArrayMember({type: 'string'})]}),
+      ],
+    }),
+    defineField({
+      name: 'consultorio',
+      title: 'Consultorio',
+      type: 'object',
+      fields: [
+        defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
+        defineField({name: 'title', title: 'Titulo', type: 'string'}),
+        defineField({name: 'text', title: 'Texto principal', type: 'text', rows: 3}),
+        defineField({name: 'secondaryText', title: 'Texto secundario', type: 'text', rows: 3}),
+        defineField({name: 'tertiaryText', title: 'Texto terciario', type: 'text', rows: 3}),
+        defineField({name: 'videoUrl', title: 'URL do video', type: 'string'}),
+        defineField({name: 'image', title: 'Poster / imagem fallback', type: 'imageWithAlt'}),
       ],
     }),
     defineField({

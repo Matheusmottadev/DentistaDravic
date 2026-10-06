@@ -139,12 +139,14 @@ if (mobileNav) {
 
   const closeMobileNav = () => {
     mobileNav.classList.remove("is-open");
+    document.body.classList.remove("mobile-nav-open");
     toggle?.setAttribute("aria-expanded", "false");
     toggle?.setAttribute("aria-label", "Abrir menu");
   };
 
   const openMobileNav = () => {
     mobileNav.classList.add("is-open");
+    document.body.classList.add("mobile-nav-open");
     toggle?.setAttribute("aria-expanded", "true");
     toggle?.setAttribute("aria-label", "Fechar menu");
   };
@@ -296,7 +298,7 @@ const footerSections = [...document.querySelectorAll("[data-footer-section]")];
 if (footerSections.length) {
   const footerBreakpoint = window.matchMedia("(max-width: 720px)");
 
-  const setFooterSectionState = (section, expanded) => {
+  const setFooterSectionState = (section, expanded, animate = true) => {
     const toggle = section.querySelector(".site-footer__toggle");
     const panel = section.querySelector(".site-footer__panel");
 
@@ -306,7 +308,45 @@ if (footerSections.length) {
 
     section.classList.toggle("is-open", expanded);
     toggle.setAttribute("aria-expanded", String(expanded));
-    panel.hidden = !expanded;
+
+    if (!footerBreakpoint.matches) {
+      panel.hidden = false;
+      panel.classList.remove("is-collapsed");
+      panel.style.maxHeight = "";
+      return;
+    }
+
+    if (!animate) {
+      panel.hidden = !expanded;
+      panel.classList.toggle("is-collapsed", !expanded);
+      panel.style.maxHeight = expanded ? `${panel.scrollHeight}px` : "0px";
+      return;
+    }
+
+    if (expanded) {
+      panel.hidden = false;
+      panel.classList.add("is-collapsed");
+      panel.style.maxHeight = "0px";
+
+      requestAnimationFrame(() => {
+        panel.classList.remove("is-collapsed");
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      });
+      return;
+    }
+
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+
+    requestAnimationFrame(() => {
+      panel.classList.add("is-collapsed");
+      panel.style.maxHeight = "0px";
+    });
+
+    window.setTimeout(() => {
+      if (toggle.getAttribute("aria-expanded") === "false") {
+        panel.hidden = true;
+      }
+    }, 300);
   };
 
   const syncFooterSections = () => {
@@ -321,12 +361,14 @@ if (footerSections.length) {
         const isExpanded =
           section.classList.contains("is-open") &&
           section.querySelector(".site-footer__toggle")?.getAttribute("aria-expanded") === "true";
-        setFooterSectionState(section, isExpanded);
+        setFooterSectionState(section, isExpanded, false);
         return;
       }
 
       section.classList.remove("is-open");
       panel.hidden = false;
+      panel.classList.remove("is-collapsed");
+      panel.style.maxHeight = "";
     });
   };
 
@@ -1309,6 +1351,18 @@ window.addEventListener("scroll", () => {
     }
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileText = document.createElement("div");
+    mobileText.className = "service-fit__halo-mobile-text";
+    mobileText.setAttribute("aria-live", "polite");
+    stage.appendChild(mobileText);
+
+    cards.forEach((card) => {
+      const image = card.dataset.haloImage;
+      if (image) {
+        card.style.setProperty("--halo-card-image", `url("${image}")`);
+      }
+    });
+
     const initialRotation = 0;
     const fullTurn = Math.PI * 2;
     const state = {
@@ -1320,10 +1374,121 @@ window.addEventListener("scroll", () => {
       moved: false,
       pressedCard: null,
       activeImage: "",
+      activeCard: null,
       visiblePreview: imagePreview,
       previewTimer: 0,
       visible: true,
       animationFrame: 0,
+    };
+    const metrics = {
+      width: 0,
+      height: 0,
+      cardWidth: 160,
+      cardHeight: 220,
+      centerX: 0,
+      centerY: 0,
+      radiusX: 0,
+      radiusY: 0,
+      step: fullTurn / cards.length,
+      isNarrow: false,
+    };
+
+    const measureLayout = () => {
+      const rect = stage.getBoundingClientRect();
+      if (rect.width < 40 || rect.height < 40) {
+        return false;
+      }
+
+      metrics.width = rect.width;
+      metrics.height = rect.height;
+      metrics.isNarrow = window.innerWidth <= 900;
+      metrics.cardWidth = cards[0].offsetWidth || 160;
+      metrics.cardHeight = cards[0].offsetHeight || 220;
+      metrics.centerX = metrics.width * (metrics.isNarrow ? -0.22 : 0.26);
+      metrics.centerY = metrics.height * (metrics.isNarrow ? 0.5 : 0.47);
+      metrics.radiusX = metrics.width * (metrics.isNarrow ? 0.44 : 0.18);
+      metrics.radiusY = Math.max(
+        metrics.isNarrow ? 255 : 230,
+        metrics.height * (metrics.isNarrow ? 0.39 : 0.31)
+      );
+      metrics.step = fullTurn / cards.length;
+      return true;
+    };
+
+    const getHaloLightbox = () => {
+      let lightbox = document.querySelector("[data-halo-lightbox]");
+
+      if (lightbox) {
+        return lightbox;
+      }
+
+      lightbox = document.createElement("div");
+      lightbox.className = "halo-lightbox";
+      lightbox.setAttribute("data-halo-lightbox", "");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightbox.innerHTML = `
+        <button class="halo-lightbox__close" type="button" aria-label="Fechar imagem">×</button>
+        <img class="halo-lightbox__image" alt="" />
+      `;
+
+      document.body.appendChild(lightbox);
+
+      const close = () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("halo-lightbox-open");
+      };
+
+      lightbox.querySelector(".halo-lightbox__close")?.addEventListener("click", close);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          close();
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+          close();
+        }
+      });
+
+      return lightbox;
+    };
+
+    const openHaloLightbox = (card) => {
+      const image = card?.dataset.haloImage;
+
+      if (!image) {
+        return;
+      }
+
+      const lightbox = getHaloLightbox();
+      const lightboxImage = lightbox.querySelector(".halo-lightbox__image");
+      const title = card.querySelector("h3")?.textContent?.trim() || "";
+
+      if (lightboxImage) {
+        lightboxImage.src = image;
+        lightboxImage.alt = title;
+      }
+
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.classList.add("halo-lightbox-open");
+    };
+
+    const updateMobileText = (card) => {
+      if (!card) {
+        return;
+      }
+
+      const title = card.querySelector("h3")?.textContent?.trim() || "";
+      const text = card.querySelector("p")?.textContent?.trim() || "";
+      const nextMarkup = `<h3>${title}</h3><p>${text}</p>`;
+
+      if (mobileText.innerHTML === nextMarkup) {
+        return;
+      }
+
+      mobileText.innerHTML = nextMarkup;
     };
 
     const updatePreviewImage = (card) => {
@@ -1363,30 +1528,21 @@ window.addEventListener("scroll", () => {
     };
 
     const layout = () => {
-      const rect = stage.getBoundingClientRect();
-      if (rect.width < 40 || rect.height < 40) {
+      if (!metrics.width && !measureLayout()) {
         return;
       }
 
-      const isNarrow = window.innerWidth <= 900;
-      const cardWidth = cards[0].offsetWidth || 160;
-      const cardHeight = cards[0].offsetHeight || 220;
-      const centerX = rect.width * (isNarrow ? 0.32 : 0.26);
-      const centerY = rect.height * (isNarrow ? 0.47 : 0.47);
-      const radiusX = rect.width * (isNarrow ? 0.3 : 0.18);
-      const radiusY = Math.max(isNarrow ? 180 : 230, rect.height * (isNarrow ? 0.36 : 0.31));
-      const step = (Math.PI * 2) / cards.length;
       let frontCard = cards[0];
       let frontDepth = -1;
 
       cards.forEach((card, index) => {
-        const angle = state.rotation + index * step;
+        const angle = state.rotation + index * metrics.step;
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
         const depth = (cos + 1) / 2;
-        const scale = 0.52 + depth * 0.52;
-        const x = centerX + cos * radiusX - cardWidth / 2;
-        const y = centerY + sin * radiusY - cardHeight / 2;
+        const scale = metrics.isNarrow ? 0.58 + depth * 0.42 : 0.52 + depth * 0.52;
+        const x = metrics.centerX + cos * metrics.radiusX - metrics.cardWidth / 2;
+        const y = metrics.centerY + sin * metrics.radiusY - metrics.cardHeight / 2;
         const opacity = 0.32 + depth * 0.68;
 
         card.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
@@ -1399,7 +1555,15 @@ window.addEventListener("scroll", () => {
         }
       });
 
-      updatePreviewImage(frontCard);
+      if (frontCard !== state.activeCard) {
+        state.activeCard = frontCard;
+
+        if (metrics.isNarrow) {
+          updateMobileText(frontCard);
+        } else {
+          updatePreviewImage(frontCard);
+        }
+      }
     };
 
     const animateReel = (time) => {
@@ -1413,7 +1577,7 @@ window.addEventListener("scroll", () => {
         state.lastStep = time;
       }
 
-      if (!reduceMotion && !state.dragging && time - state.lastStep > 2300) {
+      if (!reduceMotion && !state.dragging && time - state.lastStep > 3300) {
         state.target -= (Math.PI * 2) / cards.length;
         state.lastStep = time;
       }
@@ -1498,6 +1662,11 @@ window.addEventListener("scroll", () => {
         return;
       }
 
+      if (window.innerWidth <= 900 && card.dataset.haloImage) {
+        openHaloLightbox(card);
+        return;
+      }
+
       const index = cards.indexOf(card);
       if (index < 0) {
         return;
@@ -1508,11 +1677,16 @@ window.addEventListener("scroll", () => {
       state.target = baseTarget + Math.round((state.target - baseTarget) / fullTurn) * fullTurn;
       state.lastStep = performance.now();
     });
-    window.addEventListener("resize", () => {
+    const syncMetrics = () => {
+      measureLayout();
+      state.activeCard = null;
       layout();
       startAnimation();
-    });
+    };
 
+    window.addEventListener("resize", syncMetrics);
+
+    measureLayout();
     layout();
 
     if ("IntersectionObserver" in window) {

@@ -12,7 +12,7 @@ export const imageWithAlt = defineType({
       name: 'alt',
       title: 'Texto alternativo',
       type: 'string',
-      description: 'Descricao curta da imagem para acessibilidade e SEO.',
+      description: 'Descricao curta da imagem para acessibilidade.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

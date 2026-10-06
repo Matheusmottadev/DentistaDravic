@@ -16,6 +16,7 @@ const defaultSettings = {
     whatsappMessage: 'Olá, vim do site e gostaria de efetuar um agendamento.',
     address: 'Rua Alm. Brasil, 685 - Mooca, São Paulo',
     postalCode: 'CEP 03162-010',
+    taxId: '61.201.382/0001-06',
   },
   social: {
     instagramUrl: 'https://www.instagram.com/dra.vitoriapassosv/',
@@ -147,6 +148,10 @@ function html(value: unknown) {
     .replace(/'/g, '&#39;');
 }
 
+function safeJson(value: unknown) {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
 function nl2br(value: unknown) {
   return html(value).replace(/\n/g, '<br>');
 }
@@ -183,6 +188,18 @@ function ctaHref(cta: any, settings: any, fallbackHref = '#') {
     if (number) return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
   }
   return fallbackHref;
+}
+
+function renderSiteConfig(settings: any) {
+  const mergedSettings = settingsWithFallback(settings);
+  const config = {
+    contact: mergedSettings.contact,
+    social: mergedSettings.social,
+    navigation: asArray(mergedSettings.navigation, defaultNav),
+    cookieBanner: mergedSettings.cookieBanner,
+  };
+
+  return `<script>window.PISOM_SITE_CONFIG = ${safeJson(config)};</script>`;
 }
 
 function replaceBlock(source: string, pattern: RegExp, replacement: string) {
@@ -239,6 +256,36 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
     next = upsertMeta(next, /<meta name="twitter:card" content="[^"]*"\s*\/>/, '<meta name="twitter:card" content="summary_large_image" />');
   }
 
+  const favicon = imageSrc(mergedSettings.favicon, '', 96);
+  if (favicon) {
+    next = next.replace(/<link rel="icon"[^>]*>/, `<link rel="icon" type="image/svg+xml" href="${html(favicon)}" />`);
+  }
+
+  if (next.includes('"@type": "Dentist"')) {
+    const dentistJson = {
+      '@context': 'https://schema.org',
+      '@type': 'Dentist',
+      name: mergedSettings.brandName || 'Pisom Odontologia',
+      image: ogImage || undefined,
+      email: mergedSettings.contact?.email ? `mailto:${mergedSettings.contact.email}` : undefined,
+      telephone: mergedSettings.contact?.whatsappNumber ? `+${String(mergedSettings.contact.whatsappNumber).replace(/\D/g, '')}` : undefined,
+      taxID: mergedSettings.contact?.taxId || undefined,
+      address: mergedSettings.contact?.address
+        ? {
+            '@type': 'PostalAddress',
+            streetAddress: mergedSettings.contact.address,
+            postalCode: mergedSettings.contact?.postalCode,
+            addressCountry: 'BR',
+          }
+        : undefined,
+      sameAs: mergedSettings.social?.instagramUrl ? [mergedSettings.social.instagramUrl] : undefined,
+    };
+    next = next.replace(
+      /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      `<script type="application/ld+json">${safeJson(dentistJson)}</script>`,
+    );
+  }
+
   return next;
 }
 
@@ -248,7 +295,8 @@ export function renderHeader(settings: any) {
   const logoSrc = imageSrc(mergedSettings.headerLogo, '/assets/images/pisom-header-logo.svg', 320);
   const logoAlt = imageAlt(mergedSettings.headerLogo, `Logo ${mergedSettings.brandName}`);
 
-  return `<header class="site-header" data-mobile-nav>
+  return `${renderSiteConfig(mergedSettings)}
+      <header class="site-header" data-mobile-nav>
         <a class="brand" href="/index.html" aria-label="Ir para a home">
           <img class="brand__logo" src="${html(logoSrc)}" alt="${html(logoAlt)}" width="128" height="96" />
         </a>
@@ -277,31 +325,31 @@ export function renderFooter(settings: any) {
   const footerLogo = imageSrc(mergedSettings.footerLogo, '/assets/images/pison-odontologia-branco-sem-fundo.svg', 360);
   const footerLogoAlt = imageAlt(mergedSettings.footerLogo, `Logo ${mergedSettings.brandName}`);
   const whatsapp = ctaHref({kind: 'whatsapp'}, mergedSettings);
+  const instagramUrl = mergedSettings.social?.instagramUrl || 'https://www.instagram.com/dra.vitoriapassosv/';
+  const addressParts = [
+    mergedSettings.contact?.address,
+    mergedSettings.contact?.postalCode,
+  ].filter(Boolean);
 
   return `<footer class="site-footer site-footer--rich">
         <div class="site-footer__surface">
-          <div class="site-footer__top">
-            <div class="site-footer__intro">
-              <img class="site-footer__logo" loading="lazy" decoding="async" src="${html(footerLogo)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
-              <p>${html(mergedSettings.footerText)}</p>
-            </div>
-
+          <div class="site-footer__accordions">
             <div class="site-footer__column site-footer__accordion" data-footer-section>
               <button class="site-footer__toggle" type="button" aria-expanded="false">
-                <span>Institucional</span>
+                <span>Ajuda</span>
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__links site-footer__panel">
                 <a href="/index.html">Home</a>
-                <a href="/index.html#sobre">Sobre</a>
                 <a href="/index.html#duvidas">Dúvidas</a>
+                <a href="${html(whatsapp)}" data-whatsapp-link>Agendar avaliação</a>
                 <a href="/politica-de-privacidade.html">Política de Privacidade</a>
               </div>
             </div>
 
             <div class="site-footer__column site-footer__accordion" data-footer-section>
               <button class="site-footer__toggle" type="button" aria-expanded="false">
-                <span>Tratamentos</span>
+                <span>Serviços</span>
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__links site-footer__panel">
@@ -311,7 +359,19 @@ export function renderFooter(settings: any) {
 
             <div class="site-footer__column site-footer__accordion" data-footer-section>
               <button class="site-footer__toggle" type="button" aria-expanded="false">
-                <span>Informações</span>
+                <span>Sobre a Clínica</span>
+                <span class="site-footer__chevron" aria-hidden="true"></span>
+              </button>
+              <div class="site-footer__links site-footer__panel">
+                <a href="/index.html#sobre">Sobre a Dra. Vitória</a>
+                <a href="/index.html#consultorio">Consultório</a>
+                <a href="/index.html#avaliacoes">Avaliações</a>
+              </div>
+            </div>
+
+            <div class="site-footer__column site-footer__accordion" data-footer-section>
+              <button class="site-footer__toggle" type="button" aria-expanded="false">
+                <span>Contato</span>
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__stack site-footer__panel">
@@ -321,6 +381,16 @@ export function renderFooter(settings: any) {
                 ${mergedSettings.contact?.postalCode ? `<p>${html(mergedSettings.contact.postalCode)}</p>` : ''}
               </div>
             </div>
+          </div>
+
+          <div class="site-footer__bottom">
+            <nav class="site-footer__legal" aria-label="Links do rodapé">
+              <a href="${html(instagramUrl)}" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="/politica-de-privacidade.html">Condições Legais e Privacidade</a>
+            </nav>
+            <p class="site-footer__country">Brasil</p>
+            ${addressParts.length ? `<p class="site-footer__address">${html(addressParts.join(', '))}</p>` : ''}
+            <img class="site-footer__logo" loading="lazy" decoding="async" src="${html(footerLogo)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
           </div>
         </div>
       </footer>`;
@@ -389,19 +459,18 @@ function renderHomeHero(page: any, settings: any) {
 }
 
 function renderHomeMobileHighlights(page: any) {
-  const items = asArray(page?.hero?.mobileHighlights, [
-    {title: 'Resultado natural', text: 'Atendimento com foco em elegância e leveza no resultado final.'},
-    {title: 'Plano personalizado', text: 'Cada indicação considera seu sorriso, seu rosto e seu objetivo estético.'},
-    {title: 'Escolha com segurança', text: 'A avaliação ajuda a entender qual tratamento realmente faz sentido para você.'},
+  const items = asArray(page?.hero?.highlights, [
+    'Atendimento com foco em resultado elegante e natural',
+    'Planejamento personalizado para cada objetivo estético',
+    'Procedimentos que valorizam sorriso, lábios e harmonia facial',
+    'Avaliação cuidadosa para indicar o tratamento ideal',
+    'Mais segurança para escolher o procedimento certo para você',
   ]);
 
   return `<section class="hero-highlights-mobile" aria-label="Diferenciais principais">
-          <div class="hero-highlights-mobile__inner">
-            ${items.map((item: any) => `<article class="hero-highlight-chip">
-              <strong>${html(item.title)}</strong>
-              <p>${html(item.text)}</p>
-            </article>`).join('\n            ')}
-          </div>
+          <ul class="hero__highlights hero__highlights--mobile hero-highlights-mobile__inner">
+            ${items.map((item: string) => `<li>${html(item)}</li>`).join('\n            ')}
+          </ul>
         </section>`;
 }
 
@@ -476,6 +545,7 @@ function renderOffice(page: any) {
   const poster = imageSrc(office.image, '/assets/images/real/reviews-building.png', 900);
 
   return `<section class="section consultorio-section" id="consultorio">
+          <p class="eyebrow consultorio-section__eyebrow-mobile">${html(office.eyebrow || 'Consultório')}</p>
           <div class="consultorio-section__media">
             <video autoplay muted loop playsinline preload="metadata" poster="${html(poster)}">
               <source src="${html(video)}" type="video/mp4" />
@@ -790,6 +860,81 @@ function renderServiceFaq(items: any[]) {
   </section>`;
 }
 
+function renderProcess(section: any) {
+  const steps = asArray(section?.steps, []);
+  if (section?.enabled === false || !steps.length) return '';
+
+  return `<section class="process section section--beige">
+    <div class="container">
+      <div class="section-label reveal">
+        <span class="line"></span>
+        <span>${html(section?.eyebrow || 'COMO FUNCIONA')}</span>
+      </div>
+      <h2 class="section-title text-center reveal">${nl2br(section?.title || 'Do planejamento ao resultado: cada etapa com cuidado.')}</h2>
+      <div class="process__steps">
+        ${steps.map((step: any, index: number) => `<div class="process-step reveal${index ? ` reveal--delay${Math.min(index, 3)}` : ''}">
+          <div class="step-number">${html(step.number || String(index + 1).padStart(2, '0'))}</div>
+          <div class="step-body">
+            <h3>${html(step.title)}</h3>
+            <p>${html(step.text)}</p>
+          </div>
+        </div>`).join('\n        ')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderQuiz(section: any, settings: any) {
+  if (section?.enabled === false || !section?.steps?.length) return '';
+  const mergedSettings = settingsWithFallback(settings);
+  const cta = section.cta || {label: 'Agendar avaliação', kind: 'whatsapp'};
+  let questionNumber = 0;
+
+  return `<section class="section section--spacious-top section--dark-fade section-fade section--resina-quiz-locked">
+    <div class="reviews-showcase reviews-showcase--service">
+      <div class="reviews-showcase__visual reviews-showcase__visual--cutout">
+        <img loading="lazy" decoding="async" class="reviews-showcase__cutout" src="/assets/images/real/lentes-o-que-muda.png" alt="Sorriso com lentes em resina em recorte lateral" width="437" height="570" />
+      </div>
+
+      <div class="reviews-showcase__content">
+        <div class="section-heading section-heading--reviews">
+          <p class="eyebrow">${html(section.eyebrow || 'Mini quiz')}</p>
+          <h2>${html(section.title || 'A resina combina com você?')}</h2>
+          ${section.description ? `<p>${html(section.description)}</p>` : ''}
+        </div>
+
+        <div class="resina-quiz" data-resina-quiz>
+          <div class="resina-quiz__questions" data-quiz-questions>
+            ${section.steps.map((step: any, stepIndex: number) => `<div class="resina-quiz__step-panel${stepIndex === 0 ? ' is-active' : ''}" data-quiz-step${stepIndex === 0 ? '' : ' hidden'}>
+              ${asArray(step.questions, []).map((question: any) => {
+                questionNumber += 1;
+                return `<div class="resina-quiz__question" data-quiz-question>
+                <strong><span class="resina-quiz__step">${html(String(questionNumber).padStart(2, '0'))}.</span> ${html(question.question)}</strong>
+                <div class="resina-quiz__choices resina-quiz__choices--stack">
+                  ${asArray(question.choices, []).map((choice: string) => `<button class="resina-quiz__choice" type="button" data-quiz-choice data-group="${html(question.group)}">${html(choice)}</button>`).join('\n                  ')}
+                </div>
+              </div>`;
+              }).join('\n\n              ')}
+            </div>`).join('\n\n            ')}
+          </div>
+
+          <div class="resina-quiz__result" data-quiz-result hidden>
+            <strong data-quiz-title>${html(section.initialResultTitle || 'Responda às etapas.')}</strong>
+            <p data-quiz-body>${html(section.initialResultText || 'No final, você recebe uma resposta rápida e direta.')}</p>
+            <a class="resina-quiz__result-cta" href="${html(ctaHref(cta, mergedSettings))}" data-whatsapp-link>${html(cta.label || 'Agendar avaliação')}</a>
+          </div>
+
+          <div class="resina-quiz__actions" data-quiz-actions>
+            <button class="resina-quiz__nav resina-quiz__nav--ghost" type="button" data-quiz-prev hidden>Voltar</button>
+            <button class="resina-quiz__nav" type="button" data-quiz-next disabled>Continuar</button>
+            <button class="resina-quiz__nav" type="button" data-quiz-finish hidden disabled>Concluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
 function renderFinalCta(section: any, settings: any) {
   if (section?.enabled === false) return '';
   const mergedSettings = settingsWithFallback(settings);
@@ -811,19 +956,21 @@ function renderFinalCta(section: any, settings: any) {
   </section>`;
 }
 
-function renderServiceTransformations(section: any, cases: any[]) {
+function renderServiceTransformations(page: any, cases: any[]) {
+  const section = page?.transformationsSection;
   if (section?.enabled === false) return '';
   const cards = asArray(section?.items, asArray(section?.cases, cases));
   if (!cards?.length) return '';
+  const serviceKey = page?.serviceKey || 'service';
 
-  return `<section id="tratamentos-servico" class="section treatments-showcase treatments-showcase--service" data-treatment-carousel="service">
+  return `<section id="tratamentos-${html(serviceKey)}" class="section treatments-showcase treatments-showcase--${html(serviceKey)}" data-treatment-carousel="${html(serviceKey)}">
           <div class="section-heading">
             <p class="eyebrow">${html(section?.eyebrow || 'Tratamentos')}</p>
             <h2 class="section-heading__title--wide">${html(section?.title || 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.')}</h2>
             ${section?.text ? `<p>${html(section.text)}</p>` : ''}
           </div>
 
-          <div class="transformations-marquee transformations-marquee--service" aria-label="Galeria de transformações">
+          <div class="transformations-marquee transformations-marquee--${html(serviceKey)}" aria-label="Galeria de transformações">
             <div class="transformations-marquee__track">
               ${renderTransformationCards(cards)}
             </div>
@@ -846,7 +993,7 @@ export function renderServiceContent(fallbackContent: string, data: any) {
   }
 
   if (page.transformationsSection || data?.transformationCases?.length) {
-    content = replaceBlock(content, /<section id="tratamentos-servico"[\s\S]*?<\/section>/, renderServiceTransformations(page.transformationsSection, data?.transformationCases));
+    content = replaceBlock(content, /<section id="tratamentos-[^"]*" class="section treatments-showcase[\s\S]*?<\/section>/, renderServiceTransformations(page, data?.transformationCases));
   }
 
   if (page.infoCards?.length && page.serviceKey !== 'lentes-em-resina') {
@@ -861,8 +1008,20 @@ export function renderServiceContent(fallbackContent: string, data: any) {
     content = replaceExactClassSection(content, 'myths section', renderMyths(page.mythsSection));
   }
 
+  if (page.processSection?.enabled !== false && page.processSection?.steps?.length) {
+    content = replaceBlock(content, /<section class="process section[\s\S]*?<\/section>/, renderProcess(page.processSection));
+  }
+
+  if (page.quiz?.steps?.length) {
+    content = replaceBlock(content, /<section class="section section--spacious-top section--dark-fade section-fade section--resina-quiz-locked"[\s\S]*?<\/section>/, renderQuiz(page.quiz, settings));
+  }
+
   if (page.faq?.length) {
-    content = replaceExactClassSection(content, 'faq section', renderServiceFaq(page.faq));
+    content = replaceBlock(
+      content,
+      /<section class="faq section"[\s\S]*?<\/section>|<section class="section">\s*<div class="section-heading">[\s\S]*?<div class="faq-list[\s\S]*?<\/section>/,
+      renderServiceFaq(page.faq),
+    );
   }
 
   if (page.finalCta) {

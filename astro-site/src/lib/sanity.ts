@@ -100,6 +100,7 @@ export async function getHomeData() {
           items[] {${carouselItemFields}}
         },
         about {..., portrait {${imageFields}}, signature {${imageFields}}},
+        consultorio {..., image {${imageFields}}},
         reviews {
           ...,
           buildingImage {${imageFields}},

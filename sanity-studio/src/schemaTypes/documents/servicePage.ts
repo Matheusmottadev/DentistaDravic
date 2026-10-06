@@ -34,11 +34,6 @@ export const servicePage = defineType({
       },
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'seoFields',
-    }),
-    defineField({
       name: 'hero',
       title: 'Hero',
       type: 'object',
