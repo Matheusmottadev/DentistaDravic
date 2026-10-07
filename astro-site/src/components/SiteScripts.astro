@@ -761,6 +761,10 @@ window.addEventListener("scroll", () => {
   });
 
   document.querySelectorAll(".faq__grid").forEach((grid) => {
+    if (window.matchMedia("(max-width: 1024px)").matches) {
+      return;
+    }
+
     if (grid.querySelector(".faq__column")) {
       return;
     }
@@ -1106,6 +1110,10 @@ window.addEventListener("scroll", () => {
   initSlider("slider3", "before3", "handle3");
 
   function initMobileCarousel(carousel) {
+    if (carousel.closest(".myths")) {
+      return;
+    }
+
     const track = carousel.querySelector("[data-carousel-track]");
     const dotsContainer = carousel.querySelector("[data-carousel-dots]");
     const slides = Array.from(track?.children || []).filter(
@@ -1389,6 +1397,7 @@ window.addEventListener("scroll", () => {
       activeCard: null,
       visiblePreview: imagePreview,
       previewTimer: 0,
+      mobileTextTimer: 0,
       visible: true,
       animationFrame: 0,
     };
@@ -1411,17 +1420,27 @@ window.addEventListener("scroll", () => {
         return false;
       }
 
+      const reelStyle = getComputedStyle(reel);
+      const readNumber = (property, fallback) => {
+        const value = Number.parseFloat(reelStyle.getPropertyValue(property));
+        return Number.isFinite(value) ? value : fallback;
+      };
+      const mobileCenterXFactor = readNumber("--halo-mobile-center-x-factor", -0.22);
+      const mobileRadiusXFactor = readNumber("--halo-mobile-radius-x-factor", 0.44);
+      const mobileRadiusYMin = readNumber("--halo-mobile-radius-y-min", 255);
+      const mobileRadiusYFactor = readNumber("--halo-mobile-radius-y-factor", 0.39);
+
       metrics.width = rect.width;
       metrics.height = rect.height;
       metrics.isNarrow = window.innerWidth <= 900;
       metrics.cardWidth = cards[0].offsetWidth || 160;
       metrics.cardHeight = cards[0].offsetHeight || 220;
-      metrics.centerX = metrics.width * (metrics.isNarrow ? -0.22 : 0.26);
+      metrics.centerX = metrics.width * (metrics.isNarrow ? mobileCenterXFactor : 0.26);
       metrics.centerY = metrics.height * (metrics.isNarrow ? 0.5 : 0.47);
-      metrics.radiusX = metrics.width * (metrics.isNarrow ? 0.44 : 0.18);
+      metrics.radiusX = metrics.width * (metrics.isNarrow ? mobileRadiusXFactor : 0.18);
       metrics.radiusY = Math.max(
-        metrics.isNarrow ? 255 : 230,
-        metrics.height * (metrics.isNarrow ? 0.39 : 0.31)
+        metrics.isNarrow ? mobileRadiusYMin : 230,
+        metrics.height * (metrics.isNarrow ? mobileRadiusYFactor : 0.31)
       );
       metrics.step = fullTurn / cards.length;
       return true;
@@ -1496,11 +1515,30 @@ window.addEventListener("scroll", () => {
       const text = card.querySelector("p")?.textContent?.trim() || "";
       const nextMarkup = `<h3>${title}</h3><p>${text}</p>`;
 
-      if (mobileText.innerHTML === nextMarkup) {
+      if (mobileText.dataset.currentMarkup === nextMarkup) {
         return;
       }
 
-      mobileText.innerHTML = nextMarkup;
+      window.clearTimeout(state.mobileTextTimer);
+
+      const commitText = () => {
+        mobileText.innerHTML = nextMarkup;
+        mobileText.dataset.currentMarkup = nextMarkup;
+        mobileText.classList.remove("is-changing");
+        mobileText.classList.add("is-entering");
+
+        state.mobileTextTimer = window.setTimeout(() => {
+          mobileText.classList.remove("is-entering");
+        }, 360);
+      };
+
+      if (reduceMotion || !mobileText.dataset.currentMarkup) {
+        commitText();
+        return;
+      }
+
+      mobileText.classList.add("is-changing");
+      state.mobileTextTimer = window.setTimeout(commitText, 170);
     };
 
     const updatePreviewImage = (card) => {

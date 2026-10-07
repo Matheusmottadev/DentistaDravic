@@ -749,6 +749,10 @@ window.addEventListener("scroll", () => {
   });
 
   document.querySelectorAll(".faq__grid").forEach((grid) => {
+    if (window.matchMedia("(max-width: 1024px)").matches) {
+      return;
+    }
+
     if (grid.querySelector(".faq__column")) {
       return;
     }
@@ -1399,17 +1403,27 @@ window.addEventListener("scroll", () => {
         return false;
       }
 
+      const reelStyle = getComputedStyle(reel);
+      const readNumber = (property, fallback) => {
+        const value = Number.parseFloat(reelStyle.getPropertyValue(property));
+        return Number.isFinite(value) ? value : fallback;
+      };
+      const mobileCenterXFactor = readNumber("--halo-mobile-center-x-factor", -0.22);
+      const mobileRadiusXFactor = readNumber("--halo-mobile-radius-x-factor", 0.44);
+      const mobileRadiusYMin = readNumber("--halo-mobile-radius-y-min", 255);
+      const mobileRadiusYFactor = readNumber("--halo-mobile-radius-y-factor", 0.39);
+
       metrics.width = rect.width;
       metrics.height = rect.height;
       metrics.isNarrow = window.innerWidth <= 900;
       metrics.cardWidth = cards[0].offsetWidth || 160;
       metrics.cardHeight = cards[0].offsetHeight || 220;
-      metrics.centerX = metrics.width * (metrics.isNarrow ? -0.22 : 0.26);
+      metrics.centerX = metrics.width * (metrics.isNarrow ? mobileCenterXFactor : 0.26);
       metrics.centerY = metrics.height * (metrics.isNarrow ? 0.5 : 0.47);
-      metrics.radiusX = metrics.width * (metrics.isNarrow ? 0.44 : 0.18);
+      metrics.radiusX = metrics.width * (metrics.isNarrow ? mobileRadiusXFactor : 0.18);
       metrics.radiusY = Math.max(
-        metrics.isNarrow ? 255 : 230,
-        metrics.height * (metrics.isNarrow ? 0.39 : 0.31)
+        metrics.isNarrow ? mobileRadiusYMin : 230,
+        metrics.height * (metrics.isNarrow ? mobileRadiusYFactor : 0.31)
       );
       metrics.step = fullTurn / cards.length;
       return true;
