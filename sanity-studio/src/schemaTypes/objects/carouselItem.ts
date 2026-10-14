@@ -28,6 +28,7 @@ export const carouselItem = defineType({
       title: 'Link ao clicar',
       type: 'string',
       description: 'Exemplo: /paginas/lentes-em-resina.html. Deixe vazio se o card nao precisar abrir outra pagina.',
+      hidden: true,
     }),
     defineField({
       name: 'hint',

@@ -11,6 +11,7 @@ import {navigationItem} from './objects/navigationItem'
 import {processStep} from './objects/processStep'
 import {quizSection} from './objects/quizSection'
 import {caseStudy} from './documents/caseStudy'
+import {footerSettings} from './documents/footerSettings'
 import {homePage} from './documents/homePage'
 import {privacyPolicy} from './documents/privacyPolicy'
 import {servicePage} from './documents/servicePage'
@@ -19,6 +20,7 @@ import {testimonial} from './documents/testimonial'
 
 export const schemaTypes = [
   siteSettings,
+  footerSettings,
   homePage,
   servicePage,
   privacyPolicy,

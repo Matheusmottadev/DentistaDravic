@@ -34,6 +34,7 @@ export const areaCard = defineType({
       title: 'Imagem externa atual',
       type: 'externalImage',
       description: 'Use apenas enquanto a imagem ainda nao foi enviada para o Sanity.',
+      hidden: true,
     }),
   ],
   preview: {

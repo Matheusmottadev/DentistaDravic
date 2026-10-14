@@ -74,6 +74,10 @@ const carouselItemFields = `
   image {${imageFields}}
 `;
 
+const footerFields = `
+  ...
+`;
+
 const testimonialFields = `
   patientName,
   quote,
@@ -90,6 +94,9 @@ export async function getHomeData() {
         footerLogo {${imageFields}},
         favicon {${imageFields}},
         defaultSeo {${seoFields}}
+      },
+      "footer": *[_type == "footerSettings"][0]{
+        ${footerFields}
       },
       "page": *[_type == "homePage"][0]{
         ...,
@@ -133,6 +140,9 @@ export async function getServiceData(slug: string) {
         footerLogo {${imageFields}},
         favicon {${imageFields}},
         defaultSeo {${seoFields}}
+      },
+      "footer": *[_type == "footerSettings"][0]{
+        ${footerFields}
       },
       "page": *[_type == "servicePage" && slug.current == $slug][0]{
         ...,
@@ -178,6 +188,9 @@ export async function getPrivacyPolicyData() {
         footerLogo {${imageFields}},
         favicon {${imageFields}},
         defaultSeo {${seoFields}}
+      },
+      "footer": *[_type == "footerSettings"][0]{
+        ${footerFields}
       },
       "page": *[_type == "privacyPolicy"][0]{
         ...,

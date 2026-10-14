@@ -15,22 +15,26 @@ export const siteSettings = defineType({
       name: 'headerLogo',
       title: 'Logo do header',
       type: 'imageWithAlt',
+      hidden: true,
     }),
     defineField({
       name: 'footerLogo',
       title: 'Logo do footer',
       type: 'imageWithAlt',
+      hidden: true,
     }),
     defineField({
       name: 'favicon',
       title: 'Favicon',
       type: 'imageWithAlt',
+      hidden: true,
     }),
     defineField({
       name: 'navigation',
       title: 'Menu principal',
       type: 'array',
       of: [defineArrayMember({type: 'navigationItem'})],
+      validation: (Rule) => Rule.max(4).error('Use no máximo 4 itens no menu principal para não quebrar o header.'),
     }),
     defineField({
       name: 'contact',
@@ -42,7 +46,7 @@ export const siteSettings = defineType({
         defineField({name: 'whatsappMessage', title: 'Mensagem padrao do WhatsApp', type: 'text', rows: 2}),
         defineField({name: 'address', title: 'Endereco', type: 'string'}),
         defineField({name: 'postalCode', title: 'CEP', type: 'string'}),
-        defineField({name: 'taxId', title: 'CNPJ', type: 'string'}),
+        defineField({name: 'taxId', title: 'CNPJ', type: 'string', hidden: true}),
       ],
     }),
     defineField({

@@ -10,6 +10,7 @@ export const processStep = defineType({
       title: 'Numero',
       type: 'string',
       description: 'Exemplo: 01',
+      hidden: true,
     }),
     defineField({
       name: 'title',

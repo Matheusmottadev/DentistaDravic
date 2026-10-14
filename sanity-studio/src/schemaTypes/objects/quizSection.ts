@@ -31,6 +31,7 @@ export const quizSection = defineType({
       name: 'steps',
       title: 'Etapas de perguntas',
       type: 'array',
+      validation: (Rule) => Rule.max(3).error('Use no máximo 3 etapas para o quiz caber bem no desktop e no mobile.'),
       of: [
         defineArrayMember({
           type: 'object',
@@ -41,7 +42,7 @@ export const quizSection = defineType({
               name: 'questions',
               title: 'Perguntas',
               type: 'array',
-              validation: (Rule) => Rule.required().min(1),
+              validation: (Rule) => Rule.required().min(1).max(3).error('Use no máximo 3 perguntas por etapa para não deixar o quiz longo demais.'),
               of: [
                 defineArrayMember({
                   type: 'object',
@@ -65,7 +66,7 @@ export const quizSection = defineType({
                       name: 'choices',
                       title: 'Opcoes',
                       type: 'array',
-                      validation: (Rule) => Rule.required().min(2),
+                      validation: (Rule) => Rule.required().min(2).max(4).error('Use entre 2 e 4 opções por pergunta.'),
                       of: [defineArrayMember({type: 'string'})],
                     }),
                   ],

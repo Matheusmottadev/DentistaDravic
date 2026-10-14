@@ -9,12 +9,14 @@ export const servicePage = defineType({
       name: 'title',
       title: 'Nome interno',
       type: 'string',
+      hidden: true,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug / URL',
       type: 'slug',
+      hidden: true,
       options: {source: 'title'},
       validation: (Rule) => Rule.required(),
     }),
@@ -22,6 +24,7 @@ export const servicePage = defineType({
       name: 'serviceKey',
       title: 'Tratamento',
       type: 'string',
+      hidden: true,
       validation: (Rule) => Rule.required(),
       options: {
         list: [
@@ -43,9 +46,15 @@ export const servicePage = defineType({
         defineField({name: 'emphasis', title: 'Trecho em destaque/italico', type: 'string'}),
         defineField({name: 'description', title: 'Descricao', type: 'text', rows: 3}),
         defineField({name: 'cta', title: 'CTA', type: 'cta'}),
-        defineField({name: 'image', title: 'Imagem no Sanity', type: 'imageWithAlt'}),
-        defineField({name: 'externalImage', title: 'Imagem externa atual', type: 'externalImage'}),
-        defineField({name: 'tags', title: 'Tags do hero', type: 'array', of: [defineArrayMember({type: 'string'})]}),
+        defineField({name: 'image', title: 'Imagem no Sanity', type: 'imageWithAlt', hidden: true}),
+        defineField({name: 'externalImage', title: 'Imagem externa atual', type: 'externalImage', hidden: true}),
+        defineField({
+          name: 'tags',
+          title: 'Tags do hero',
+          type: 'array',
+          of: [defineArrayMember({type: 'string'})],
+          validation: (Rule) => Rule.max(4).error('Use no máximo 4 tags para o hero não ficar apertado.'),
+        }),
         defineField({
           name: 'badge',
           title: 'Selo sobre a imagem',
@@ -72,6 +81,7 @@ export const servicePage = defineType({
           type: 'array',
           description: 'Lista independente desta pagina/aba. Altere aqui as imagens, textos e links exibidos neste carrossel.',
           of: [defineArrayMember({type: 'carouselItem'})],
+          validation: (Rule) => Rule.max(12).error('Use no máximo 12 itens para o carrossel manter boa performance.'),
         }),
         defineField({
           name: 'cases',
@@ -88,16 +98,24 @@ export const servicePage = defineType({
       title: 'Cards de informacao / beneficios',
       type: 'array',
       of: [defineArrayMember({type: 'infoCard'})],
+      validation: (Rule) => Rule.max(6).error('Use no máximo 6 cards para preservar a grade no desktop e no mobile.'),
     }),
     defineField({
       name: 'areasSection',
       title: 'Areas, indicacoes ou opcoes',
       type: 'object',
+      hidden: true,
       fields: [
         defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: true}),
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
         defineField({name: 'title', title: 'Titulo', type: 'string'}),
-        defineField({name: 'cards', title: 'Cards', type: 'array', of: [defineArrayMember({type: 'areaCard'})]}),
+        defineField({
+          name: 'cards',
+          title: 'Cards',
+          type: 'array',
+          of: [defineArrayMember({type: 'areaCard'})],
+          validation: (Rule) => Rule.max(4).error('Use no máximo 4 cards nesta seção.'),
+        }),
       ],
     }),
     defineField({
@@ -110,11 +128,18 @@ export const servicePage = defineType({
       name: 'mythsSection',
       title: 'Mitos e verdades',
       type: 'object',
+      hidden: ({document}) => document?.mythsSection?.enabled !== true,
       fields: [
         defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: true}),
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
         defineField({name: 'title', title: 'Titulo', type: 'string'}),
-        defineField({name: 'items', title: 'Itens', type: 'array', of: [defineArrayMember({type: 'mythItem'})]}),
+        defineField({
+          name: 'items',
+          title: 'Itens',
+          type: 'array',
+          of: [defineArrayMember({type: 'mythItem'})],
+          validation: (Rule) => Rule.max(6).error('Use no máximo 6 cards de mitos e verdades.'),
+        }),
       ],
     }),
     defineField({
@@ -122,11 +147,18 @@ export const servicePage = defineType({
       title: 'Processo / Como funciona',
       type: 'object',
       description: 'Usado hoje em harmonizacao facial. Algumas paginas tiveram esse bloco removido.',
+      hidden: ({document}) => document?.serviceKey !== 'harmonizacao-facial' && document?.processSection?.enabled !== true,
       fields: [
         defineField({name: 'enabled', title: 'Exibir secao', type: 'boolean', initialValue: false}),
         defineField({name: 'eyebrow', title: 'Rotulo', type: 'string'}),
         defineField({name: 'title', title: 'Titulo', type: 'string'}),
-        defineField({name: 'steps', title: 'Etapas', type: 'array', of: [defineArrayMember({type: 'processStep'})]}),
+        defineField({
+          name: 'steps',
+          title: 'Etapas',
+          type: 'array',
+          of: [defineArrayMember({type: 'processStep'})],
+          validation: (Rule) => Rule.max(4).error('Use no máximo 4 etapas para manter a grade responsiva.'),
+        }),
       ],
     }),
     defineField({
@@ -134,6 +166,7 @@ export const servicePage = defineType({
       title: 'FAQ',
       type: 'array',
       of: [defineArrayMember({type: 'faqItem'})],
+      validation: (Rule) => Rule.max(6).error('Use no máximo 6 perguntas nesta página de serviço.'),
     }),
     defineField({
       name: 'finalCta',

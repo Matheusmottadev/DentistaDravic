@@ -23,6 +23,36 @@ const defaultSettings = {
   },
 };
 
+const headerLogoSrc = '/assets/images/pisom-header-logo.svg';
+const footerLogoSrc = '/assets/images/pison-odontologia-branco-sem-fundo.svg';
+
+const serviceHeroImages: Record<string, {src: string; alt: string}> = {
+  'lentes-em-resina': {
+    src: '/assets/images/real/lentes-tradicionais-hero.webp',
+    alt: 'Antes e depois de Lentes Tradicionais',
+  },
+  'lentes-premium': {
+    src: '/assets/images/real/lentes-premium-hero.webp',
+    alt: 'Antes e depois de Lentes Premium',
+  },
+  'lentes-em-porcelana': {
+    src: '/assets/images/real/lentes-premium-hero.webp',
+    alt: 'Antes e depois de Lentes Premium',
+  },
+  'preenchimento-labial': {
+    src: '/assets/images/real/preenchimento-labial-hero.webp',
+    alt: 'Antes e depois de preenchimento labial',
+  },
+  gengivoplastia: {
+    src: '/assets/images/real/hero-gengi.webp',
+    alt: 'Caso de gengivoplastia com antes e depois',
+  },
+  'harmonizacao-facial': {
+    src: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=700&q=80',
+    alt: 'Harmonização Facial',
+  },
+};
+
 const defaultCases = [
   {
     title: 'Preenchimento Labial',
@@ -139,6 +169,246 @@ const defaultHomeFaq = [
   },
 ];
 
+const defaultServiceFaqs: Record<string, Array<{question: string; answer: string}>> = {
+  'lentes-em-resina': [
+    {
+      question: 'As lentes em resina desgastam muito os dentes?',
+      answer: 'Em muitos casos, o desgaste é mínimo ou até dispensável. Isso sempre depende da condição inicial do sorriso e do planejamento estético proposto.',
+    },
+    {
+      question: 'As lentes em resina ficam com aspecto artificial?',
+      answer: 'Quando o caso é bem conduzido, a proposta é justamente o contrário: deixar o sorriso mais bonito e mais harmônico sem perder naturalidade.',
+    },
+    {
+      question: 'Quanto tempo dura o procedimento completo?',
+      answer: 'Em comparação com outras abordagens, a resina costuma permitir um processo mais ágil. O número de sessões varia conforme a extensão do caso e o refinamento necessário.',
+    },
+    {
+      question: 'É possível corrigir dentes pequenos, manchados ou desalinhados?',
+      answer: 'Sim. A resina pode ser indicada para corrigir formato, pequenas assimetrias, manchas e desalinhamentos visuais que incomodam no sorriso.',
+    },
+    {
+      question: 'Preciso de algum cuidado especial com as lentes?',
+      answer: 'A higiene continua essencial, e bons hábitos ajudam a preservar brilho e integridade. Revisões periódicas fazem parte da manutenção do resultado.',
+    },
+    {
+      question: 'Lentes em resina podem ser combinadas com outros tratamentos?',
+      answer: 'Sim. Dependendo do caso, ajustes gengivais, clareamento de dentes posteriores ou outros procedimentos podem complementar o resultado final.',
+    },
+    {
+      question: 'A cor das lentes em resina pode ser escolhida?',
+      answer: 'Sim. A cor é definida no planejamento, considerando seu sorriso, tom de pele, expectativa estética e o quanto o resultado deve parecer natural.',
+    },
+    {
+      question: 'As lentes em resina mancham com o tempo?',
+      answer: 'A resina pode sofrer alteração de brilho ou cor com hábitos como café, vinho, cigarro e falta de manutenção. Por isso, cuidados e revisões ajudam a preservar o acabamento.',
+    },
+  ],
+  'lentes-premium': [
+    {
+      question: 'Qual a diferença entre resina e Lentes Premium?',
+      answer: 'A resina é aplicada diretamente no consultório e costuma ter custo menor. As Lentes Premium são planejadas com acabamento mais refinado, maior estabilidade estética e alta durabilidade.',
+    },
+    {
+      question: 'Quanto tempo dura o procedimento completo?',
+      answer: 'O tempo varia conforme o caso, mas geralmente envolve uma avaliação, planejamento, preparo quando necessário e a etapa final de instalação ou acabamento.',
+    },
+    {
+      question: 'Preciso de algum cuidado especial com as lentes?',
+      answer: 'A higiene é semelhante à dos dentes naturais. Também é importante evitar morder objetos duros com os dentes da frente e manter revisões periódicas.',
+    },
+    {
+      question: 'As lentes machucam ou danificam os dentes?',
+      answer: 'Quando bem indicadas e planejadas, as lentes são feitas com cuidado para preservar estrutura dental sempre que possível e entregar um resultado seguro.',
+    },
+    {
+      question: 'Como é feita a simulação do sorriso?',
+      answer: 'A simulação considera fotos, proporção facial, linha do sorriso e expectativa da paciente para visualizar melhor a proposta antes da execução.',
+    },
+    {
+      question: 'Posso combinar lentes com outros tratamentos?',
+      answer: 'Sim. Clareamento, gengivoplastia ou outros procedimentos podem ser indicados para deixar o resultado mais harmônico e completo.',
+    },
+    {
+      question: 'As Lentes Premium ficam muito brancas?',
+      answer: 'Não precisam ficar. A cor é escolhida de acordo com o planejamento, podendo ser mais natural, mais clara ou mais marcante conforme o objetivo e a harmonia do rosto.',
+    },
+    {
+      question: 'Para quem as Lentes Premium são indicadas?',
+      answer: 'Elas costumam fazer sentido para quem busca uma mudança mais refinada de cor, forma, proporção e acabamento, com maior previsibilidade estética.',
+    },
+  ],
+  'lentes-em-porcelana': [],
+  'preenchimento-labial': [
+    {
+      question: 'O preenchimento labial sempre aumenta muito os lábios?',
+      answer: 'Não. O procedimento pode ser feito de forma sutil, com foco em contorno, hidratação, simetria e proporção.',
+    },
+    {
+      question: 'O resultado do preenchimento labial é imediato?',
+      answer: 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação.',
+    },
+    {
+      question: 'Quanto tempo dura o preenchimento labial?',
+      answer: 'A duração varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+    },
+    {
+      question: 'É possível corrigir assimetria labial com preenchimento?',
+      answer: 'Sim. O preenchimento pode ajudar a equilibrar contornos e volumes, sempre respeitando a anatomia natural dos lábios.',
+    },
+    {
+      question: 'Preenchimento labial pode focar mais em contorno do que em volume?',
+      answer: 'Sim. Nem todo tratamento busca aumento evidente; muitas vezes o objetivo principal é definir contorno e melhorar a proporção.',
+    },
+    {
+      question: 'Os lábios podem continuar com aparência natural?',
+      answer: 'Sim. Quando o planejamento respeita o formato do rosto e a anatomia labial, o resultado tende a ficar delicado e coerente.',
+    },
+    {
+      question: 'Quem tem lábios finos pode buscar um resultado discreto?',
+      answer: 'Pode. O procedimento pode ser conduzido com suavidade, valorizando hidratação, desenho e equilíbrio sem exagerar no volume.',
+    },
+    {
+      question: 'Preenchimento labial combina com lentes em resina?',
+      answer: 'Sim. Em alguns casos, ele complementa tanto o sorriso quanto a leitura facial, deixando o conjunto mais harmônico.',
+    },
+  ],
+  gengivoplastia: [
+    {
+      question: 'A gengivoplastia dói?',
+      answer: 'O procedimento é feito com anestesia local e foco em conforto. É comum haver sensibilidade leve no período inicial, seguindo as orientações pós-procedimento.',
+    },
+    {
+      question: 'Quando a gengivoplastia é indicada?',
+      answer: 'Ela pode ser indicada quando há excesso de gengiva aparente, contorno irregular ou desejo de deixar o sorriso mais proporcional.',
+    },
+    {
+      question: 'O resultado aparece na hora?',
+      answer: 'A mudança no contorno já pode ser percebida, mas o aspecto final depende da cicatrização e da acomodação dos tecidos.',
+    },
+    {
+      question: 'Quanto tempo leva para cicatrizar?',
+      answer: 'A recuperação varia conforme o caso, mas os primeiros cuidados costumam se concentrar nos dias iniciais. A Dra. Vitória orienta cada etapa.',
+    },
+    {
+      question: 'A gengiva pode voltar ao formato antigo?',
+      answer: 'Quando bem indicada e executada, a tendência é o contorno permanecer estável. Cada caso precisa ser avaliado individualmente.',
+    },
+    {
+      question: 'Gengivoplastia combina com lentes?',
+      answer: 'Sim. Em muitos casos, o contorno gengival é planejado junto com lentes para melhorar proporção, simetria e harmonia do sorriso.',
+    },
+    {
+      question: 'Preciso me afastar da rotina depois do procedimento?',
+      answer: 'Na maioria dos casos, o retorno à rotina é rápido, com alguns cuidados específicos de alimentação, higiene e esforço físico conforme orientação.',
+    },
+    {
+      question: 'A gengivoplastia muda o tamanho dos dentes?',
+      answer: 'Ela não muda o dente em si, mas pode revelar melhor a proporção dental ao ajustar o excesso ou irregularidade da gengiva.',
+    },
+  ],
+};
+
+defaultServiceFaqs['lentes-em-porcelana'] = defaultServiceFaqs['lentes-premium'];
+
+const defaultServiceMyths: Record<string, Array<{kind: string; title: string; text: string}>> = {
+  'preenchimento-labial': [
+    {
+      kind: 'mito',
+      title: '"Preenchimento sempre fica exagerado"',
+      text: 'O resultado pode ser discreto e elegante quando o plano respeita anatomia, proporção e objetivo da paciente.',
+    },
+    {
+      kind: 'verdade',
+      title: '"Dá para priorizar contorno"',
+      text: 'Nem todo caso precisa de muito volume. Muitas vezes o foco é desenho, definição e acabamento.',
+    },
+    {
+      kind: 'mito',
+      title: '"Todo mundo deve usar a mesma quantidade"',
+      text: 'A quantidade varia conforme anatomia, expectativa, proporção facial e resposta individual do tecido.',
+    },
+    {
+      kind: 'verdade',
+      title: '"A acomodação muda o resultado inicial"',
+      text: 'Nos primeiros dias pode haver inchaço. O acabamento fica mais fiel depois da fase inicial de adaptação.',
+    },
+    {
+      kind: 'mito',
+      title: '"Depois que faz, precisa manter para sempre"',
+      text: 'Não existe obrigação de manutenção contínua. A decisão de retocar depende do desejo da paciente, da duração do resultado e da avaliação profissional.',
+    },
+    {
+      kind: 'verdade',
+      title: '"A quantidade ideal varia em cada rosto"',
+      text: 'O volume e a técnica são definidos de forma individual, considerando anatomia, contorno, simetria e o efeito natural desejado.',
+    },
+  ],
+  'lentes-em-resina': [
+    {kind: 'mito', title: '"Lentes em resina sempre ficam artificiais"', text: 'Quando o planejamento respeita proporção, cor e expressão facial, a resina pode entregar um resultado leve e coerente.'},
+    {kind: 'verdade', title: '"A naturalidade depende do planejamento"', text: 'O que deixa o sorriso bonito é acertar forma, bordas, volume e leitura estética do conjunto.'},
+    {kind: 'mito', title: '"A resina serve só para clarear"', text: 'Ela também pode reorganizar formato, corrigir pequenas assimetrias e melhorar a proporção aparente do sorriso.'},
+    {kind: 'verdade', title: '"Cada caso pede um limite diferente"', text: 'Nem todo sorriso combina com o mesmo volume, cor ou desenho. A individualização é parte central do resultado.'},
+    {kind: 'mito', title: '"Resultado delicado não combina com resina"', text: 'Em muitos casos, ela é escolhida justamente por permitir refinamento elegante e leitura mais leve.'},
+    {kind: 'verdade', title: '"A avaliação define se faz sentido"', text: 'Mais importante do que gostar do procedimento é entender se ele é o melhor caminho para sua estrutura dental.'},
+  ],
+  'lentes-premium': [
+    {kind: 'mito', title: '"Lentes Premium sempre ficam marcadas"', text: 'Com planejamento de cor, textura e formato, o resultado pode ficar sofisticado sem perder naturalidade.'},
+    {kind: 'verdade', title: '"O planejamento aumenta a previsibilidade"', text: 'A análise do sorriso antes da execução ajuda a alinhar expectativa, proporção e acabamento.'},
+    {kind: 'mito', title: '"Todo mundo deve escolher o branco máximo"', text: 'A cor ideal depende do rosto, da pele, dos dentes vizinhos e do objetivo estético.'},
+    {kind: 'verdade', title: '"Acabamento muda a leitura do sorriso"', text: 'Brilho, forma, bordas e textura influenciam diretamente se o resultado parece natural e elegante.'},
+    {kind: 'mito', title: '"Lentes resolvem qualquer caso sozinhas"', text: 'Alguns sorrisos pedem planejamento combinado com gengiva, clareamento ou outros ajustes.'},
+    {kind: 'verdade', title: '"Durabilidade depende de cuidado"', text: 'Bons hábitos, higiene e revisões ajudam a preservar o resultado por mais tempo.'},
+  ],
+  gengivoplastia: [
+    {kind: 'mito', title: '"Gengivoplastia é só estética"', text: 'Além da estética, o contorno pode ajudar na harmonia e na leitura proporcional dos dentes.'},
+    {kind: 'verdade', title: '"O desenho muda o sorriso"', text: 'Pequenos ajustes no contorno gengival podem deixar os dentes mais aparentes e equilibrados.'},
+    {kind: 'mito', title: '"Todo sorriso gengival precisa operar"', text: 'A indicação depende da causa do excesso gengival e da avaliação individual.'},
+    {kind: 'verdade', title: '"Pode combinar com lentes"', text: 'Em alguns casos, ajustar gengiva e dentes juntos entrega um resultado mais harmônico.'},
+    {kind: 'mito', title: '"O resultado aparece igual no primeiro dia"', text: 'O contorno já muda, mas o resultado final depende da cicatrização e acomodação do tecido.'},
+    {kind: 'verdade', title: '"Planejamento evita exageros"', text: 'A análise de proporção ajuda a definir quanto remover e como preservar naturalidade.'},
+  ],
+};
+
+defaultServiceMyths['lentes-em-porcelana'] = defaultServiceMyths['lentes-premium'];
+
+const defaultServiceInfoCards: Record<string, Array<{iconLabel: string; title: string; text: string}>> = {
+  'preenchimento-labial': [
+    {iconLabel: 'Contorno', title: 'Mais definição', text: 'Realça o desenho dos lábios com sutileza.'},
+    {iconLabel: 'Volume', title: 'Resultado equilibrado', text: 'A quantidade é planejada para respeitar sua face.'},
+    {iconLabel: 'Hidratação', title: 'Aspecto renovado', text: 'Ajuda a melhorar textura e aparência dos lábios.'},
+    {iconLabel: 'Simetria', title: 'Lábios mais harmônicos', text: 'Pequenas assimetrias podem ser suavizadas no planejamento.'},
+    {iconLabel: 'Naturalidade', title: 'Sem exageros', text: 'A proposta é valorizar o formato sem perder leveza.'},
+    {iconLabel: 'Planejamento', title: 'Indicação individual', text: 'Cada caso considera anatomia, expectativa e proporção facial.'},
+  ],
+  'lentes-premium': [
+    {iconLabel: 'Estética', title: 'Transformação completa', text: 'Indicada para mudanças de cor, formato, tamanho e harmonia do sorriso.'},
+    {iconLabel: 'Planejamento', title: 'Digital Smile Design', text: 'O novo sorriso é planejado antes da execução para alinhar expectativa e resultado.'},
+    {iconLabel: 'Acabamento', title: 'Natural e premium', text: 'Busca brilho, proporção e acabamento refinado.'},
+    {iconLabel: 'Durabilidade', title: 'Mais estabilidade', text: 'Materiais premium ajudam a manter estética e resistência por mais tempo.'},
+    {iconLabel: 'Previsibilidade', title: 'Resultado planejado', text: 'Fotos, proporções e simulação orientam cada etapa do tratamento.'},
+    {iconLabel: 'Harmonia', title: 'Sorriso sofisticado', text: 'O desenho considera rosto, gengiva e dentes para um conjunto elegante.'},
+  ],
+  gengivoplastia: [
+    {iconLabel: 'Precisão', title: 'Remodelação delicada', text: 'A gengiva é remodelada para valorizar a proporção do sorriso.'},
+    {iconLabel: 'Indicação', title: 'Sorriso gengival', text: 'Pode ser indicada quando há excesso ou assimetria no contorno gengival.'},
+    {iconLabel: 'Resultado', title: 'Mais simetria', text: 'O resultado revela dentes com proporção mais equilibrada.'},
+    {iconLabel: 'Harmonia', title: 'Contorno mais leve', text: 'O desenho gengival ajuda o sorriso a parecer mais proporcional.'},
+    {iconLabel: 'Combinação', title: 'Pode complementar lentes', text: 'Em alguns casos, o ajuste gengival melhora o acabamento do sorriso.'},
+    {iconLabel: 'Recuperação', title: 'Cuidados orientados', text: 'A paciente recebe instruções para acompanhar a cicatrização com segurança.'},
+  ],
+  'harmonizacao-facial': [
+    {iconLabel: 'Avaliação', title: 'Plano personalizado', text: 'A indicação considera proporção facial, sorriso, pele e objetivos.'},
+    {iconLabel: 'Combinação', title: 'Tratamentos integrados', text: 'Pode envolver preenchimento e outros recursos estéticos.'},
+    {iconLabel: 'Naturalidade', title: 'Resultado elegante', text: 'O foco é harmonizar sem descaracterizar seu rosto.'},
+    {iconLabel: 'Proporção', title: 'Traços equilibrados', text: 'O planejamento busca valorizar o conjunto facial.'},
+    {iconLabel: 'Conforto', title: 'Processo orientado', text: 'Cada etapa é explicada para trazer mais segurança à decisão.'},
+    {iconLabel: 'Expressão', title: 'Leveza preservada', text: 'A intenção é realçar sem deixar aparência pesada.'},
+  ],
+};
+
+defaultServiceInfoCards['lentes-em-porcelana'] = defaultServiceInfoCards['lentes-premium'];
+
 function html(value: unknown) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -156,8 +426,85 @@ function nl2br(value: unknown) {
   return html(value).replace(/\n/g, '<br>');
 }
 
+function paragraphsFromText(value: unknown, fallback: string[]) {
+  const text = String(value ?? '').trim();
+  if (!text) return fallback;
+  return text
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.replace(/\s*\n\s*/g, ' ').trim())
+    .filter(Boolean);
+}
+
 function asArray<T>(value: T[] | undefined | null, fallback: T[] = []) {
   return Array.isArray(value) && value.length > 0 ? value : fallback;
+}
+
+function serviceFaqItems(page: any) {
+  const fallback = defaultServiceFaqs[page?.serviceKey] || defaultServiceFaqs[page?.slug?.current] || [];
+  const items = [...asArray(page?.faq, []), ...fallback];
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const question = String(item?.question || '').trim();
+    const answer = String(item?.answer || '').trim();
+    const key = question.toLowerCase();
+
+    if (!question || !answer || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 6);
+}
+
+function serviceMythItems(section: any, serviceKey = '') {
+  const fallback = defaultServiceMyths[serviceKey] || [];
+  const items = [...asArray(section?.items, []), ...fallback];
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const kind = String(item?.kind || '').trim();
+    const title = String(item?.title || '').trim();
+    const text = String(item?.text || '').trim();
+    const key = `${kind}:${title}`.toLowerCase();
+
+    if (!kind || !title || !text || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 6);
+}
+
+function serviceInfoCards(page: any) {
+  const serviceKey = page?.serviceKey || page?.slug?.current || '';
+  const fallback = defaultServiceInfoCards[serviceKey] || [];
+  const items = [...asArray(page?.infoCards, []), ...fallback];
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const title = String(item?.title || '').trim();
+    const text = String(item?.text || '').trim();
+    const key = title.toLowerCase();
+
+    if (!title || !text || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 6);
+}
+
+function inferServiceKeyFromContent(content: string) {
+  if (content.includes('tratamentos-preenchimento-labial') || content.includes('preenchimento-labial-hero')) return 'preenchimento-labial';
+  if (content.includes('tratamentos-lentes-premium') || content.includes('lentes-premium-hero')) return 'lentes-premium';
+  if (content.includes('tratamentos-lentes-em-resina') || content.includes('lentes-tradicionais-hero')) return 'lentes-em-resina';
+  if (content.includes('tratamentos-gengivoplastia') || content.includes('hero-gengi')) return 'gengivoplastia';
+  return '';
+}
+
+function replaceServiceFaq(content: string, items: any[]) {
+  if (items.length < 4) return content;
+
+  return replaceBlock(
+    content,
+    /<section class="faq section"[\s\S]*?<\/section>|<section class="section">\s*<div class="section-heading">[\s\S]*?<div class="faq-list[\s\S]*?<\/section>/,
+    renderServiceFaq(items),
+  );
 }
 
 function settingsWithFallback(settings: any = {}) {
@@ -168,6 +515,26 @@ function settingsWithFallback(settings: any = {}) {
     ...settings,
     contact: {...defaultSettings.contact, ...(settings.contact || {})},
     social: {...defaultSettings.social, ...(settings.social || {})},
+  };
+}
+
+function settingsWithFooter(data: any = {}) {
+  const settings = settingsWithFallback(data?.settings);
+  const footer = data?.footer || {};
+  const instagramItem = footer.legalLinks?.find?.((item: any) => /instagram/i.test(item?.label || ''));
+  const instagramHref = instagramItem?.href === 'custom' ? instagramItem?.customHref : instagramItem?.href;
+
+  return {
+    ...settings,
+    footer,
+    contact: {...settings.contact, ...(footer.contact || {})},
+    social: {
+      ...settings.social,
+      ...(instagramHref
+        ? {instagramUrl: instagramHref}
+        : {}),
+    },
+    footerLogo: footer.footerLogo || settings.footerLogo,
   };
 }
 
@@ -190,12 +557,21 @@ function ctaHref(cta: any, settings: any, fallbackHref = '#') {
   return fallbackHref;
 }
 
+function navigationHref(item: any, settings: any) {
+  if (item?.href === 'custom') return item?.customHref || '#';
+  if (item?.href === '#whatsapp') return ctaHref({kind: 'whatsapp'}, settings);
+  return item?.href || '#';
+}
+
 function renderSiteConfig(settings: any) {
   const mergedSettings = settingsWithFallback(settings);
   const config = {
     contact: mergedSettings.contact,
     social: mergedSettings.social,
-    navigation: asArray(mergedSettings.navigation, defaultNav),
+    navigation: asArray(mergedSettings.navigation, defaultNav).map((item: any) => ({
+      ...item,
+      href: navigationHref(item, mergedSettings),
+    })),
     cookieBanner: mergedSettings.cookieBanner,
   };
 
@@ -208,6 +584,10 @@ function replaceBlock(source: string, pattern: RegExp, replacement: string) {
 
 function replaceExactClassSection(source: string, className: string, replacement: string) {
   return replaceBlock(source, new RegExp(`<section class="${className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[\\s\\S]*?<\\/section>`), replacement);
+}
+
+function replaceAnySection(source: string, patterns: RegExp[], replacement: string) {
+  return patterns.reduce((next, pattern) => replaceBlock(next, pattern, replacement), source);
 }
 
 function chunk<T>(items: T[], size: number) {
@@ -292,13 +672,12 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
 export function renderHeader(settings: any) {
   const mergedSettings = settingsWithFallback(settings);
   const nav = asArray(mergedSettings.navigation, defaultNav);
-  const logoSrc = imageSrc(mergedSettings.headerLogo, '/assets/images/pisom-header-logo.svg', 320);
-  const logoAlt = imageAlt(mergedSettings.headerLogo, `Logo ${mergedSettings.brandName}`);
+  const logoAlt = `Logo ${mergedSettings.brandName}`;
 
   return `${renderSiteConfig(mergedSettings)}
       <header class="site-header" data-mobile-nav>
         <a class="brand" href="/index.html" aria-label="Ir para a home">
-          <img class="brand__logo" src="${html(logoSrc)}" alt="${html(logoAlt)}" width="128" height="96" />
+          <img class="brand__logo" src="${html(headerLogoSrc)}" alt="${html(logoAlt)}" width="128" height="96" />
         </a>
 
         <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-header-panel" aria-label="Abrir menu">
@@ -309,7 +688,7 @@ export function renderHeader(settings: any) {
 
         <div class="site-header__panel" id="site-header-panel">
           <nav class="site-nav" aria-label="Navegação principal">
-            ${nav.map((item: any) => `<a href="${html(item.href)}">${html(item.label)}</a>`).join('\n            ')}
+            ${nav.map((item: any) => `<a href="${html(navigationHref(item, mergedSettings))}">${html(item.label)}</a>`).join('\n            ')}
           </nav>
 
           <a class="button button--ghost site-header__cta" data-whatsapp-link href="${html(ctaHref({kind: 'whatsapp'}, mergedSettings))}">
@@ -321,15 +700,32 @@ export function renderHeader(settings: any) {
 
 export function renderFooter(settings: any) {
   const mergedSettings = settingsWithFallback(settings);
-  const treatmentLinks = asArray(mergedSettings.navigation, defaultNav);
-  const footerLogo = imageSrc(mergedSettings.footerLogo, '/assets/images/pison-odontologia-branco-sem-fundo.svg', 360);
-  const footerLogoAlt = imageAlt(mergedSettings.footerLogo, `Logo ${mergedSettings.brandName}`);
+  const footer = mergedSettings.footer || {};
+  const treatmentLinks = asArray(footer.serviceLinks, asArray(mergedSettings.navigation, defaultNav));
+  const helpLinks = asArray(footer.helpLinks, [
+    {label: 'Home', href: '/index.html'},
+    {label: 'Dúvidas', href: '/index.html#duvidas'},
+    {label: 'Agendar avaliação', href: '#whatsapp'},
+    {label: 'Política de Privacidade', href: '/politica-de-privacidade.html'},
+  ]);
+  const aboutLinks = asArray(footer.aboutLinks, [
+    {label: 'Sobre a Dra. Vitória', href: '/index.html#sobre'},
+    {label: 'Consultório', href: '/index.html#consultorio'},
+    {label: 'Avaliações', href: '/index.html#avaliacoes'},
+  ]);
+  const legalLinks = asArray(footer.legalLinks, [
+    {label: 'Instagram', href: mergedSettings.social?.instagramUrl || 'https://www.instagram.com/dra.vitoriapassosv/'},
+    {label: 'Condições Legais e Privacidade', href: '/politica-de-privacidade.html'},
+  ]);
+  const footerLogoAlt = `Logo ${mergedSettings.brandName}`;
   const whatsapp = ctaHref({kind: 'whatsapp'}, mergedSettings);
   const instagramUrl = mergedSettings.social?.instagramUrl || 'https://www.instagram.com/dra.vitoriapassosv/';
   const addressParts = [
     mergedSettings.contact?.address,
     mergedSettings.contact?.postalCode,
   ].filter(Boolean);
+  const baseAddress = footer.addressLine || addressParts.join(', ');
+  const country = footer.country || 'Brasil';
 
   return `<footer class="site-footer site-footer--rich">
         <div class="site-footer__surface">
@@ -340,10 +736,7 @@ export function renderFooter(settings: any) {
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__links site-footer__panel">
-                <a href="/index.html">Home</a>
-                <a href="/index.html#duvidas">Dúvidas</a>
-                <a href="${html(whatsapp)}" data-whatsapp-link>Agendar avaliação</a>
-                <a href="/politica-de-privacidade.html">Política de Privacidade</a>
+                ${helpLinks.map((item: any) => `<a href="${html(navigationHref(item, mergedSettings))}"${item.href === '#whatsapp' ? ' data-whatsapp-link' : ''}>${html(item.label)}</a>`).join('\n                ')}
               </div>
             </div>
 
@@ -353,7 +746,7 @@ export function renderFooter(settings: any) {
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__links site-footer__panel">
-                ${treatmentLinks.map((item: any) => `<a href="${html(item.href)}">${html(item.label)}</a>`).join('\n                ')}
+                ${treatmentLinks.map((item: any) => `<a href="${html(navigationHref(item, mergedSettings))}">${html(item.label)}</a>`).join('\n                ')}
               </div>
             </div>
 
@@ -363,9 +756,7 @@ export function renderFooter(settings: any) {
                 <span class="site-footer__chevron" aria-hidden="true"></span>
               </button>
               <div class="site-footer__links site-footer__panel">
-                <a href="/index.html#sobre">Sobre a Dra. Vitória</a>
-                <a href="/index.html#consultorio">Consultório</a>
-                <a href="/index.html#avaliacoes">Avaliações</a>
+                ${aboutLinks.map((item: any) => `<a href="${html(navigationHref(item, mergedSettings))}">${html(item.label)}</a>`).join('\n                ')}
               </div>
             </div>
 
@@ -385,12 +776,14 @@ export function renderFooter(settings: any) {
 
           <div class="site-footer__bottom">
             <nav class="site-footer__legal" aria-label="Links do rodapé">
-              <a href="${html(instagramUrl)}" target="_blank" rel="noreferrer">Instagram</a>
-              <a href="/politica-de-privacidade.html">Condições Legais e Privacidade</a>
+              ${legalLinks.map((item: any) => {
+                const href = navigationHref(item, mergedSettings) || instagramUrl;
+                return `<a href="${html(href)}"${/^https?:\/\//.test(href) ? ' target="_blank" rel="noreferrer"' : ''}>${html(item.label)}</a>`;
+              }).join('\n              ')}
             </nav>
-            <p class="site-footer__country">Brasil</p>
-            ${addressParts.length ? `<p class="site-footer__address">${html(addressParts.join(', '))}</p>` : ''}
-            <img class="site-footer__logo" loading="lazy" decoding="async" src="${html(footerLogo)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
+            ${country ? `<p class="site-footer__country">${html(country)}</p>` : ''}
+            ${baseAddress ? `<p class="site-footer__address">${html(baseAddress)}</p>` : ''}
+            <img class="site-footer__logo" loading="lazy" decoding="async" src="${html(footerLogoSrc)}" alt="${html(footerLogoAlt)}" width="180" height="120" />
           </div>
         </div>
       </footer>`;
@@ -543,6 +936,11 @@ function renderOffice(page: any) {
   const office = page?.consultorio || {};
   const video = office.videoUrl || '/assets/videos/consultorio.mp4';
   const poster = imageSrc(office.image, '/assets/images/real/reviews-building.png', 900);
+  const paragraphs = paragraphsFromText(office.text, [
+    'Nosso consultório foi preparado para que sua experiência comece bem antes do atendimento: cadeira de massagem, snacks na recepção, estacionamento seguro no prédio, ambiente acolhedor, atendimento tranquilo e uma estrutura pensada para você se sentir à vontade enquanto cuida do seu sorriso.',
+    'A ideia é que cada visita seja leve, confortável e sem pressa, com pequenos cuidados que ajudam você a relaxar desde a chegada até o fim da consulta. Tudo foi pensado para unir estética, acolhimento e praticidade em um só lugar.',
+    'Assim, o momento de cuidar da estética também se torna uma experiência agradável: você chega com facilidade, espera com mais conforto e recebe um atendimento pensado para transmitir confiança em cada etapa.',
+  ]);
 
   return `<section class="section consultorio-section" id="consultorio">
           <p class="eyebrow consultorio-section__eyebrow-mobile">${html(office.eyebrow || 'Consultório')}</p>
@@ -556,9 +954,7 @@ function renderOffice(page: any) {
           <div class="consultorio-section__content">
             <p class="eyebrow">${html(office.eyebrow || 'Consultório')}</p>
             <h2>${html(office.title || 'Conforto em cada detalhe.')}</h2>
-            <p>${html(office.text || 'Nosso consultório foi preparado para que sua experiência comece bem antes do atendimento: cadeira de massagem, snacks na recepção, estacionamento seguro no prédio, ambiente acolhedor, atendimento tranquilo e uma estrutura pensada para você se sentir à vontade enquanto cuida do seu sorriso.')}</p>
-            <p>${html(office.secondaryText || 'A ideia é que cada visita seja leve, confortável e sem pressa, com pequenos cuidados que ajudam você a relaxar desde a chegada até o fim da consulta. Tudo foi pensado para unir estética, acolhimento e praticidade em um só lugar.')}</p>
-            <p>${html(office.tertiaryText || 'Assim, o momento de cuidar da estética também se torna uma experiência agradável: você chega com facilidade, espera com mais conforto e recebe um atendimento pensado para transmitir confiança em cada etapa.')}</p>
+            ${paragraphs.map((paragraph) => `<p>${html(paragraph)}</p>`).join('\n            ')}
           </div>
         </section>`;
 }
@@ -701,7 +1097,7 @@ function renderHomeFaq(page: any) {
 
 export function renderHomeContent(fallbackContent: string, data: any) {
   const page = data?.page;
-  const settings = data?.settings;
+  const settings = settingsWithFooter(data);
   let content = fallbackContent;
 
   content = replaceBlock(content, /<header class="site-header" data-mobile-nav>[\s\S]*?<\/header>/, renderHeader(settings));
@@ -726,8 +1122,10 @@ function renderServiceHero(page: any, settings: any) {
   const hero = page?.hero || {};
   const mergedSettings = settingsWithFallback(settings);
   const cta = hero.cta || {label: 'Agendar avaliação', kind: 'whatsapp'};
-  const image = imageSrc(hero.image || hero.externalImage, hero.externalImage?.url || '/assets/images/hero-vitoria.jpg', 900);
-  const alt = imageAlt(hero.image || hero.externalImage, hero.externalImage?.alt || hero.title);
+  const serviceId = page?.serviceKey || page?.slug?.current || '';
+  const fixedHero = serviceHeroImages[serviceId];
+  const image = fixedHero?.src || imageSrc(hero.image || hero.externalImage, hero.externalImage?.url || '/assets/images/hero-vitoria.jpg', 900);
+  const alt = fixedHero?.alt || imageAlt(hero.image || hero.externalImage, hero.externalImage?.alt || hero.title);
   const tags = asArray(hero.tags, []);
 
   return `<section class="hero">
@@ -805,8 +1203,8 @@ function renderAreas(section: any) {
   </section>`;
 }
 
-function renderMyths(section: any) {
-  const items = asArray(section?.items, []);
+function renderMyths(section: any, serviceKey = '') {
+  const items = serviceMythItems(section, serviceKey);
   if (section?.enabled === false || !items.length) return '';
 
   return `<section class="myths section">
@@ -980,52 +1378,76 @@ function renderServiceTransformations(page: any, cases: any[]) {
 
 export function renderServiceContent(fallbackContent: string, data: any) {
   const page = data?.page;
-  const settings = data?.settings;
+  const settings = settingsWithFooter(data);
   let content = fallbackContent;
 
   content = replaceBlock(content, /<header class="site-header" data-mobile-nav>[\s\S]*?<\/header>/, renderHeader(settings));
   content = replaceBlock(content, /<footer class="site-footer site-footer--rich">[\s\S]*?<\/footer>/, renderFooter(settings));
 
-  if (!page) return content;
+  if (!page) {
+    return replaceServiceFaq(content, serviceFaqItems({serviceKey: inferServiceKeyFromContent(content)}));
+  }
 
   if (page.hero) {
     content = replaceExactClassSection(content, 'hero', renderServiceHero(page, settings));
   }
 
   if (page.transformationsSection || data?.transformationCases?.length) {
-    content = replaceBlock(content, /<section id="tratamentos-[^"]*" class="section treatments-showcase[\s\S]*?<\/section>/, renderServiceTransformations(page, data?.transformationCases));
+    const transformationsMarkup = renderServiceTransformations(page, data?.transformationCases);
+    if (transformationsMarkup) {
+      content = replaceBlock(content, /<section id="tratamentos-[^"]*" class="section treatments-showcase[\s\S]*?<\/section>/, transformationsMarkup);
+    }
   }
 
-  if (page.infoCards?.length && page.serviceKey !== 'lentes-em-resina') {
-    content = replaceBlock(content, /<section class="what-is section[\s\S]*?<\/section>/, renderInfoCards(page.infoCards));
+  const infoCards = serviceInfoCards(page);
+  if (infoCards.length && page.serviceKey !== 'lentes-em-resina') {
+    content = replaceBlock(content, /<section class="what-is section[\s\S]*?<\/section>/, renderInfoCards(infoCards));
   }
 
-  if (page.areasSection?.cards?.length) {
-    content = replaceExactClassSection(content, 'areas section section--dark', renderAreas(page.areasSection));
+  if (page.areasSection) {
+    const areasMarkup = renderAreas(page.areasSection);
+    if (areasMarkup) {
+      content = replaceAnySection(
+        content,
+        [
+          /<section class="areas section section--dark"[\s\S]*?<\/section>/,
+          /<section class="section service-fit[\s\S]*?<\/section>/,
+        ],
+        areasMarkup,
+      );
+    }
   }
 
-  if (page.mythsSection?.items?.length) {
-    content = replaceExactClassSection(content, 'myths section', renderMyths(page.mythsSection));
+  if (page.mythsSection) {
+    const serviceKey = page.serviceKey || page.slug?.current || inferServiceKeyFromContent(content);
+    const mythsMarkup = renderMyths(page.mythsSection, serviceKey);
+    if (mythsMarkup) {
+      content = replaceExactClassSection(content, 'myths section', mythsMarkup);
+    }
   }
 
-  if (page.processSection?.enabled !== false && page.processSection?.steps?.length) {
-    content = replaceBlock(content, /<section class="process section[\s\S]*?<\/section>/, renderProcess(page.processSection));
+  if (page.processSection) {
+    const processMarkup = renderProcess(page.processSection);
+    if (processMarkup) {
+      content = replaceBlock(content, /<section class="process section[\s\S]*?<\/section>/, processMarkup);
+    }
   }
 
-  if (page.quiz?.steps?.length) {
-    content = replaceBlock(content, /<section class="section section--spacious-top section--dark-fade section-fade section--resina-quiz-locked"[\s\S]*?<\/section>/, renderQuiz(page.quiz, settings));
+  if (page.quiz) {
+    const quizMarkup = renderQuiz(page.quiz, settings);
+    if (quizMarkup) {
+      content = replaceBlock(content, /<section class="section section--spacious-top section--dark-fade section-fade section--resina-quiz-locked"[\s\S]*?<\/section>/, quizMarkup);
+    }
   }
 
-  if (page.faq?.length) {
-    content = replaceBlock(
-      content,
-      /<section class="faq section"[\s\S]*?<\/section>|<section class="section">\s*<div class="section-heading">[\s\S]*?<div class="faq-list[\s\S]*?<\/section>/,
-      renderServiceFaq(page.faq),
-    );
-  }
+  const faqItems = serviceFaqItems(page);
+  content = replaceServiceFaq(content, faqItems);
 
   if (page.finalCta) {
-    content = replaceExactClassSection(content, 'cta-final section', renderFinalCta(page.finalCta, settings));
+    const finalCtaMarkup = renderFinalCta(page.finalCta, settings);
+    if (finalCtaMarkup) {
+      content = replaceExactClassSection(content, 'cta-final section', finalCtaMarkup,);
+    }
   }
 
   return content;
@@ -1041,7 +1463,7 @@ function portableTextToHtml(blocks: any[] = []) {
 
 export function renderPrivacyContent(fallbackContent: string, data: any) {
   const page = data?.page;
-  const settings = data?.settings;
+  const settings = settingsWithFooter(data);
   let content = fallbackContent;
 
   content = replaceBlock(content, /<header class="site-header" data-mobile-nav>[\s\S]*?<\/header>/, renderHeader(settings));

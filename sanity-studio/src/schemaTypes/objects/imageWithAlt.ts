@@ -15,10 +15,5 @@ export const imageWithAlt = defineType({
       description: 'Descricao curta da imagem para acessibilidade.',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'caption',
-      title: 'Legenda interna',
-      type: 'string',
-    }),
   ],
 })

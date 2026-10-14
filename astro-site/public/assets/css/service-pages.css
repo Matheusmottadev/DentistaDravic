@@ -1833,3 +1833,53 @@ body.service-page .ba-slider{ height: 320px; }
 body.service-page .hero__img, body.service-page .area-card__img-wrap img{ transition: none; }
 
 }
+
+/* Quiz: keep actions below the visible choices instead of overlapping them. */
+body.service-page .section--resina-quiz-locked,
+body.service-page .section--resina-quiz-locked .reviews-showcase--service,
+body.service-page .section--resina-quiz-locked .reviews-showcase__content,
+body.service-page .section--resina-quiz-locked .resina-quiz {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+body.service-page .section--resina-quiz-locked {
+  padding-bottom: clamp(80px, 8vw, 120px) !important;
+}
+
+body.service-page .section--resina-quiz-locked .reviews-showcase__content {
+  align-content: center !important;
+  grid-template-rows: auto auto !important;
+}
+
+body.service-page .section--resina-quiz-locked .resina-quiz {
+  padding-right: 0 !important;
+  gap: 22px !important;
+}
+
+body.service-page .resina-quiz__questions {
+  overflow: visible !important;
+}
+
+body.service-page .resina-quiz__actions {
+  position: static !important;
+  z-index: 1 !important;
+  margin-top: 18px !important;
+  clear: both !important;
+}
+
+@media (max-width: 900px) {
+  body.service-page .section--resina-quiz-locked {
+    padding-bottom: 96px !important;
+  }
+
+  body.service-page .resina-quiz__actions {
+    flex-wrap: wrap !important;
+  }
+
+  body.service-page .resina-quiz__nav {
+    width: 100% !important;
+  }
+}

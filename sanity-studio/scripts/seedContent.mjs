@@ -158,6 +158,14 @@ const traditionalCarouselCases = [
   ['tradicionais-carrossel-12', 'assets/images/real/lentes-tradicionais/carrossel/tradicionais-carrossel-12.webp', 'Sorriso masculino com Lentes Tradicionais e acabamento leve.'],
 ]
 
+const gengivoplastiaCarouselCases = [
+  ['gengivoplastia-carrossel-01', 'Antes e depois de gengivoplastia', 'assets/images/real/gengivoplastia/carrossel/gengivoplastia-carrossel-01.webp', 'Antes e depois com contorno gengival mais equilibrado e sorriso em evidência.'],
+  ['gengivoplastia-carrossel-02', 'Resultado lateral de gengivoplastia', 'assets/images/real/gengivoplastia/carrossel/gengivoplastia-carrossel-02.webp', 'Resultado em detalhe lateral com proporção gengival mais harmônica.'],
+  ['gengivoplastia-carrossel-03', 'Limpeza e gengivoplastia', 'assets/images/real/gengivoplastia/carrossel/gengivoplastia-carrossel-03.webp', 'Limpeza e gengivoplastia com resultado imediato.'],
+  ['gengivoplastia-carrossel-04', 'Evolução de gengivoplastia', 'assets/images/real/gengivoplastia/carrossel/gengivoplastia-carrossel-04.webp', 'Evolução antes, durante e depois do contorno gengival.'],
+  ['gengivoplastia-carrossel-05', 'Resultado após gengivoplastia', 'assets/images/real/gengivoplastia/carrossel/gengivoplastia-carrossel-05.webp', 'Resultado após 15 dias de gengivoplastia com sorriso mais proporcional.'],
+]
+
 async function carouselItemsFromCases(items) {
   return Promise.all(items.map(async ([id, title, _treatment, path, caption, targetPage]) => ({
     _type: 'carouselItem',
@@ -189,6 +197,18 @@ async function carouselItemsFromPremiumCases(items) {
     title: 'Lentes Premium',
     caption,
     targetPage: '/paginas/lentes-em-porcelana.html',
+    hint: 'Clique e saiba mais',
+    image: await image(path, title),
+  })))
+}
+
+async function carouselItemsFromGengivoplastiaCases(items) {
+  return Promise.all(items.map(async ([id, title, path, caption]) => ({
+    _type: 'carouselItem',
+    _key: key(id),
+    title: 'Gengivoplastia',
+    caption,
+    targetPage: '/paginas/gengivoplastia.html',
     hint: 'Clique e saiba mais',
     image: await image(path, title),
   })))
@@ -529,12 +549,16 @@ async function buildDocs() {
           ? await carouselItemsFromPremiumCases(premiumCarouselCases)
           : service.serviceKey === 'lentes-em-resina'
             ? await carouselItemsFromTraditionalCases(traditionalCarouselCases)
-            : await carouselItemsFromCases(cases.slice(0, 7)),
+            : service.serviceKey === 'gengivoplastia'
+              ? await carouselItemsFromGengivoplastiaCases(gengivoplastiaCarouselCases)
+              : await carouselItemsFromCases(cases.slice(0, 7)),
         cases: service.serviceKey === 'lentes-premium'
           ? []
           : service.serviceKey === 'lentes-em-resina'
             ? []
-            : cases.slice(0, 7).map(([id]) => ref(id)),
+            : service.serviceKey === 'gengivoplastia'
+              ? []
+              : cases.slice(0, 7).map(([id]) => ref(id)),
       },
       infoCards: service.infoCards.map(([iconLabel, title, text]) => ({_type: 'infoCard', _key: key(title), iconLabel, title, text})),
       ...(service.areas ? {
