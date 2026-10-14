@@ -246,7 +246,8 @@ body.service-page .section-label{
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.15em;
-  color: var(--color-text-muted);
+  color: var(--color-wine);
+  text-transform: uppercase;
 }
 body.service-page .section--dark .section-label{ color: rgba(255,255,255,0.5); }
 body.service-page .section--wine .section-label{ color: rgba(255,255,255,0.5); }

@@ -1360,10 +1360,11 @@ function renderServiceTransformations(page: any, cases: any[]) {
   const cards = asArray(section?.items, asArray(section?.cases, cases));
   if (!cards?.length) return '';
   const serviceKey = page?.serviceKey || 'service';
+  const eyebrow = serviceKey === 'gengivoplastia' ? 'Tratamentos' : (section?.eyebrow || 'Tratamentos');
 
   return `<section id="tratamentos-${html(serviceKey)}" class="section treatments-showcase treatments-showcase--${html(serviceKey)}" data-treatment-carousel="${html(serviceKey)}">
           <div class="section-heading">
-            <p class="eyebrow">${html(section?.eyebrow || 'Tratamentos')}</p>
+            <p class="eyebrow">${html(eyebrow)}</p>
             <h2 class="section-heading__title--wide">${html(section?.title || 'Tratamentos estéticos pensados para transformar sorrisos e harmonizar resultados.')}</h2>
             ${section?.text ? `<p>${html(section.text)}</p>` : ''}
           </div>
