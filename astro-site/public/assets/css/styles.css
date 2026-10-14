@@ -1458,12 +1458,12 @@ p {
 }
 
 .about-portrait {
-  overflow: hidden;
+  overflow: visible;
   align-self: start;
   padding: 0;
   border: 0;
   border-radius: 28px;
-  background: transparent;
+  background: #202020;
   box-shadow:
     0 20px 34px rgba(96, 72, 45, 0.12),
     0 36px 70px rgba(96, 72, 45, 0.18);
@@ -1473,9 +1473,11 @@ p {
 
 .about-portrait img {
   width: 100%;
-  height: min(84.4vh, 941px);
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
+  max-height: min(84.4vh, 941px);
+  aspect-ratio: 0.805 / 1;
+  object-fit: contain;
+  object-position: center center;
   border-radius: 28px;
 }
 
