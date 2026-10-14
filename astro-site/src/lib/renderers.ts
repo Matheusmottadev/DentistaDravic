@@ -1015,7 +1015,7 @@ function renderJourney(page: any) {
   const journey = page?.journey || {};
   const steps = asArray(journey.steps, [
     {title: '1. Você conta seu objetivo', text: 'Você chama no WhatsApp, conta o que incomoda no sorriso ou na harmonia facial e recebe o direcionamento inicial.'},
-    {title: '2. A Dra. Vitória avalia seu caso', text: 'A Dra. Vitória analisa sorriso, gengiva, lábios, expressão e o resultado que você busca.'},
+    {title: '2. A Dra. Vitória avalia seu caso', text: 'Na avaliação presencial analisamos sorriso, gengiva, lábios, expressão e encontramos o planejamento personalizado para você'},
     {title: '3. Você recebe a melhor indicação', text: 'Com base no seu caso, você entende quais tratamentos podem ser indicados e qual próximo passo vale mais a pena.'},
   ]);
 
@@ -1044,7 +1044,7 @@ function renderStickyGallery(page: any, cases: any[], settings: any) {
   const normalized = [...items];
   while (normalized.length < 11) normalized.push(defaultGalleryCases[normalized.length % defaultGalleryCases.length]);
   const ctaBlock = gallery.ctaBlock || {};
-  const cta = ctaBlock.cta || {label: 'Quero ser a próxima', kind: 'whatsapp'};
+  const cta = ctaBlock.cta || {label: 'Quero uma Avaliação', kind: 'whatsapp'};
   const figure = (item: any) => {
     const fallback = item.image?.fallbackSrc || '/assets/images/hero-vitoria.jpg';
     return `<figure><img loading="lazy" decoding="async" src="${html(imageSrc(item.image, fallback, 900))}" alt="${html(imageAlt(item.image, item.title))}" /></figure>`;
@@ -1061,7 +1061,7 @@ function renderStickyGallery(page: any, cases: any[], settings: any) {
               <div class="sticky-gallery__cta">
                 <strong>${nl2br(ctaBlock.title || 'A próxima\ntransformação\npode ser a sua.')}</strong>
                 <p>${html(ctaBlock.text || 'Agende sua avaliação e descubra o melhor caminho para valorizar sua autoestima.')}</p>
-                <a class="button" data-whatsapp-link href="${html(ctaHref(cta, mergedSettings))}">${html(cta.label || 'Quero ser a próxima')}</a>
+                <a class="button" data-whatsapp-link href="${html(ctaHref(cta, mergedSettings))}">${html(cta.label || 'Quero uma Avaliação')}</a>
               </div>
               ${normalized.slice(5, 7).map(figure).join('\n              ')}
             </div>

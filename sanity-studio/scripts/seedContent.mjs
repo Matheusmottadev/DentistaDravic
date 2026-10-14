@@ -226,7 +226,6 @@ const serviceSeeds = [
     description: 'A gengivoplastia remodela o contorno gengival para equilibrar proporções e destacar o sorriso com naturalidade.',
     imagePath: 'assets/images/real/gengivoplastia-hero-antes-depois.png',
     tags: ['Contorno gengival', 'Planejamento estético', 'Recuperação rápida'],
-    badge: {number: '2-4', label: 'semanas para resultado final'},
     infoCards: [
       ['Precisão', 'Remodelação delicada', 'A gengiva é remodelada para valorizar a proporção do sorriso.'],
       ['Indicação', 'Sorriso gengival', 'Pode ser indicada quando há excesso ou assimetria no contorno gengival.'],
@@ -453,7 +452,7 @@ async function buildDocs() {
       text: 'Um processo simples para entender o seu objetivo, avaliar o seu caso com cuidado e indicar o tratamento que realmente faz sentido.',
       steps: [
         {_key: 'objetivo', _type: 'processStep', title: '1. Você conta seu objetivo', text: 'Você chama no WhatsApp, conta o que incomoda no sorriso ou na harmonia facial e recebe o direcionamento inicial.'},
-        {_key: 'avaliacao', _type: 'processStep', title: '2. A Dra. Vitória avalia seu caso', text: 'A Dra. Vitória analisa sorriso, gengiva, lábios, expressão e o resultado que você busca.'},
+        {_key: 'avaliacao', _type: 'processStep', title: '2. A Dra. Vitória avalia seu caso', text: 'Na avaliação presencial analisamos sorriso, gengiva, lábios, expressão e encontramos o planejamento personalizado para você'},
         {_key: 'indicacao', _type: 'processStep', title: '3. Você recebe a melhor indicação', text: 'Com base no seu caso, você entende quais tratamentos podem ser indicados e qual próximo passo vale mais a pena.'},
       ],
       closingText: 'O objetivo é que você saia da consulta entendendo com clareza o que faz sentido para o seu sorriso, para a sua autoestima e para a imagem que você deseja ver no espelho.',
@@ -463,7 +462,7 @@ async function buildDocs() {
       ctaBlock: {
         title: 'A próxima\ntransformação\npode ser a sua.',
         text: 'Agende sua avaliação e descubra o melhor caminho para valorizar sua autoestima.',
-        cta: whatsappCta('Quero ser a próxima'),
+        cta: whatsappCta('Quero uma Avaliação'),
       },
     },
     faq: [
