@@ -427,13 +427,13 @@ async function buildDocs() {
       eyebrow: 'Sobre a Dra. Vitória',
       title: 'Experiência, formação e cuidado para transformar sorrisos com naturalidade.',
       paragraphs: [
-        'A Dra. Vitória Passos atua na odontologia há 3 anos, com CRO/SP ativo e uma abordagem que une técnica, sensibilidade estética e planejamento individual.',
+        'A Dra. Vitória Passos atua na odontologia há 4 anos, com CRO/SP ativo e uma abordagem que une técnica, sensibilidade estética e planejamento individual.',
         'Formada pelo Unieuro, conduz cada avaliação com olhar atento para sorriso, face e harmonia do resultado, sempre com foco em naturalidade, segurança e responsabilidade clínica.',
       ],
       portrait,
       signature,
       credentials: [
-        '3 anos de atuação na odontologia',
+        '4 anos de atuação na odontologia',
         'Mais de 500 clientes atendidos',
         'Formação em Odontologia pelo Unieuro',
         'Atendimento com foco em estética, leveza e resultado elegante',

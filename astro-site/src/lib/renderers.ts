@@ -889,11 +889,11 @@ function renderHomeTreatments(page: any, cases: any[]) {
 function renderAbout(page: any) {
   const about = page?.about || {};
   const paragraphs = asArray(about.paragraphs, [
-    'A Dra. Vitória Passos atua na odontologia há 3 anos, com CRO/SP ativo e uma abordagem que une técnica, sensibilidade estética e planejamento individual.',
+    'A Dra. Vitória Passos atua na odontologia há 4 anos, com CRO/SP ativo e uma abordagem que une técnica, sensibilidade estética e planejamento individual.',
     'Formada pelo Unieuro, conduz cada avaliação com olhar atento para sorriso, face e harmonia do resultado, sempre com foco em naturalidade, segurança e responsabilidade clínica.',
   ]);
   const credentials = asArray(about.credentials, [
-    '3 anos de atuação na odontologia',
+    '4 anos de atuação na odontologia',
     'Mais de 500 clientes atendidos',
     'Formação em Odontologia pelo Unieuro',
     'Atendimento com foco em estética, leveza e resultado elegante',
@@ -1015,8 +1015,8 @@ function renderJourney(page: any) {
   const journey = page?.journey || {};
   const steps = asArray(journey.steps, [
     {title: '1. Você conta seu objetivo', text: 'Você chama no WhatsApp, conta o que incomoda no sorriso ou na harmonia facial e recebe o direcionamento inicial.'},
-    {title: '2. A Dra. Vitória avalia seu caso', text: 'A Dra. Vitória analisa sorriso, gengiva, lábios, expressão e o resultado que você busca para entender o que combina com você.'},
-    {title: '3. Você recebe a melhor indicação', text: 'Com base no seu caso, você entende quais tratamentos podem ser indicados, o que esperar e qual próximo passo vale mais a pena.'},
+    {title: '2. A Dra. Vitória avalia seu caso', text: 'A Dra. Vitória analisa sorriso, gengiva, lábios, expressão e o resultado que você busca.'},
+    {title: '3. Você recebe a melhor indicação', text: 'Com base no seu caso, você entende quais tratamentos podem ser indicados e qual próximo passo vale mais a pena.'},
   ]);
 
   return `<section class="section journey-section" data-journey-section>
