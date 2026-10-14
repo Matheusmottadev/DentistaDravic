@@ -173,23 +173,23 @@ const defaultServiceFaqs: Record<string, Array<{question: string; answer: string
   'lentes-em-resina': [
     {
       question: 'As lentes em resina desgastam muito os dentes?',
-      answer: 'Em muitos casos, o desgaste é mínimo ou até dispensável. Isso sempre depende da condição inicial do sorriso e do planejamento estético proposto.',
+      answer: 'Em 90% dos casos não temos desgaste dentário. Apenas há ajustes em caso de dentes escurecidos (manchados) ou dentes tortos, e quando preciso, é mínimo.',
     },
     {
       question: 'As lentes em resina ficam com aspecto artificial?',
-      answer: 'Quando o caso é bem conduzido, a proposta é justamente o contrário: deixar o sorriso mais bonito e mais harmônico sem perder naturalidade.',
+      answer: 'Sim, nossas lentes são feitas da forma mais natural possível, finas, delicadas e a cor você que escolhe após o teste feito na clínica.',
     },
     {
       question: 'Quanto tempo dura o procedimento completo?',
       answer: 'Em comparação com outras abordagens, a resina costuma permitir um processo mais ágil. O número de sessões varia conforme a extensão do caso e o refinamento necessário.',
     },
     {
-      question: 'É possível corrigir dentes pequenos, manchados ou desalinhados?',
-      answer: 'Sim. A resina pode ser indicada para corrigir formato, pequenas assimetrias, manchas e desalinhamentos visuais que incomodam no sorriso.',
+      question: 'Quanto tempo duram as lentes em resina?',
+      answer: 'As lentes em resina podem durar anos, depende dos cuidados do paciente.',
     },
     {
-      question: 'Preciso de algum cuidado especial com as lentes?',
-      answer: 'A higiene continua essencial, e bons hábitos ajudam a preservar brilho e integridade. Revisões periódicas fazem parte da manutenção do resultado.',
+      question: 'Qual cor é a melhor?',
+      answer: 'A cor indicada varia muito para cada paciente, por isso realizamos o teste de cor em boca para que o paciente escolha a que melhor preferir, temos das mais claras às mais naturais.',
     },
     {
       question: 'Lentes em resina podem ser combinadas com outros tratamentos?',

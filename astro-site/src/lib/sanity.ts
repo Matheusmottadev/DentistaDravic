@@ -4,7 +4,7 @@ import {createImageUrlBuilder} from '@sanity/image-url';
 const projectId = import.meta.env.SANITY_PROJECT_ID;
 const dataset = import.meta.env.SANITY_DATASET;
 const apiVersion = import.meta.env.SANITY_API_VERSION;
-const useCdn = import.meta.env.SANITY_USE_CDN === 'true';
+const useCdn = false;
 const token = import.meta.env.SANITY_API_TOKEN;
 
 export const hasSanityConfig = Boolean(projectId && dataset && apiVersion);

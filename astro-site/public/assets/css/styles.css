@@ -1468,13 +1468,14 @@ p {
     0 20px 34px rgba(96, 72, 45, 0.12),
     0 36px 70px rgba(96, 72, 45, 0.18);
   backdrop-filter: none;
-  margin-top: -330px;
+  margin-top: clamp(-180px, -12vw, -90px);
+  justify-self: end;
 }
 
 .about-portrait img {
-  width: 100%;
-  height: auto;
-  max-height: min(84.4vh, 941px);
+  width: auto;
+  max-width: 100%;
+  height: min(72vh, 820px);
   aspect-ratio: 0.805 / 1;
   object-fit: contain;
   object-position: center center;
