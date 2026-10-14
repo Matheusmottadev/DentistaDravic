@@ -1,0 +1,53 @@
+{
+  "public": "astro-site/dist",
+  "cleanUrls": false,
+  "directoryListing": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "type": 301
+    },
+    {
+      "source": "/index",
+      "destination": "/",
+      "type": 301
+    },
+    {
+      "source": "/politica-de-privacidade",
+      "destination": "/politica-de-privacidade.html",
+      "type": 301
+    },
+    {
+      "source": "/paginas/lentes-em-porcelana",
+      "destination": "/paginas/lentes-em-porcelana.html",
+      "type": 301
+    },
+    {
+      "source": "/paginas/lentes-em-resina",
+      "destination": "/paginas/lentes-em-resina.html",
+      "type": 301
+    },
+    {
+      "source": "/paginas/gengivoplastia",
+      "destination": "/paginas/gengivoplastia.html",
+      "type": 301
+    },
+    {
+      "source": "/paginas/preenchimento-labial",
+      "destination": "/paginas/preenchimento-labial.html",
+      "type": 301
+    },
+    {
+      "source": "/paginas/harmonizacao-facial",
+      "destination": "/paginas/harmonizacao-facial.html",
+      "type": 301
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+}

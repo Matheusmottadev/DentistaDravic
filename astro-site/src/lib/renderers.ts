@@ -1,4 +1,5 @@
 import {sanityImageUrl} from './sanity';
+import {canonicalUrl, SITE_URL} from './site';
 
 const defaultNav = [
   {label: 'Lentes Tradicionais', href: '/paginas/lentes-em-resina.html'},
@@ -242,15 +243,11 @@ const defaultServiceFaqs: Record<string, Array<{question: string; answer: string
   'preenchimento-labial': [
     {
       question: 'O preenchimento labial sempre aumenta muito os lábios?',
-      answer: 'Não. O procedimento pode ser feito de forma sutil, com foco em contorno, hidratação, simetria e proporção.',
+      answer: 'O objetivo é respeitar sua harmonia facial e manter naturalidade. Buscando realizar a quantidade adequada através de uma construção responsável para um lábio sem exageros.',
     },
     {
-      question: 'O resultado do preenchimento labial é imediato?',
-      answer: 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação.',
-    },
-    {
-      question: 'Quanto tempo dura o preenchimento labial?',
-      answer: 'A duração varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+      question: 'Fazer preenchimento labial dói?',
+      answer: 'Não, o procedimento é realizado com anestesia local e o pós costuma ser super tranquilo, não afetando nas tarefas cotidianas do paciente.',
     },
     {
       question: 'É possível corrigir assimetria labial com preenchimento?',
@@ -261,8 +258,12 @@ const defaultServiceFaqs: Record<string, Array<{question: string; answer: string
       answer: 'Sim. Nem todo tratamento busca aumento evidente; muitas vezes o objetivo principal é definir contorno e melhorar a proporção.',
     },
     {
-      question: 'Os lábios podem continuar com aparência natural?',
-      answer: 'Sim. Quando o planejamento respeita o formato do rosto e a anatomia labial, o resultado tende a ficar delicado e coerente.',
+      question: 'O resultado do preenchimento labial é imediato?',
+      answer: 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação, que é em torno de 15 dias.',
+    },
+    {
+      question: 'Quanto tempo dura o preenchimento labial?',
+      answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
     },
     {
       question: 'Quem tem lábios finos pode buscar um resultado discreto?',
@@ -279,16 +280,16 @@ const defaultServiceFaqs: Record<string, Array<{question: string; answer: string
       answer: 'O procedimento é feito com anestesia local e foco em conforto. É comum haver sensibilidade leve no período inicial, seguindo as orientações pós-procedimento.',
     },
     {
-      question: 'Quando a gengivoplastia é indicada?',
-      answer: 'Ela pode ser indicada quando há excesso de gengiva aparente, contorno irregular ou desejo de deixar o sorriso mais proporcional.',
+      question: 'Quanto tempo leva para cicatrizar?',
+      answer: 'A cicatrização costuma evoluir em poucos dias, com resultado final em 15 dias.',
     },
     {
       question: 'O resultado aparece na hora?',
       answer: 'A mudança no contorno já pode ser percebida, mas o aspecto final depende da cicatrização e da acomodação dos tecidos.',
     },
     {
-      question: 'Quanto tempo leva para cicatrizar?',
-      answer: 'A recuperação varia conforme o caso, mas os primeiros cuidados costumam se concentrar nos dias iniciais. A Dra. Vitória orienta cada etapa.',
+      question: 'Como é feito?',
+      answer: 'A gengivoplastia é realizada com bisturi elétrico, que permite maior precisão e controle durante o contorno gengival, facilitando o remodelamento da gengiva e proporcionando um acabamento mais delicado e harmonioso.',
     },
     {
       question: 'A gengiva pode voltar ao formato antigo?',
@@ -383,7 +384,7 @@ const defaultServiceInfoCards: Record<string, Array<{iconLabel: string; title: s
   ],
   'lentes-premium': [
     {iconLabel: 'Estética', title: 'Transformação completa', text: 'Indicada para mudanças de cor, formato, tamanho e harmonia do sorriso.'},
-    {iconLabel: 'Planejamento', title: 'Digital Smile Design', text: 'O novo sorriso é planejado antes da execução para alinhar expectativa e resultado.'},
+    {iconLabel: 'Planejamento', title: 'Planejamento Exclusivo e Personalizado', text: 'O novo sorriso é planejado antes da execução para alinhar expectativa e resultado.'},
     {iconLabel: 'Acabamento', title: 'Natural e premium', text: 'Busca brilho, proporção e acabamento refinado.'},
     {iconLabel: 'Durabilidade', title: 'Mais estabilidade', text: 'Materiais premium ajudam a manter estética e resistência por mais tempo.'},
     {iconLabel: 'Previsibilidade', title: 'Resultado planejado', text: 'Fotos, proporções e simulação orientam cada etapa do tratamento.'},
@@ -394,7 +395,7 @@ const defaultServiceInfoCards: Record<string, Array<{iconLabel: string; title: s
     {iconLabel: 'Indicação', title: 'Sorriso gengival', text: 'Pode ser indicada quando há excesso ou assimetria no contorno gengival.'},
     {iconLabel: 'Resultado', title: 'Mais simetria', text: 'O resultado revela dentes com proporção mais equilibrada.'},
     {iconLabel: 'Harmonia', title: 'Contorno mais leve', text: 'O desenho gengival ajuda o sorriso a parecer mais proporcional.'},
-    {iconLabel: 'Combinação', title: 'Pode complementar lentes', text: 'Em alguns casos, o ajuste gengival melhora o acabamento do sorriso.'},
+    {iconLabel: 'Combinação', title: 'Pode complementar lentes', text: 'Em alguns casos é necessário a gengivoplastia previa para melhor resultado das lentes.'},
     {iconLabel: 'Recuperação', title: 'Cuidados orientados', text: 'A paciente recebe instruções para acompanhar a cicatrização com segurança.'},
   ],
   'harmonizacao-facial': [
@@ -444,7 +445,7 @@ function serviceFaqItems(page: any) {
   const items = [...asArray(page?.faq, []), ...fallback];
   const seen = new Set<string>();
 
-  return items.filter((item) => {
+  const uniqueItems = items.filter((item) => {
     const question = String(item?.question || '').trim();
     const answer = String(item?.answer || '').trim();
     const key = question.toLowerCase();
@@ -453,6 +454,125 @@ function serviceFaqItems(page: any) {
     seen.add(key);
     return true;
   }).slice(0, 6);
+
+  const serviceKey = page?.serviceKey || page?.slug?.current || '';
+  if (['lentes-premium', 'lentes-em-porcelana'].includes(serviceKey)) {
+    return uniqueItems.map((item) => {
+      const question = String(item.question || '');
+
+      if (/posso aprovar antes/i.test(question)) {
+        return {
+          ...item,
+          question: 'Posso escolher a cor?',
+          answer: 'As lentes premium também nos permite escolher a cor, pode ser mais natural ou mais branco.',
+        };
+      }
+
+      if (/qual a diferença entre resina e lentes premium/i.test(question)) {
+        return {
+          ...item,
+          answer: 'A lente em resina tradicional é realizada com resina nacional, e a resina premium com resina importada. As vantagens da premium é a maior durabilidade, maior resistência e maior qualidade de polimento.',
+        };
+      }
+
+      if (/quanto tempo dura o procedimento completo/i.test(question)) {
+        return {
+          ...item,
+          answer: 'O tempo varia conforme o caso, mas geralmente envolve uma avaliação, planejamento. As vezes em apenas uma sessão conseguimos a transformação. Em casos de precisão de outros procedimentos previos como por exemplo: limpeza, gengivoplastia, restaurações, é preciso de mais sessões.',
+        };
+      }
+
+      return item;
+    });
+  }
+
+  if (serviceKey === 'preenchimento-labial') {
+    const sourceItems = asArray(page?.faq, []);
+    if (sourceItems.length < 6) {
+      const fallback = defaultServiceFaqs['preenchimento-labial'];
+      return [
+        {
+          ...(sourceItems[0] || fallback[0]),
+          answer: 'O objetivo é respeitar sua harmonia facial e manter naturalidade. Buscando realizar a quantidade adequada através de uma construção responsável para um lábio sem exageros.',
+        },
+        {
+          question: 'Fazer preenchimento labial dói?',
+          answer: 'Não, o procedimento é realizado com anestesia local e o pós costuma ser super tranquilo, não afetando nas tarefas cotidianas do paciente.',
+        },
+        sourceItems[2] || fallback[2],
+        fallback[3],
+        {
+          ...fallback[4],
+          answer: 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação, que é em torno de 15 dias.',
+        },
+        {
+          ...(sourceItems[1] || fallback[2]),
+          answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+        },
+      ];
+    }
+
+    return uniqueItems.map((item, index) => {
+      if (index === 0) {
+        return {
+          ...item,
+          answer: 'O objetivo é respeitar sua harmonia facial e manter naturalidade. Buscando realizar a quantidade adequada através de uma construção responsável para um lábio sem exageros.',
+        };
+      }
+      if (index === 1) {
+        return {
+          ...item,
+          question: 'Fazer preenchimento labial dói?',
+          answer: 'Não, o procedimento é realizado com anestesia local e o pós costuma ser super tranquilo, não afetando nas tarefas cotidianas do paciente.',
+        };
+      }
+      if (index === 4) {
+        return {
+          ...item,
+          answer: 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação, que é em torno de 15 dias.',
+        };
+      }
+      if (index === 5) {
+        return {
+          ...item,
+          answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+        };
+      }
+      return item;
+    });
+  }
+
+  if (serviceKey === 'gengivoplastia') {
+    const sourceItems = asArray(page?.faq, []);
+    const baseItems = sourceItems.length < 6
+      ? defaultServiceFaqs.gengivoplastia.slice(0, 6)
+      : uniqueItems;
+
+    return baseItems.map((item, index) => {
+      if (index === 0) {
+        return {
+          ...item,
+          answer: 'O procedimento é feito com anestesia local e foco em conforto. É comum haver sensibilidade leve no período inicial, seguindo as orientações pós-procedimento.',
+        };
+      }
+      if (index === 1) {
+        return {
+          ...item,
+          answer: 'A cicatrização costuma evoluir em poucos dias, com resultado final em 15 dias.',
+        };
+      }
+      if (index === 3) {
+        return {
+          ...item,
+          question: 'Como é feito?',
+          answer: 'A gengivoplastia é realizada com bisturi elétrico, que permite maior precisão e controle durante o contorno gengival, facilitando o remodelamento da gengiva e proporcionando um acabamento mais delicado e harmonioso.',
+        };
+      }
+      return item;
+    });
+  }
+
+  return uniqueItems;
 }
 
 function serviceMythItems(section: any, serviceKey = '') {
@@ -483,6 +603,7 @@ function serviceInfoCards(page: any) {
     const text = String(item?.text || '').trim();
     const key = title.toLowerCase();
 
+    if (serviceKey === 'lentes-premium' && key === 'digital smile design') return false;
     if (!title || !text || seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -495,6 +616,18 @@ function inferServiceKeyFromContent(content: string) {
   if (content.includes('tratamentos-lentes-em-resina') || content.includes('lentes-tradicionais-hero')) return 'lentes-em-resina';
   if (content.includes('tratamentos-gengivoplastia') || content.includes('hero-gengi')) return 'gengivoplastia';
   return '';
+}
+
+function replacePremiumProcessCopy(content: string) {
+  return content.replace(/<section class="process section premium-process">[\s\S]*?<\/section>/, (section) =>
+    section
+      .replace('<h3>Prova e ajustes</h3>', '<h3>Execução</h3>')
+      .replace(
+        '<p>O sorriso é avaliado com calma para alinhar conforto, estética e naturalidade.</p>',
+        '<p>As lentes são realizadas de forma manual de acordo com o formato e as cores escolhidas pelo paciente.</p>',
+      )
+      .replace('<h3>Instalação final</h3>', '<h3>Resultado final</h3>'),
+  );
 }
 
 function replaceServiceFaq(content: string, items: any[]) {
@@ -602,17 +735,18 @@ function upsertMeta(head: string, pattern: RegExp, tag: string) {
   return pattern.test(head) ? head.replace(pattern, tag) : head.replace('</title>', `</title>\n    ${tag}`);
 }
 
-export function renderHead(head: string, seo: any, settings: any, fallbackOgImage?: any) {
+export function renderHead(head: string, seo: any, settings: any, fallbackOgImage?: any, pathname?: string) {
   const mergedSettings = settingsWithFallback(settings);
   const pageSeo = {...(mergedSettings.defaultSeo || {}), ...(seo || {})};
   let next = head;
-  const title = pageSeo.title || next.match(/<title>([\s\S]*?)<\/title>/)?.[1];
-  const description = pageSeo.description || next.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/>/)?.[1];
-  const canonicalPath = pageSeo.canonicalPath;
-  const ogImage =
+  const title = seo?.title || next.match(/<title>([\s\S]*?)<\/title>/)?.[1] || pageSeo.title;
+  const description = seo?.description || next.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/>/)?.[1] || pageSeo.description;
+  const canonicalPath = canonicalUrl(pathname || next.match(/<link rel="canonical" href="([^"]*)"/)?.[1] || '/');
+  const imagePath = imageSrc(pageSeo.ogImage, '', 1200) ||
     imageSrc(fallbackOgImage, '', 1200) ||
     next.match(/<meta\s+property="og:image"\s+content="([^"]*)"\s*\/>/)?.[1] ||
-    '';
+    '/assets/images/homepage.webp';
+  const ogImage = new URL(imagePath, SITE_URL).href;
 
   if (title) {
     next = next.replace(/<title>[\s\S]*?<\/title>/, `<title>${html(title)}</title>`);
@@ -627,8 +761,14 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
   }
 
   if (canonicalPath) {
-    next = next.replace(/(<link rel="canonical" href=")[^"]*(" \/>)/, `$1${html(canonicalPath)}$2`);
+    next = upsertMeta(next, /<link rel="canonical" href="[^"]*"\s*\/>/, `<link rel="canonical" href="${html(canonicalPath)}" />`);
+    next = upsertMeta(next, /<meta property="og:url" content="[^"]*"\s*\/>/, `<meta property="og:url" content="${html(canonicalPath)}" />`);
   }
+
+  next = upsertMeta(next, /<meta name="robots" content="[^"]*"\s*\/>/, '<meta name="robots" content="index, follow, max-image-preview:large" />');
+  next = upsertMeta(next, /<meta property="og:locale" content="[^"]*"\s*\/>/, '<meta property="og:locale" content="pt_BR" />');
+  next = upsertMeta(next, /<meta property="og:type" content="[^"]*"\s*\/>/, '<meta property="og:type" content="website" />');
+  next = upsertMeta(next, /<meta property="og:site_name" content="[^"]*"\s*\/>/, `<meta property="og:site_name" content="${html(mergedSettings.brandName)}" />`);
 
   if (ogImage) {
     next = upsertMeta(next, /<meta property="og:image" content="[^"]*"\s*\/>/, `<meta property="og:image" content="${html(ogImage)}" />`);
@@ -645,16 +785,21 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
     const dentistJson = {
       '@context': 'https://schema.org',
       '@type': 'Dentist',
+      '@id': `${SITE_URL}/#dentist`,
+      url: `${SITE_URL}/`,
       name: mergedSettings.brandName || 'Pisom Odontologia',
-      image: ogImage || undefined,
-      email: mergedSettings.contact?.email ? `mailto:${mergedSettings.contact.email}` : undefined,
+      image: `${SITE_URL}/assets/images/homepage.webp`,
+      logo: `${SITE_URL}${headerLogoSrc}`,
+      email: mergedSettings.contact?.email || undefined,
       telephone: mergedSettings.contact?.whatsappNumber ? `+${String(mergedSettings.contact.whatsappNumber).replace(/\D/g, '')}` : undefined,
       taxID: mergedSettings.contact?.taxId || undefined,
       address: mergedSettings.contact?.address
         ? {
             '@type': 'PostalAddress',
             streetAddress: mergedSettings.contact.address,
-            postalCode: mergedSettings.contact?.postalCode,
+            addressLocality: 'São Paulo',
+            addressRegion: 'SP',
+            postalCode: mergedSettings.contact?.postalCode?.replace(/^CEP\s*/i, ''),
             addressCountry: 'BR',
           }
         : undefined,
@@ -664,6 +809,30 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
       /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
       `<script type="application/ld+json">${safeJson(dentistJson)}</script>`,
     );
+  }
+
+  const pageJson = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${canonicalPath}#webpage`,
+    url: canonicalPath,
+    name: title,
+    description,
+    inLanguage: 'pt-BR',
+    about: {'@id': `${SITE_URL}/#dentist`},
+  };
+  next += `\n<script type="application/ld+json">${safeJson(pageJson)}</script>`;
+
+  if (canonicalPath !== `${SITE_URL}/`) {
+    const breadcrumbs = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {'@type': 'ListItem', position: 1, name: 'Início', item: `${SITE_URL}/`},
+        {'@type': 'ListItem', position: 2, name: title?.split('|')[0].trim(), item: canonicalPath},
+      ],
+    };
+    next += `\n<script type="application/ld+json">${safeJson(breadcrumbs)}</script>`;
   }
 
   return next;
@@ -676,7 +845,7 @@ export function renderHeader(settings: any) {
 
   return `${renderSiteConfig(mergedSettings)}
       <header class="site-header" data-mobile-nav>
-        <a class="brand" href="/index.html" aria-label="Ir para a home">
+        <a class="brand" href="/" aria-label="Ir para a home">
           <img class="brand__logo" src="${html(headerLogoSrc)}" alt="${html(logoAlt)}" width="128" height="96" />
         </a>
 
@@ -703,15 +872,15 @@ export function renderFooter(settings: any) {
   const footer = mergedSettings.footer || {};
   const treatmentLinks = asArray(footer.serviceLinks, asArray(mergedSettings.navigation, defaultNav));
   const helpLinks = asArray(footer.helpLinks, [
-    {label: 'Home', href: '/index.html'},
-    {label: 'Dúvidas', href: '/index.html#duvidas'},
+    {label: 'Home', href: '/'},
+    {label: 'Dúvidas', href: '/#duvidas'},
     {label: 'Agendar avaliação', href: '#whatsapp'},
     {label: 'Política de Privacidade', href: '/politica-de-privacidade.html'},
   ]);
   const aboutLinks = asArray(footer.aboutLinks, [
-    {label: 'Sobre a Dra. Vitória', href: '/index.html#sobre'},
-    {label: 'Consultório', href: '/index.html#consultorio'},
-    {label: 'Avaliações', href: '/index.html#avaliacoes'},
+    {label: 'Sobre a Dra. Vitória', href: '/#sobre'},
+    {label: 'Consultório', href: '/#consultorio'},
+    {label: 'Avaliações', href: '/#avaliacoes'},
   ]);
   const legalLinks = asArray(footer.legalLinks, [
     {label: 'Instagram', href: mergedSettings.social?.instagramUrl || 'https://www.instagram.com/dra.vitoriapassosv/'},
@@ -1126,7 +1295,11 @@ function renderServiceHero(page: any, settings: any) {
   const fixedHero = serviceHeroImages[serviceId];
   const image = fixedHero?.src || imageSrc(hero.image || hero.externalImage, hero.externalImage?.url || '/assets/images/hero-vitoria.jpg', 900);
   const alt = fixedHero?.alt || imageAlt(hero.image || hero.externalImage, hero.externalImage?.alt || hero.title);
-  const tags = asArray(hero.tags, []);
+  const tags = asArray(hero.tags, []).map((tag: string) =>
+    /planejamento digital/i.test(String(tag)) && ['lentes-premium', 'lentes-em-porcelana'].includes(serviceId)
+      ? 'Lentes Importadas'
+      : tag,
+  );
 
   return `<section class="hero">
     <div class="hero__content reveal">
@@ -1258,8 +1431,19 @@ function renderServiceFaq(items: any[]) {
   </section>`;
 }
 
-function renderProcess(section: any) {
-  const steps = asArray(section?.steps, []);
+function renderProcess(section: any, serviceKey = '') {
+  const steps = asArray(section?.steps, []).map((step: any, index: number) => {
+    if (!['lentes-premium', 'lentes-em-porcelana'].includes(serviceKey)) return step;
+    if (index === 2) {
+      return {
+        ...step,
+        title: 'Execução',
+        text: 'As lentes são realizadas de forma manual de acordo com o formato e as cores escolhidas pelo paciente.',
+      };
+    }
+    if (index === 3) return {...step, title: 'Resultado final'};
+    return step;
+  });
   if (section?.enabled === false || !steps.length) return '';
 
   return `<section class="process section section--beige">
@@ -1291,7 +1475,7 @@ function renderQuiz(section: any, settings: any) {
   return `<section class="section section--spacious-top section--dark-fade section-fade section--resina-quiz-locked">
     <div class="reviews-showcase reviews-showcase--service">
       <div class="reviews-showcase__visual reviews-showcase__visual--cutout">
-        <img loading="lazy" decoding="async" class="reviews-showcase__cutout" src="/assets/images/real/lentes-o-que-muda.png" alt="Sorriso com lentes em resina em recorte lateral" width="437" height="570" />
+        <img loading="lazy" decoding="async" class="reviews-showcase__cutout" src="/assets/images/real/quiz-sorriso.png" alt="Sorriso com lentes em resina em recorte lateral" width="433" height="577" />
       </div>
 
       <div class="reviews-showcase__content">
@@ -1386,7 +1570,11 @@ export function renderServiceContent(fallbackContent: string, data: any) {
   content = replaceBlock(content, /<footer class="site-footer site-footer--rich">[\s\S]*?<\/footer>/, renderFooter(settings));
 
   if (!page) {
-    return replaceServiceFaq(content, serviceFaqItems({serviceKey: inferServiceKeyFromContent(content)}));
+    const serviceKey = inferServiceKeyFromContent(content);
+    if (['lentes-premium', 'lentes-em-porcelana'].includes(serviceKey)) {
+      content = replacePremiumProcessCopy(content);
+    }
+    return replaceServiceFaq(content, serviceFaqItems({serviceKey}));
   }
 
   if (page.hero) {
@@ -1428,11 +1616,16 @@ export function renderServiceContent(fallbackContent: string, data: any) {
   }
 
   if (page.processSection) {
-    const processMarkup = renderProcess(page.processSection);
+    const processMarkup = renderProcess(page.processSection, page.serviceKey || page.slug?.current || '');
     if (processMarkup) {
       content = replaceBlock(content, /<section class="process section[\s\S]*?<\/section>/, processMarkup);
+    } else if (['lentes-premium', 'lentes-em-porcelana'].includes(page.serviceKey || page.slug?.current || '')) {
+      content = replacePremiumProcessCopy(content);
     }
+  } else if (['lentes-premium', 'lentes-em-porcelana'].includes(page.serviceKey || page.slug?.current || '')) {
+    content = replacePremiumProcessCopy(content);
   }
+  content = replacePremiumProcessCopy(content);
 
   if (page.quiz) {
     const quizMarkup = renderQuiz(page.quiz, settings);

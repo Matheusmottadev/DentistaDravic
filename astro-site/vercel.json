@@ -3,5 +3,48 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/politica-de-privacidade",
+      "destination": "/politica-de-privacidade.html",
+      "permanent": true
+    },
+    {
+      "source": "/paginas/lentes-em-porcelana",
+      "destination": "/paginas/lentes-em-porcelana.html",
+      "permanent": true
+    },
+    {
+      "source": "/paginas/lentes-em-resina",
+      "destination": "/paginas/lentes-em-resina.html",
+      "permanent": true
+    },
+    {
+      "source": "/paginas/gengivoplastia",
+      "destination": "/paginas/gengivoplastia.html",
+      "permanent": true
+    },
+    {
+      "source": "/paginas/preenchimento-labial",
+      "destination": "/paginas/preenchimento-labial.html",
+      "permanent": true
+    },
+    {
+      "source": "/paginas/harmonizacao-facial",
+      "destination": "/paginas/harmonizacao-facial.html",
+      "permanent": true
+    }
+  ]
 }

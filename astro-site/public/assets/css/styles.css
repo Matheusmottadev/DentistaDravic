@@ -549,6 +549,8 @@ body.service-page .section-title--two-lines span {
 
   body.service-page .faq .faq__grid {
     grid-template-columns: 1fr !important;
+    grid-template-rows: none !important;
+    grid-auto-flow: row !important;
     gap: 0 !important;
   }
 
@@ -5056,6 +5058,8 @@ body.service-page .site-footer.site-footer--rich .site-footer__logo {
   body.service-page .faq .faq__grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(3, auto) !important;
+    grid-auto-flow: column !important;
     gap: 0 40px !important;
     align-items: stretch !important;
   }
@@ -5103,9 +5107,22 @@ body.service-page .section--resina-quiz-locked {
   padding-bottom: clamp(80px, 8vw, 120px) !important;
 }
 
+body.service-page .section--resina-quiz-locked {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body.service-page .section--resina-quiz-locked .reviews-showcase--service {
+  min-height: 0 !important;
+}
+
 body.service-page .section--resina-quiz-locked .reviews-showcase__content {
   align-content: center !important;
   grid-template-rows: auto auto !important;
+}
+
+body.service-page .section--resina-quiz-locked .section-heading--reviews {
+  transform: translateY(24px) !important;
 }
 
 body.service-page .section--resina-quiz-locked .resina-quiz {
@@ -5115,6 +5132,91 @@ body.service-page .section--resina-quiz-locked .resina-quiz {
 
 body.service-page .resina-quiz__questions {
   overflow: visible !important;
+}
+
+body.service-page .section--resina-quiz-locked .reviews-showcase__visual--cutout {
+  align-self: stretch !important;
+  width: calc(100% + max(24px, calc((100vw - 1200px) / 2 + 24px))) !important;
+  height: 100% !important;
+  margin-left: calc(-1 * max(24px, calc((100vw - 1200px) / 2 + 24px))) !important;
+  overflow: hidden !important;
+  background: #050505 !important;
+}
+
+body.service-page .section--resina-quiz-locked .reviews-showcase__visual--cutout > .reviews-showcase__cutout {
+  content: url("/assets/images/real/quiz-sorriso.png") !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 620px !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+@media (min-width: 901px) {
+  body.service-page .section--resina-quiz-locked .reviews-showcase--service {
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr) !important;
+    column-gap: 18px !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .section-heading--reviews h2 {
+    max-width: 28ch !important;
+    font-size: clamp(1.7rem, 2.25vw, 2.45rem) !important;
+    line-height: 1.06 !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz__choices--stack {
+    gap: 16px !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz__question:first-child {
+    margin-top: 18px !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result {
+    grid-template-columns: repeat(2, minmax(0, 245px)) !important;
+    justify-content: start !important;
+    column-gap: 12px !important;
+    row-gap: 12px !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__result {
+    display: contents !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__result strong,
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__result p {
+    grid-column: 1 / -1 !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__result-cta,
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__nav--ghost {
+    width: 245px !important;
+    min-width: 245px !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    box-sizing: border-box !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .resina-quiz.is-showing-result .resina-quiz__actions {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    margin-top: 2px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.service-page .section--resina-quiz-locked .reviews-showcase__visual--cutout {
+    width: 100vw !important;
+    height: clamp(220px, 56vw, 360px) !important;
+    margin-inline: calc(50% - 50vw) !important;
+  }
+
+  body.service-page .section--resina-quiz-locked .reviews-showcase__visual--cutout > .reviews-showcase__cutout {
+    min-height: 0 !important;
+    transform: none !important;
+  }
 }
 
 /* Service benefit cards: keep this block compact and fully rendered while scrolling. */
@@ -5207,8 +5309,16 @@ body.service-page .what-is--cards-only .info-card {
 body.service-page .resina-quiz__actions {
   position: static !important;
   z-index: 1 !important;
-  margin-top: 18px !important;
+  margin-top: -6px !important;
   clear: both !important;
+}
+
+body.service-page .area-card:nth-child(2) .area-card__img-wrap img {
+  content: url("https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&q=80") !important;
+}
+
+body.service-page .area-card:nth-child(4) .area-card__img-wrap img {
+  content: url("https://images.unsplash.com/photo-1598256539584-8b94d24d70b4?w=500&q=80") !important;
 }
 
 @media (max-width: 900px) {

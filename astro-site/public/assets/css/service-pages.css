@@ -1054,6 +1054,8 @@ body.service-page .t-card__author span{
 body.service-page .faq__grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
   gap: 0 40px;
   align-items: start;
 }

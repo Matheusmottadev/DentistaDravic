@@ -5,6 +5,7 @@ const { head = '', bodyClass = '' } = Astro.props;
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 const analyticsHead = [
   gtmId
@@ -43,6 +44,7 @@ const analyticsBody = [
 <html lang="pt-BR">
   <head>
     <Fragment set:html={head} />
+    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
     <Fragment set:html={analyticsHead} />
   </head>
   <body class={bodyClass}>
