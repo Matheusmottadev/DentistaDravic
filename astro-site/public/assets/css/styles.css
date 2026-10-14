@@ -491,6 +491,16 @@ body.service-page .section-title--two-lines span {
   }
 }
 
+@media (min-width: 641px) {
+  body.service-page .faq .faq__grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(3, auto) !important;
+    grid-auto-flow: column !important;
+    gap: 0 40px !important;
+  }
+}
+
 @media (max-width: 768px) {
   body.service-page .myths.section {
     padding-bottom: 36px !important;

@@ -263,7 +263,7 @@ const defaultServiceFaqs: Record<string, Array<{question: string; answer: string
     },
     {
       question: 'Quanto tempo dura o preenchimento labial?',
-      answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+      answer: 'A duração do procedimento varia de 40 minutos a 1 hora, e a duração do produto no organismo varia conforme o metabolismo, o produto e a rotina da pessoa, exigindo manutenção periódica em alguns casos.',
     },
     {
       question: 'Quem tem lábios finos pode buscar um resultado discreto?',
@@ -460,6 +460,14 @@ function serviceFaqItems(page: any) {
     return uniqueItems.map((item) => {
       const question = String(item.question || '');
 
+      if (/qual a diferença para lentes em resina/i.test(question)) {
+        return {
+          ...item,
+          question: 'A Lente desgasta o dente?',
+          answer: 'Em 90% dos casos não temos desgaste dentário. Apenas há ajustes em caso de dentes escurecidos (manchados) ou dentes tortos, e quando preciso, é mínimo.',
+        };
+      }
+
       if (/posso aprovar antes/i.test(question)) {
         return {
           ...item,
@@ -507,7 +515,7 @@ function serviceFaqItems(page: any) {
         },
         {
           ...(sourceItems[1] || fallback[2]),
-          answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+          answer: 'A duração do procedimento varia de 40 minutos a 1 hora, e a duração do produto no organismo varia conforme o metabolismo, o produto e a rotina da pessoa, exigindo manutenção periódica em alguns casos.',
         },
       ];
     }
@@ -535,7 +543,7 @@ function serviceFaqItems(page: any) {
       if (index === 5) {
         return {
           ...item,
-          answer: 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.',
+          answer: 'A duração do procedimento varia de 40 minutos a 1 hora, e a duração do produto no organismo varia conforme o metabolismo, o produto e a rotina da pessoa, exigindo manutenção periódica em alguns casos.',
         };
       }
       return item;

@@ -281,7 +281,7 @@ const serviceSeeds = [
       ['Acabamento', 'Natural e premium', 'Busca brilho, proporção e acabamento refinado.'],
     ],
     faq: [
-      ['Qual a diferença para lentes em resina?', 'As Lentes Premium têm acabamento e durabilidade superiores, com planejamento mais sofisticado.'],
+      ['A Lente desgasta o dente?', 'Em 90% dos casos não temos desgaste dentário. Apenas há ajustes em caso de dentes escurecidos (manchados) ou dentes tortos, e quando preciso, é mínimo.'],
       ['Posso escolher a cor?', 'As lentes premium também nos permite escolher a cor, pode ser mais natural ou mais branco.'],
       ['Pode combinar com gengivoplastia?', 'Sim. A combinação pode melhorar ainda mais a proporção do sorriso.'],
       ['Qual a diferença entre resina e Lentes Premium?', 'A lente em resina tradicional é realizada com resina nacional, e a resina premium com resina importada. As vantagens da premium é a maior durabilidade, maior resistência e maior qualidade de polimento.'],
@@ -334,7 +334,7 @@ const serviceSeeds = [
       ['É possível corrigir assimetria labial com preenchimento?', 'Sim. O preenchimento pode ajudar a equilibrar contornos e volumes, sempre respeitando a anatomia natural dos lábios.'],
       ['Preenchimento labial pode focar mais em contorno do que em volume?', 'Sim. Nem todo tratamento busca aumento evidente; muitas vezes o objetivo principal é definir contorno e melhorar a proporção.'],
       ['O resultado do preenchimento labial é imediato?', 'O volume já pode ser percebido logo após o procedimento, mas o resultado final fica mais fiel depois do período inicial de adaptação, que é em torno de 15 dias.'],
-      ['Quanto tempo dura o preenchimento labial?', 'A duração do procedimento varia de 40minutos ha 1hr e a duração do produto no organismo varia conforme metabolismo, produto e rotina da pessoa, exigindo manutenção periódica em alguns casos.'],
+      ['Quanto tempo dura o preenchimento labial?', 'A duração do procedimento varia de 40 minutos a 1 hora, e a duração do produto no organismo varia conforme o metabolismo, o produto e a rotina da pessoa, exigindo manutenção periódica em alguns casos.'],
     ],
   },
 ]
