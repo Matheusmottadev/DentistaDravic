@@ -55,6 +55,9 @@ const analyticsBody = [
     </style>
     {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
     <Fragment set:html={analyticsHead} />
+    <noscript><style is:global>
+      body.service-page .reveal, .reveal-on-scroll { opacity: 1 !important; transform: none !important; }
+    </style></noscript>
   </head>
   <body class={bodyClass}>
     <Fragment set:html={analyticsBody} />

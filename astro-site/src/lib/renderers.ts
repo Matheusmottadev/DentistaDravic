@@ -1,5 +1,6 @@
 import {sanityImageUrl} from './sanity';
 import {canonicalUrl, SITE_URL} from './site';
+import {seoPages, structuredData, enrichContent} from './seo';
 
 const defaultNav = [
   {label: 'Lentes Tradicionais', href: '/paginas/lentes-em-resina.html'},
@@ -743,14 +744,22 @@ function upsertMeta(head: string, pattern: RegExp, tag: string) {
   return pattern.test(head) ? head.replace(pattern, tag) : head.replace('</title>', `</title>\n    ${tag}`);
 }
 
-export function renderHead(head: string, seo: any, settings: any, fallbackOgImage?: any, pathname?: string) {
-  const mergedSettings = settingsWithFallback(settings);
+export function renderHead(head: string, seo: any, settings: any, fallbackOgImage?: any, pathname?: string, renderedContent = '', footer?: any) {
+  const mergedSettings = settingsWithFooter({settings, footer});
   const pageSeo = {...(mergedSettings.defaultSeo || {}), ...(seo || {})};
   let next = head;
-  const title = seo?.title || next.match(/<title>([\s\S]*?)<\/title>/)?.[1] || pageSeo.title;
-  const description = seo?.description || next.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/>/)?.[1] || pageSeo.description;
+  const localSeo = seoPages[new URL(canonicalUrl(pathname || '/')).pathname];
+  const baseTitle = seo?.title || localSeo?.title || next.match(/<title>([\s\S]*?)<\/title>/)?.[1] || pageSeo.title;
+  const baseDescription = seo?.description || localSeo?.description || next.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/>/)?.[1] || pageSeo.description;
+  const title = localSeo && baseTitle && !/mooca/i.test(baseTitle)
+    ? (baseTitle.includes('|') ? baseTitle.replace(/\s*\|/, ' na Mooca |') : `${baseTitle} na Mooca`)
+    : baseTitle;
+  const description = localSeo && baseDescription && !/mooca/i.test(baseDescription)
+    ? `${baseDescription} Atendimento na Mooca, São Paulo.`
+    : baseDescription;
   const canonicalPath = canonicalUrl(pathname || next.match(/<link rel="canonical" href="([^"]*)"/)?.[1] || '/');
   const imagePath = imageSrc(pageSeo.ogImage, '', 1200) ||
+    renderedContent.match(/<img\b(?=[^>]*fetchpriority="high")(?=[^>]*src="([^"]+)")(?=[^>]*(?:class="hero__img"|width="1080"))[^>]*>/)?.[1] ||
     imageSrc(fallbackOgImage, '', 1200) ||
     next.match(/<meta\s+property="og:image"\s+content="([^"]*)"\s*\/>/)?.[1] ||
     '/assets/images/homepage.webp';
@@ -789,59 +798,9 @@ export function renderHead(head: string, seo: any, settings: any, fallbackOgImag
     next = next.replace(/<link rel="icon"[^>]*>/, `<link rel="icon" type="image/svg+xml" href="${html(favicon)}" />`);
   }
 
-  if (next.includes('"@type": "Dentist"')) {
-    const dentistJson = {
-      '@context': 'https://schema.org',
-      '@type': 'Dentist',
-      '@id': `${SITE_URL}/#dentist`,
-      url: `${SITE_URL}/`,
-      name: mergedSettings.brandName || 'Pisom Odontologia',
-      image: `${SITE_URL}/assets/images/homepage.webp`,
-      logo: `${SITE_URL}${headerLogoSrc}`,
-      email: mergedSettings.contact?.email || undefined,
-      telephone: mergedSettings.contact?.whatsappNumber ? `+${String(mergedSettings.contact.whatsappNumber).replace(/\D/g, '')}` : undefined,
-      taxID: mergedSettings.contact?.taxId || undefined,
-      address: mergedSettings.contact?.address
-        ? {
-            '@type': 'PostalAddress',
-            streetAddress: mergedSettings.contact.address,
-            addressLocality: 'São Paulo',
-            addressRegion: 'SP',
-            postalCode: mergedSettings.contact?.postalCode?.replace(/^CEP\s*/i, ''),
-            addressCountry: 'BR',
-          }
-        : undefined,
-      sameAs: mergedSettings.social?.instagramUrl ? [mergedSettings.social.instagramUrl] : undefined,
-    };
-    next = next.replace(
-      /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
-      `<script type="application/ld+json">${safeJson(dentistJson)}</script>`,
-    );
-  }
-
-  const pageJson = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${canonicalPath}#webpage`,
-    url: canonicalPath,
-    name: title,
-    description,
-    inLanguage: 'pt-BR',
-    about: {'@id': `${SITE_URL}/#dentist`},
-  };
-  next += `\n<script type="application/ld+json">${safeJson(pageJson)}</script>`;
-
-  if (canonicalPath !== `${SITE_URL}/`) {
-    const breadcrumbs = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {'@type': 'ListItem', position: 1, name: 'Início', item: `${SITE_URL}/`},
-        {'@type': 'ListItem', position: 2, name: title?.split('|')[0].trim(), item: canonicalPath},
-      ],
-    };
-    next += `\n<script type="application/ld+json">${safeJson(breadcrumbs)}</script>`;
-  }
+  // Replace legacy inline entities with one connected graph on every page.
+  next = next.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  next += `\n<script type="application/ld+json">${safeJson(structuredData(canonicalPath, title, description, ogImage, mergedSettings))}</script>`;
 
   return next;
 }
@@ -1008,7 +967,7 @@ function renderHomeHero(page: any, settings: any) {
   return `<section class="hero section home-hero">
           <div class="hero__content">
             <h1>${nl2br(hero.title || 'Encontre a transformação ideal para o seu sorriso e para a sua harmonia facial.')}</h1>
-            <p class="hero__lead">${html(hero.lead || 'Conheça os principais tratamentos da Dra. Vitória Passos e descubra qual faz mais sentido para o seu objetivo estético.')}</p>
+            <p class="hero__lead">${html(hero.lead || 'Odontologia estética na Mooca, São Paulo, com a Dra. Vitória Passos. Conheça os tratamentos e descubra qual faz mais sentido para o seu objetivo estético.')}</p>
 
             <div class="hero__actions">
               <a class="button" data-whatsapp-link href="${html(ctaHref(primary, mergedSettings))}">${html(primary.label || 'Falar no WhatsApp')}</a>
@@ -1693,4 +1652,9 @@ export function renderPrivacyContent(fallbackContent: string, data: any) {
       </main>`;
 
   return replaceBlock(content, /<main[\s\S]*?<\/main>/, policyHtml);
+}
+
+export function renderSeoContent(content: string, pathname: string, data: any) {
+  const normalized = content.replace(/(src|href|poster)="\.\/(assets|paginas)\//g, '$1="/$2/');
+  return enrichContent(normalized, pathname, settingsWithFooter(data));
 }

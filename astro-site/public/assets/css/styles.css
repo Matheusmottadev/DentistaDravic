@@ -5344,3 +5344,27 @@ body.service-page .area-card:nth-child(4) .area-card__img-wrap img {
     width: 100% !important;
   }
 }
+
+/* Crawlable local context and navigation use the site's existing typography. */
+.seo-location { max-width: 1120px; margin-inline: auto; padding: 48px 24px; }
+.seo-location h2 { margin-bottom: 20px; font-size: clamp(1.5rem, 3vw, 2rem); }
+.seo-location p { line-height: 1.7; margin-bottom: 16px; }
+.seo-location a, .seo-breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
+.seo-location ul { display: flex; flex-wrap: wrap; gap: 12px 24px; list-style: none; padding: 0; }
+.seo-breadcrumbs { max-width: 1120px; margin: 0 auto; padding: 20px 24px 0; font-size: .875rem; }
+.seo-breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.seo-breadcrumbs li + li::before { content: '/'; margin-right: 8px; }
+.seo-facts dt { font-weight: 700; margin-top: 16px; }
+.seo-facts dd { margin: 6px 0 20px; line-height: 1.7; }
+body.service-page .section.seo-location {
+  width: calc(100% - 48px);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 0;
+}
+body.service-page .seo-location h2 {
+  max-width: none;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.25;
+}
+#local-heading { scroll-margin-top: 120px; }

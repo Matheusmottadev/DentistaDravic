@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspace astro-site",
-    "start": "serve --config serve.json --listen tcp://0.0.0.0:${PORT:-3000}"
+    "start": "serve --config serve.json --listen tcp://0.0.0.0:${PORT:-3000}",
+    "check:seo": "node astro-site/scripts/verify-seo.mjs"
   },
   "dependencies": {
     "serve": "^14.2.5"
